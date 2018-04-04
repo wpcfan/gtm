@@ -1,0 +1,17 @@
+version: '3.2'
+services:
+  mongo:
+    image: mongo:3.4.10
+    ports:
+      - "27017:27017"
+    volumes:
+      - api_db:/data/db
+  api-server:
+    image: api
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    links:
+      - mongo
+volumes:
+  api_db:

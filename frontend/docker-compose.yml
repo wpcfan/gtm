@@ -1,0 +1,20 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+      args:
+        - env=dev
+    container_name: nginx
+    # volumes:
+    #   - certs:/etc/letsencrypt
+    #   - certs-data:/data/letsencrypt
+    ports:
+      - 80:80
+      # - 443:443
+# volumes:
+#   certs:
+#   certs-data:
+
+  # other compose services

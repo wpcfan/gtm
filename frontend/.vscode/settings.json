@@ -1,0 +1,12 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "node_modules": false,
+    "dist": true,
+    "out": true,
+    "**/*.js": { "when": "$(basename).ts" }
+  }
+}

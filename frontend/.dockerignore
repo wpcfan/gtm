@@ -1,0 +1,9 @@
+# dependencies
+node_modules/
+# compiled output
+dist/
+dist-server/
+tmp/
+out-tsc/
+.git/
+.vscode/
