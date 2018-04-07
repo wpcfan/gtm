@@ -17,6 +17,7 @@
     "@angular/common": "^6.0.0-rc.0",
     "@angular/compiler": "^6.0.0-rc.0",
     "@angular/core": "^6.0.0-rc.0",
+    "@angular/flex-layout": "git+https://github.com/angular/flex-layout-builds.git",
     "@angular/forms": "^6.0.0-rc.0",
     "@angular/http": "^6.0.0-rc.0",
     "@angular/material": "^6.0.0-rc.0",
@@ -31,6 +32,7 @@
     "@ngrx/store": "^6.0.0-beta.1",
     "@ngrx/store-devtools": "^6.0.0-beta.1",
     "core-js": "^2.4.1",
+    "lodash": "^4.17.5",
     "moment": "^2.20.1",
     "rxjs": "^6.0.0-rc.0",
     "zone.js": "^0.8.24"
@@ -43,6 +45,7 @@
     "@ngrx/schematics": "^6.0.0-beta.0",
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",
+    "@types/lodash": "^4.14.106",
     "@types/node": "~8.9.4",
     "codelyzer": "^4.1.0",
     "jasmine-core": "~2.99.1",

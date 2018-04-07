@@ -1,8 +1,8 @@
 Arguments: 
-  /Users/wangpeng/.nvm/versions/node/v8.11.1/bin/node /Users/wangpeng/.yarn/bin/yarn.js install
+  /Users/wangpeng/.nvm/versions/node/v8.11.1/bin/node /Users/wangpeng/.yarn/bin/yarn.js test
 
 PATH: 
-  /Users/wangpeng/.yarn/bin:/Users/wangpeng/.config/yarn/global/node_modules/.bin:/usr/local/var/pyenv/shims:/usr/local/sbin:/Users/wangpeng/.rbenv/shims:/Users/wangpeng/workspace/flutter/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/usr/local/share/dotnet:/opt/X11/bin:/Users/wangpeng/.pyenv/shims:/Users/wangpeng/.pyenv/bin:/usr/local/Cellar/pyenv-virtualenv/1.1.1/shims:/usr/local/var/pyenv/shims:/Users/wangpeng/.yarn/bin:/Users/wangpeng/.config/yarn/global/node_modules/.bin:/usr/local/sbin:/Users/wangpeng/.nvm/versions/node/v8.11.1/bin:/Users/wangpeng/.rbenv/shims:/Users/wangpeng/workspace/flutter/bin
+  /Users/wangpeng/.yarn/bin:/Users/wangpeng/.config/yarn/global/node_modules/.bin:/usr/local/var/pyenv/shims:/usr/local/sbin:/Users/wangpeng/.rbenv/shims:/Users/wangpeng/workspace/flutter/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/usr/local/share/dotnet:/opt/X11/bin:/Users/wangpeng/.pyenv/shims:/Users/wangpeng/.pyenv/bin:/usr/local/Cellar/pyenv-virtualenv/1.1.1/shims:/usr/local/var/pyenv/shims:/Users/wangpeng/.nvm/versions/node/v8.11.1/bin:/Users/wangpeng/.yarn/bin:/Users/wangpeng/.config/yarn/global/node_modules/.bin:/usr/local/sbin:/Users/wangpeng/.rbenv/shims:/Users/wangpeng/workspace/flutter/bin
 
 Yarn version: 
   1.5.1
@@ -29,14 +29,14 @@ npm manifest:
     "private": true,
     "dependencies": {
       "@angular/animations": "^6.0.0-rc.0",
-      "@angular/cdk": "^5.2.1",
+      "@angular/cdk": "^6.0.0-rc.0",
       "@angular/common": "^6.0.0-rc.0",
       "@angular/compiler": "^6.0.0-rc.0",
       "@angular/core": "^6.0.0-rc.0",
-      "@angular/flex-layout": "^v5.0.0-beta.14",
+      "@angular/flex-layout": "git+https://github.com/angular/flex-layout-builds.git",
       "@angular/forms": "^6.0.0-rc.0",
       "@angular/http": "^6.0.0-rc.0",
-      "@angular/material": "^5.2.1",
+      "@angular/material": "^6.0.0-rc.0",
       "@angular/material-moment-adapter": "^6.0.0-rc.0",
       "@angular/platform-browser": "^6.0.0-rc.0",
       "@angular/platform-browser-dynamic": "^6.0.0-rc.0",
@@ -48,18 +48,20 @@ npm manifest:
       "@ngrx/store": "^6.0.0-beta.1",
       "@ngrx/store-devtools": "^6.0.0-beta.1",
       "core-js": "^2.4.1",
+      "lodash": "^4.17.5",
       "moment": "^2.20.1",
       "rxjs": "^6.0.0-rc.0",
       "zone.js": "^0.8.24"
     },
     "devDependencies": {
-      "@angular/cli": "^6.0.0-rc.0",
       "@angular-devkit/build-angular": "~0.0.9",
+      "@angular/cli": "^6.0.0-rc.0",
       "@angular/compiler-cli": "^6.0.0-rc.0",
       "@angular/language-service": "^6.0.0-rc.0",
       "@ngrx/schematics": "^6.0.0-beta.0",
       "@types/jasmine": "~2.8.6",
       "@types/jasminewd2": "~2.0.3",
+      "@types/lodash": "^4.14.106",
       "@types/node": "~8.9.4",
       "codelyzer": "^4.1.0",
       "jasmine-core": "~2.99.1",
@@ -161,7 +163,7 @@ Lockfile:
       typescript "~2.7.2"
       webpack-sources "^1.1.0"
   
-  "@angular-devkit/core@0.4.9":
+  "@angular-devkit/core@0.4.9", "@angular-devkit/core@^0.4.5":
     version "0.4.9"
     resolved "http://registry.npm.taobao.org/@angular-devkit/core/download/@angular-devkit/core-0.4.9.tgz#d3b35fd0175f4c1f5f902e5da4b1fcad36e3a40e"
     dependencies:
@@ -186,15 +188,22 @@ Lockfile:
       "@ngtools/json-schema" "^1.1.0"
       rxjs "^6.0.0-beta.3"
   
+  "@angular-devkit/schematics@^0.4.5":
+    version "0.4.9"
+    resolved "http://registry.npm.taobao.org/@angular-devkit/schematics/download/@angular-devkit/schematics-0.4.9.tgz#8f34e11f55e0bc5820faefa4b87a8dd79ae324aa"
+    dependencies:
+      "@ngtools/json-schema" "^1.1.0"
+      rxjs "^6.0.0-beta.3"
+  
   "@angular/animations@^6.0.0-rc.0":
     version "6.0.0-rc.1"
     resolved "http://registry.npm.taobao.org/@angular/animations/download/@angular/animations-6.0.0-rc.1.tgz#fefd83733d4ffcf93eff137e5460412ed88dcd0e"
     dependencies:
       tslib "^1.9.0"
   
-  "@angular/cdk@^5.2.1":
-    version "5.2.4"
-    resolved "http://registry.npm.taobao.org/@angular/cdk/download/@angular/cdk-5.2.4.tgz#c0a429a8710d8fedb157f546e21cb49d4335f7f7"
+  "@angular/cdk@^6.0.0-rc.0":
+    version "6.0.0-rc.0"
+    resolved "http://registry.npm.taobao.org/@angular/cdk/download/@angular/cdk-6.0.0-rc.0.tgz#c849318a5d4aa2bcab2fd204c9e13b2d36406279"
     dependencies:
       tslib "^1.7.1"
   
@@ -250,9 +259,9 @@ Lockfile:
     dependencies:
       tslib "^1.9.0"
   
-  "@angular/flex-layout@^v5.0.0-beta.14":
-    version "5.0.0-beta.14"
-    resolved "http://registry.npm.taobao.org/@angular/flex-layout/download/@angular/flex-layout-5.0.0-beta.14.tgz#300e1cba2ef1a70f43fe7ea68ea78267cb4241e4"
+  "@angular/flex-layout@git+https://github.com/angular/flex-layout-builds.git":
+    version "5.0.0-beta.14-b3f3404"
+    resolved "git+https://github.com/angular/flex-layout-builds.git#907e6335b32a8a6bf36d56871cf9a06e14dab956"
     dependencies:
       tslib "^1.7.1"
   
@@ -278,10 +287,13 @@ Lockfile:
     dependencies:
       tslib "^1.7.1"
   
-  "@angular/material@^5.2.1":
-    version "5.2.4"
-    resolved "http://registry.npm.taobao.org/@angular/material/download/@angular/material-5.2.4.tgz#9e823798324283d23ea839156fac5bcb73443d55"
+  "@angular/material@^6.0.0-rc.0":
+    version "6.0.0-rc.0"
+    resolved "http://registry.npm.taobao.org/@angular/material/download/@angular/material-6.0.0-rc.0.tgz#2089ddeb460a354390fb6b71e03287742be33034"
     dependencies:
+      "@angular-devkit/core" "^0.4.5"
+      "@angular-devkit/schematics" "^0.4.5"
+      "@schematics/angular" "^0.4.5"
       tslib "^1.7.1"
   
   "@angular/platform-browser-dynamic@^6.0.0-rc.0":
@@ -351,6 +363,12 @@ Lockfile:
     dependencies:
       typescript "~2.6.2"
   
+  "@schematics/angular@^0.4.5":
+    version "0.4.9"
+    resolved "http://registry.npm.taobao.org/@schematics/angular/download/@schematics/angular-0.4.9.tgz#bcb6b77a0d86f311e7fd6f0143b6e70ea8312eeb"
+    dependencies:
+      typescript "~2.6.2"
+  
   "@schematics/update@0.5.0":
     version "0.5.0"
     resolved "http://registry.npm.taobao.org/@schematics/update/download/@schematics/update-0.5.0.tgz#4bba95572129be6bff456f46a52c69bd6362a5a0"
@@ -368,6 +386,10 @@ Lockfile:
     resolved "http://registry.npm.taobao.org/@types/jasminewd2/download/@types/jasminewd2-2.0.3.tgz#0d2886b0cbdae4c0eeba55e30792f584bf040a95"
     dependencies:
       "@types/jasmine" "*"
+  
+  "@types/lodash@^4.14.106":
+    version "4.14.106"
+    resolved "http://registry.npm.taobao.org/@types/lodash/download/@types/lodash-4.14.106.tgz#6093e9a02aa567ddecfe9afadca89e53e5dce4dd"
   
   "@types/node@^6.0.46":
     version "6.0.98"
@@ -6710,59 +6732,13 @@ Lockfile:
     resolved "http://registry.npm.taobao.org/zone.js/download/zone.js-0.8.25.tgz#e20e5e85b881e2e66352612b5f238e8309e5badd"
 
 Trace: 
-  Error: /Users/wangpeng/workspace/books/gtm/frontend/node_modules/node-sass: Command failed.
+  Error: Command failed.
   Exit code: 1
   Command: sh
-  Arguments: -c node scripts/build.js
-  Directory: /Users/wangpeng/workspace/books/gtm/frontend/node_modules/node-sass
+  Arguments: -c ng test
+  Directory: /Users/wangpeng/workspace/books/gtm/frontend
   Output:
-  Building: /Users/wangpeng/.nvm/versions/node/v8.11.1/bin/node /Users/wangpeng/workspace/books/gtm/frontend/node_modules/node-gyp/bin/node-gyp.js rebuild --verbose --libsass_ext= --libsass_cflags= --libsass_ldflags= --libsass_library=
-  gyp info it worked if it ends with ok
-  gyp verb cli [ '/Users/wangpeng/.nvm/versions/node/v8.11.1/bin/node',
-  gyp verb cli   '/Users/wangpeng/workspace/books/gtm/frontend/node_modules/node-gyp/bin/node-gyp.js',
-  gyp verb cli   'rebuild',
-  gyp verb cli   '--verbose',
-  gyp verb cli   '--libsass_ext=',
-  gyp verb cli   '--libsass_cflags=',
-  gyp verb cli   '--libsass_ldflags=',
-  gyp verb cli   '--libsass_library=' ]
-  gyp info using node-gyp@3.6.2
-  gyp info using node@8.11.1 | darwin | x64
-  gyp verb command rebuild []
-  gyp verb command clean []
-  gyp verb clean removing "build" directory
-  gyp verb command configure []
-  gyp WARN download NVM_NODEJS_ORG_MIRROR is deprecated and will be removed in node-gyp v4, please use NODEJS_ORG_MIRROR
-  gyp verb download using dist-url https://npm.taobao.org/mirrors/node
-  gyp verb check python checking for Python executable "python2" in the PATH
-  gyp verb `which` succeeded python2 /usr/local/var/pyenv/shims/python2
-  gyp ERR! configure error 
-  gyp ERR! stack Error: Command failed: /usr/local/var/pyenv/shims/python2 -c import platform; print(platform.python_version());
-  gyp ERR! stack pyenv: python2: command not found
-  gyp ERR! stack 
-  gyp ERR! stack The `python2' command exists in these Python versions:
-  gyp ERR! stack   2.7.14
-  gyp ERR! stack   2.7.14/envs/devstack
-  gyp ERR! stack   2.7.14/envs/node
-  gyp ERR! stack   devstack
-  gyp ERR! stack   node
-  gyp ERR! stack 
-  gyp ERR! stack 
-  gyp ERR! stack     at ChildProcess.exithandler (child_process.js:275:12)
-  gyp ERR! stack     at emitTwo (events.js:126:13)
-  gyp ERR! stack     at ChildProcess.emit (events.js:214:7)
-  gyp ERR! stack     at maybeClose (internal/child_process.js:925:16)
-  gyp ERR! stack     at Socket.stream.socket.on (internal/child_process.js:346:11)
-  gyp ERR! stack     at emitOne (events.js:116:13)
-  gyp ERR! stack     at Socket.emit (events.js:211:7)
-  gyp ERR! stack     at Pipe._handle.close [as _onclose] (net.js:567:12)
-  gyp ERR! System Darwin 17.4.0
-  gyp ERR! command "/Users/wangpeng/.nvm/versions/node/v8.11.1/bin/node" "/Users/wangpeng/workspace/books/gtm/frontend/node_modules/node-gyp/bin/node-gyp.js" "rebuild" "--verbose" "--libsass_ext=" "--libsass_cflags=" "--libsass_ldflags=" "--libsass_library="
-  gyp ERR! cwd /Users/wangpeng/workspace/books/gtm/frontend/node_modules/node-sass
-  gyp ERR! node -v v8.11.1
-  gyp ERR! node-gyp -v v3.6.2
-  gyp ERR! not ok 
-  Build failed with error code: 1
+  
       at ProcessTermError.MessageError (/Users/wangpeng/.yarn/lib/cli.js:186:110)
       at new ProcessTermError (/Users/wangpeng/.yarn/lib/cli.js:226:113)
       at ChildProcess.<anonymous> (/Users/wangpeng/.yarn/lib/cli.js:30281:17)

@@ -22,7 +22,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
     }
     `
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageNotFoundComponent {
   notFoundImgSrc = 'assets/img/400_night_light.jpg';

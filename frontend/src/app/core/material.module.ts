@@ -29,7 +29,10 @@ import {
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
-  MatStepperModule
+  MatStepperModule,
+  MatTreeModule,
+  MatBadgeModule,
+  MatBottomSheetModule
 } from '@angular/material';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
@@ -41,7 +44,7 @@ import { PlatformModule } from '@angular/cdk/platform';
 import { ObserversModule } from '@angular/cdk/observers';
 import { PortalModule } from '@angular/cdk/portal';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-// import {FlexLayoutModule} from '@angular/flex-layout';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 /**
  * NgModule that includes all Material modules.
@@ -88,8 +91,11 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
     OverlayModule,
     PlatformModule,
     PortalModule,
-    MatMomentDateModule
-    // FlexLayoutModule,
+    MatTreeModule,
+    MatBadgeModule,
+    MatBottomSheetModule,
+    MatMomentDateModule,
+    FlexLayoutModule
   ]
 })
 export class MyMaterialModule {}

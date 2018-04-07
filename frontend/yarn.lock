@@ -175,6 +175,12 @@
   dependencies:
     tslib "^1.9.0"
 
+"@angular/flex-layout@git+https://github.com/angular/flex-layout-builds.git":
+  version "5.0.0-beta.14-b3f3404"
+  resolved "git+https://github.com/angular/flex-layout-builds.git#907e6335b32a8a6bf36d56871cf9a06e14dab956"
+  dependencies:
+    tslib "^1.7.1"
+
 "@angular/forms@^6.0.0-rc.0":
   version "6.0.0-rc.1"
   resolved "http://registry.npm.taobao.org/@angular/forms/download/@angular/forms-6.0.0-rc.1.tgz#6604f1b5d4ef78261769641922700d995d2fdce5"
@@ -296,6 +302,10 @@
   resolved "http://registry.npm.taobao.org/@types/jasminewd2/download/@types/jasminewd2-2.0.3.tgz#0d2886b0cbdae4c0eeba55e30792f584bf040a95"
   dependencies:
     "@types/jasmine" "*"
+
+"@types/lodash@^4.14.106":
+  version "4.14.106"
+  resolved "http://registry.npm.taobao.org/@types/lodash/download/@types/lodash-4.14.106.tgz#6093e9a02aa567ddecfe9afadca89e53e5dce4dd"
 
 "@types/node@^6.0.46":
   version "6.0.98"
