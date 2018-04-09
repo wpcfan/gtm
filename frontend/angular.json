@@ -133,6 +133,7 @@
     }
   },
   "schematics": {
+    "collection": "@ngrx/schematics",
     "@ngrx/schematics:component": {
       "prefix": "app",
       "styleext": "scss"

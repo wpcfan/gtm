@@ -17,6 +17,10 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   `,
   styles: [
     `
+    :host {
+      display: flex;
+      flex: 1 1 auto;
+    }
     mat-card {
       width: 70%;
     }

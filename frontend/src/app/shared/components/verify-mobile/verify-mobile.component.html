@@ -1,0 +1,12 @@
+<div [formGroup]="form">
+  <mat-form-field class="full-width">
+    <input matInput placeholder="注册时使用的手机号" formControlName="regMobile">
+    <mat-error> {{ mobileErrors }} </mat-error>
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input matInput type="text" [placeholder]="codePlaceholder" formControlName="smsCode">
+    <button mat-button matSuffix #veriBtn [disabled]="(btnLabel$ | async).indexOf('发送') === -1 || form.get('regMobile').errors !== null">
+      {{ btnLabel$ | async }} </button>
+    <mat-error> 验证码不正确 </mat-error>
+  </mat-form-field>
+</div>

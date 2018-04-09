@@ -1,0 +1,5 @@
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center space-around">
+  <app-quote [chineseQuote]="(quote$ | async)?.cn" [englishQuote]="(quote$ | async)?.en" [quoteImg]="(quote$ | async)?.imgUrl">
+  </app-quote>
+  <app-login-form (submitEvent)="processLogin($event)"></app-login-form>
+</div>
