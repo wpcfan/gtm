@@ -1,0 +1,48 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title> {{ title }} </mat-card-title>
+    <mat-card-subtitle> {{ subtitle }} </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="submit(form, $event)">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="您的用户名" formControlName="username">
+        <mat-error> {{ usernameErrors }} </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="您的手机号" formControlName="mobile">
+        <mat-error> {{ mobileErrors }}</mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="电子邮件" formControlName="email">
+        <mat-error> {{ emailErrors }}</mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput type="text" placeholder="您的名字" formControlName="name">
+        <mat-error> {{ nameErrors }}</mat-error>
+      </mat-form-field>
+      <ng-container formGroupName="passwords">
+        <mat-form-field class="full-width">
+          <input matInput type="password" placeholder="您的密码" formControlName="password">
+          <mat-error> {{ passwordErrors }} </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput type="password" placeholder="为避免失误请再次输入" formControlName="repeat">
+          <mat-error> {{ repeatErrors }}</mat-error>
+        </mat-form-field>
+      </ng-container>
+      <app-image-picker [useSvgIcon]="true" [cols]="6" [title]="'选择头像：'" [items]="avatars" formControlName="avatar">
+      </app-image-picker>
+      <div fxLayout="row" fxLayoutAlign="center stretch" class="full-width">
+        <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">注册</button>
+        <button mat-raised-button color="primary" type="reset">重新填写</button>
+      </div>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <div fxLayout="row" fxLayoutAlign="end stretch">
+      <a mat-button routerLink="/auth/login"> {{ loginBtnText }} </a>
+      <a mat-button routerLink="/auth/forgot"> {{ forgotBtnText }} </a>
+    </div>
+  </mat-card-actions>
+</mat-card>

@@ -4,7 +4,13 @@ import { PageNotFoundComponent } from './components/page-not-found.component';
 
 const routes: Routes = [
   {
-    path: '**', component: PageNotFoundComponent
+    path: '',
+    redirectTo: '/auth',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent
   }
 ];
 
@@ -12,5 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

@@ -17,12 +17,16 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   `,
   styles: [
     `
+    :host {
+      display: flex;
+      flex: 1 1 auto;
+    }
     mat-card {
       width: 70%;
     }
     `
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageNotFoundComponent {
   notFoundImgSrc = 'assets/img/400_night_light.jpg';

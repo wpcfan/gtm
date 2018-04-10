@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -30,22 +30,25 @@ import {
   MatToolbarModule,
   MatTooltipModule,
   MatStepperModule,
+  MatTreeModule,
+  MatBadgeModule,
+  MatBottomSheetModule
 } from '@angular/material';
-import {MatNativeDateModule, MatRippleModule} from '@angular/material';
-import {CdkTableModule} from '@angular/cdk/table';
-import {CdkAccordionModule} from '@angular/cdk/accordion';
-import {A11yModule} from '@angular/cdk/a11y';
-import {BidiModule} from '@angular/cdk/bidi';
-import {OverlayModule} from '@angular/cdk/overlay';
-import {PlatformModule} from '@angular/cdk/platform';
-import {ObserversModule} from '@angular/cdk/observers';
-import {PortalModule} from '@angular/cdk/portal';
-import {MatMomentDateModule} from '@angular/material-moment-adapter';
-import {FlexLayoutModule} from '@angular/flex-layout';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material';
+import { CdkTableModule } from '@angular/cdk/table';
+import { CdkAccordionModule } from '@angular/cdk/accordion';
+import { A11yModule } from '@angular/cdk/a11y';
+import { BidiModule } from '@angular/cdk/bidi';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { PlatformModule } from '@angular/cdk/platform';
+import { ObserversModule } from '@angular/cdk/observers';
+import { PortalModule } from '@angular/cdk/portal';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 /**
  * NgModule that includes all Material modules.
-*/
+ */
 @NgModule({
   exports: [
     MatAutocompleteModule,
@@ -88,8 +91,11 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     OverlayModule,
     PlatformModule,
     PortalModule,
+    MatTreeModule,
+    MatBadgeModule,
+    MatBottomSheetModule,
     MatMomentDateModule,
-    FlexLayoutModule,
+    FlexLayoutModule
   ]
 })
 export class MyMaterialModule {}

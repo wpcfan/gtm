@@ -8,7 +8,7 @@
 // 在这个区块中你可以声明你的 build 脚本需要的依赖和解析下载该依赖所使用的仓储位置
 buildscript {
     ext {
-        springBootVersion = '2.0.0.RELEASE'
+        springBootVersion = '2.0.1.RELEASE'
     }
     repositories {
         maven { setUrl('http://maven.aliyun.com/nexus/content/groups/public/') }
