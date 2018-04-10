@@ -97,9 +97,7 @@ export class VerifyMobileComponent
     );
 
     this.btnLabel$ = fromEvent(this.veriBtn.nativeElement, 'click').pipe(
-      tap(_ => {
-        this.requestCode.emit();
-      }),
+      tap(_ => this.requestCode.emit()),
       switchMap(_ => countDown$),
       map(i => (i > 0 ? `还剩 ${i} 秒` : `再次发送`)),
       startWith('发送')
