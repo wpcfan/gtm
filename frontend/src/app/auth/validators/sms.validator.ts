@@ -6,12 +6,11 @@ import { AuthService } from '../services/auth.service';
 export class SmsValidator {
   static validateSmsCode(service: AuthService) {
     return (control: AbstractControl) => {
-      const mobile = control.get('mobile');
-      const code = control.get('code');
-      if (!mobile || !code) {
+      const val = control.value;
+      if (!val.mobile || !val.code) {
         throw new Error('SmsValidator: 没有找到手机号或验证码');
       }
-      return service.verifySmsCode(mobile.value, code.value).pipe(
+      return service.verifySmsCode(val.mobile, val.code).pipe(
         map(res => {
           return res ? null : { codeInvalid: true };
         })
