@@ -15,8 +15,8 @@ import {
 export class ForgotPasswordFormComponent implements OnInit {
   @Input() mobile: string | null = null;
   @Input() codeValidator: ValidatorFn;
-  @Output() submitPassword = new EventEmitter<string>();
-  @Output() requestCode = new EventEmitter<string>();
+  @Output() passwordEvent = new EventEmitter<string>();
+  @Output() codeRequestEvent = new EventEmitter<string>();
   @Output() mobileInputEvent = new EventEmitter<string>();
   mobileForm: FormGroup;
   newPasswordForm: FormGroup;
@@ -42,12 +42,12 @@ export class ForgotPasswordFormComponent implements OnInit {
       return;
     }
     if (form.value.password) {
-      this.submitPassword.emit(form.value.password);
+      this.passwordEvent.emit(form.value.password);
     }
   }
 
   makeRequest(mobile: string) {
-    this.requestCode.emit(mobile);
+    this.codeRequestEvent.emit(mobile);
   }
 
   matchPassword(otherCtrlName: string) {
