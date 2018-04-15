@@ -1,4 +1,14 @@
 spring:
+  application:
+    name: api-service
   devtools:
     remote:
       secret: thisismysecret
+  data:
+    rest:
+      base-path: /api
+      detection-strategy: all
+    mongodb:
+      database: gtm-api
+#server:
+#  port: 8080

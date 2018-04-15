@@ -1,4 +1,4 @@
-package dev.local.gtm.api.repository;
+package dev.local.gtm.api.domain;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -8,7 +8,9 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
- * An authority (a security role) used by Spring Security.
+ * Spring Security 中要求的角色对象
+ *
+ * @author Peng Wang (wpcfan@gmail.com)
  */
 @Data
 @Document(collection = "jhi_authority")

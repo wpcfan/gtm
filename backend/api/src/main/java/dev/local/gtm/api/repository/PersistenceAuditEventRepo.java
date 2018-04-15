@@ -13,7 +13,7 @@ import java.util.List;
  * Spring Data MongoDB repository for the PersistentAuditEvent entity.
  */
 @Repository
-public interface PersistenceAuditEventRepository extends MongoRepository<PersistentAuditEvent, String> {
+public interface PersistenceAuditEventRepo extends MongoRepository<PersistentAuditEvent, String> {
 
     List<PersistentAuditEvent> findByPrincipal(String principal);
 
