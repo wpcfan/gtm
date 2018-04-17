@@ -9,7 +9,8 @@ spring:
       database: gtm-api
 logging:
   level:
-    org.springframework.web: DEBUG
+    org.apache.http: DEBUG
+    org.springframework.web: ERROR
     org.springframework.data.mongodb.core.MongoTemplate: DEBUG
     dev.local.gtm.api: DEBUG
 #server:

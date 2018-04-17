@@ -1,14 +1,16 @@
 package dev.local.gtm.api.domain;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 
-@Data @Builder
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Task {
     @Id
     private String id;
     private String desc;
     private boolean completed;
-    private String userId;
+    private User owner;
 }

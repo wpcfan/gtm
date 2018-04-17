@@ -7,5 +7,11 @@ spring:
   data:
     mongodb:
       database: gtm-api
+logging:
+  level:
+    org.apache.http: DEBUG
+    org.springframework.web: ERROR
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+    dev.local.gtm.api: DEBUG
 #server:
 #  port: 8080

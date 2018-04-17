@@ -9,6 +9,7 @@ import dev.local.gtm.api.web.exception.InvalidPasswordException;
 import dev.local.gtm.api.web.exception.LoginExistedException;
 import dev.local.gtm.api.web.exception.LoginNotFoundException;
 import dev.local.gtm.api.web.exception.MobileExistedException;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
@@ -34,8 +35,10 @@ public class AuthResource {
 
     private final SmsCaptchaProperties captchaProperties;
 
+    @ApiOperation(value = "用户登录鉴权接口",
+            notes = "客户端在 RequestBody 中以 json 传入用户名、密码，如果成功以 json 形式返回该用户信息")
     @PostMapping(value = "/auth/login")
-    public ResponseEntity<User> login(@RequestBody final Auth auth) {
+    public User login(@RequestBody final Auth auth) {
         log.debug("REST 请求 -- 将对用户: {} 执行登录鉴权", auth);
         val user = userRepo.findOneByLogin(auth.getLogin());
         if (!user.isPresent()) {
@@ -44,7 +47,7 @@ public class AuthResource {
         if (!user.get().getPassword().equals(auth.getPassword())) {
             throw new InvalidPasswordException();
         }
-        return ResponseEntity.ok(user.get());
+        return user.get();
     }
 
     @PostMapping("/auth/register")

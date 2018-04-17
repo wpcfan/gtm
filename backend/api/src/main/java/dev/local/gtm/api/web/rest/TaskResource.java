@@ -5,7 +5,6 @@ import dev.local.gtm.api.repository.TaskRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +20,17 @@ public class TaskResource {
     private final TaskRepo taskRepo;
 
     @GetMapping("/tasks")
-    public ResponseEntity<List<Task>> getAllTasks(Pageable pageable) {
+    public List<Task> getAllTasks(Pageable pageable, @RequestParam(required = false) String desc) {
         log.debug("REST 请求 -- 查询所有 Task");
-        Page<Task> page = taskRepo.findAll(pageable);
-        return new ResponseEntity<>(page.getContent(), HttpStatus.OK);
+        return desc == null ?
+                taskRepo.findAll(pageable).getContent() :
+                taskRepo.findByDescLike(pageable, desc).getContent();
+    }
+
+    @GetMapping("/tasks/search/findByUserMobile")
+    public List<Task> findByUserMobile(Pageable pageable, @RequestParam String mobile) {
+        log.debug("REST 请求 -- 查询所有手机号为 {} Task", mobile);
+        return taskRepo.findByOwnerMobile(pageable, mobile).getContent();
     }
 
     @PostMapping("/tasks")
@@ -40,7 +46,7 @@ public class TaskResource {
         return task.map(res -> {
             res.setDesc(toUpdate.getDesc());
             res.setCompleted(toUpdate.isCompleted());
-            res.setUserId(toUpdate.getUserId());
+            res.setOwner(toUpdate.getOwner());
             return ResponseEntity.ok().body(taskRepo.save(res));
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
