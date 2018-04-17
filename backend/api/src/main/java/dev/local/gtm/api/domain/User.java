@@ -13,7 +13,6 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -73,6 +72,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
     private boolean activated = false;
 
     @JsonIgnore
-    @Singular
-    private Set<Authority> authorities = new HashSet<>();
+    @Singular("authorities")
+    private Set<Authority> authorities;
 }
