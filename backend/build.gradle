@@ -10,6 +10,7 @@ buildscript {
     ext {
         springBootVersion = '2.0.1.RELEASE'
         propDepsVersion = '0.0.9.RELEASE'
+        springFoxVersion = '2.8.0'
     }
     repositories {
         maven { setUrl('http://maven.aliyun.com/nexus/content/groups/public/') }
@@ -45,6 +46,8 @@ subprojects {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
     dependencies {
+        optional("org.springframework.boot:spring-boot-devtools")
+        optional("org.projectlombok:lombok")
         optional("org.springframework.boot:spring-boot-configuration-processor")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
