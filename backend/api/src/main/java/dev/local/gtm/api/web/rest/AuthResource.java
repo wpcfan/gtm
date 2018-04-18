@@ -2,11 +2,9 @@ package dev.local.gtm.api.web.rest;
 
 import dev.local.gtm.api.config.propsupport.SmsCaptchaProperties;
 import dev.local.gtm.api.config.propsupport.SmsCodeProperties;
-import dev.local.gtm.api.domain.Auth;
-import dev.local.gtm.api.domain.Captcha;
-import dev.local.gtm.api.domain.MobileVerification;
-import dev.local.gtm.api.domain.User;
+import dev.local.gtm.api.domain.*;
 import dev.local.gtm.api.repository.UserRepo;
+import dev.local.gtm.api.util.CredentialUtil;
 import dev.local.gtm.api.web.exception.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -43,14 +41,13 @@ public class AuthResource {
     @PostMapping(value = "/auth/login")
     public User login(@RequestBody final Auth auth) {
         log.debug("REST 请求 -- 将对用户: {} 执行登录鉴权", auth);
-        val user = userRepo.findOneByLogin(auth.getLogin());
-        if (!user.isPresent()) {
-            throw new LoginNotFoundException();
-        }
-        if (!user.get().getPassword().equals(auth.getPassword())) {
-            throw new InvalidPasswordException();
-        }
-        return user.get();
+        return userRepo.findOneByLogin(auth.getLogin())
+                .map(user -> {
+                    if (user.getPassword().equals(auth.getPassword())) {
+                        throw new InvalidPasswordException();
+                    }
+                    return user;
+                }).orElseThrow(LoginNotFoundException::new);
     }
 
     @PostMapping("/auth/register")
@@ -72,25 +69,31 @@ public class AuthResource {
     @ResponseStatus(value = HttpStatus.OK)
     public void verifyMobile(@RequestBody MobileVerification verification) {
         log.debug("REST 请求 -- 验证手机号 {} 和短信验证码 {}", verification.getMobile(), verification.getCode());
-        if (!userRepo.findOneByMobile(verification.getMobile()).isPresent()) {
-            throw new MobileNotFoundException();
-        }
-        val code = verifySmsCode(verification);
-        if (code.value() != 200) {
-            throw new MobileVerificationFailedException(code.getReasonPhrase());
-        }
+        userRepo.findOneByMobile(verification.getMobile())
+                .map(user -> {
+                    val code = verifySmsCode(verification);
+                    if (code.value() != 200) {
+                        throw new MobileVerificationFailedException(code.getReasonPhrase());
+                    }
+                    user.setResetKey(CredentialUtil.generateResetKey());
+                    return userRepo.save(user);
+                })
+                .orElseThrow(MobileNotFoundException::new);
     }
 
     @PostMapping(value = "/auth/reset")
-    @ResponseStatus(value = HttpStatus.OK)
-    public void resetPassword(@RequestBody Auth auth) {
-        log.debug("REST 请求 -- 重置密码 {}", auth);
-        val user = userRepo.findOneByLogin(auth.getLogin());
-        if (!user.isPresent()) {
-            throw new LoginNotFoundException();
-        }
-        user.get().setPassword(auth.getPassword());
-        userRepo.save(user.get());
+    public void resetPassword(@RequestBody KeyAndPassword keyAndPassword) {
+        log.debug("REST 请求 -- 重置密码 {}", keyAndPassword);
+        userRepo.findOneByMobile(keyAndPassword.getMobile())
+                .map(user -> {
+                    if (!user.getResetKey().equals(keyAndPassword.getResetKey())) {
+                        throw new ResetKeyNotMatchException();
+                    }
+                    user.setPassword(keyAndPassword.getPassword());
+                    user.setResetKey(null);
+                    return userRepo.save(user);
+                })
+                .orElseThrow(LoginNotFoundException::new);
     }
 
     @PostMapping("/auth/captcha")
@@ -101,12 +104,14 @@ public class AuthResource {
         val entity = new HttpEntity<>(body);
         try {
             val validateCaptcha = restTemplate.postForObject(captchaProperties.getVerificationUrl(), entity, Captcha.class);
-            if (validateCaptcha == null)
+            if (validateCaptcha == null) {
                 throw new InternalServerErrorException("返回对象为空，无法进行验证");
+            }
             return Captcha.builder()
                     .code(captcha.getCode())
                     .token(captcha.getToken())
-                    .validatedMsg(validateCaptcha.getValidatedMsg()).build();
+                    .validatedMsg(validateCaptcha.getValidatedMsg())
+                    .build();
         } catch (HttpStatusCodeException ex) {
             throw new CaptchaVerificationFailedException(ex.getStatusCode().getReasonPhrase());
         }
