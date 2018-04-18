@@ -10,6 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * 用户存储接口
+ *
+ * @author Peng Wang (wpcfan@gmail.com)
+ */
 @Repository
 public interface UserRepo extends MongoRepository<User, String> {
     String USERS_BY_LOGIN_CACHE = "usersByLogin";

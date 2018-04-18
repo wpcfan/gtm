@@ -4,7 +4,9 @@ import org.zalando.problem.AbstractThrowableProblem;
 import org.zalando.problem.Status;
 
 /**
- * 密码错误
+ * 密码错误异常
+ *
+ * @author Peng Wang (wpcfan@gmail.com)
  */
 public class InvalidPasswordException extends AbstractThrowableProblem {
 

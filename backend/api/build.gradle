@@ -1,5 +1,9 @@
 apply plugin: 'org.springframework.boot'
 
+repositories {
+    maven { url 'http://oss.jfrog.org/artifactory/oss-snapshot-local/' }
+}
+
 dependencies {
 
 //    implementation("net.logstash.logback:logstash-logback-encoder:5.0")
@@ -18,11 +22,14 @@ dependencies {
 //    implementation("org.javers:javers-spring-boot-starter-mongo:3.8.4")
 //    implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
     implementation("io.springfox:springfox-swagger2:${springFoxVersion}")
+//    implementation("io.springfox:springfox-data-rest:${springFoxVersion}")
     implementation("io.springfox:springfox-bean-validators:${springFoxVersion}")
     implementation("io.springfox:springfox-swagger-ui:${springFoxVersion}")
     implementation("org.springframework.boot:spring-boot-starter-undertow")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
+//    implementation("org.springframework.boot:spring-boot-starter-data-rest")
+//    implementation("org.springframework.data:spring-data-rest-hal-browser")
 //    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("org.zalando:problem-spring-web:0.20.1")

@@ -6,6 +6,11 @@ import org.springframework.context.annotation.Configuration;
 import org.zalando.problem.ProblemModule;
 import org.zalando.problem.validation.ConstraintViolationProblemModule;
 
+/**
+ * 为 zalando problem 配置 Jackson
+ *
+ * @author Peng Wang (wpcfan@gmail.com)
+ */
 @Configuration
 public class JacksonConfiguration {
     /*

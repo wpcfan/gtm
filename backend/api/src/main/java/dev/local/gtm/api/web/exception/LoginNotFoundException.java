@@ -4,7 +4,9 @@ import org.zalando.problem.AbstractThrowableProblem;
 import org.zalando.problem.Status;
 
 /**
- * 用户登录名未找到错误
+ * 用户登录名未找到异常
+ *
+ * @author Peng Wang (wpcfan@gmail.com)
  */
 public final class LoginNotFoundException extends AbstractThrowableProblem {
     public LoginNotFoundException() {

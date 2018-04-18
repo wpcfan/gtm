@@ -16,6 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 对错误异常进行统一处理，以统一格式输出
+ *
+ * @author Peng Wang (wpcfan@gmail.com)
+ */
 @ControllerAdvice
 @RequiredArgsConstructor
 public class ExceptionTranslator implements ProblemHandling {

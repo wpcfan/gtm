@@ -16,6 +16,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.time.LocalDate;
 import java.util.Collections;
 
+/**
+ * 配置 Swagger 以提供 API 文档
+ *
+ * @author Peng Wang (wpcfan@gmail.com)
+ */
 @EnableSwagger2
 @ComponentScan(basePackages = "dev.local.gtm.api.web.rest")
 @Import({
@@ -23,6 +28,11 @@ import java.util.Collections;
 })
 @Configuration
 public class SwaggerConfiguration {
+    /**
+     * 配置 Swagger 扫描哪些 API （不列出那些监控 API）
+     *
+     * @return Docket
+     */
     @Bean
     public Docket apiDoc() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -36,6 +46,12 @@ public class SwaggerConfiguration {
                 .apiInfo(apiInfo());
 
     }
+
+    /**
+     * 对 API 的概要信息进行定制
+     *
+     * @return ApiInfo
+     */
     private ApiInfo apiInfo() {
         return new ApiInfo(
                 "GTM API 文档",

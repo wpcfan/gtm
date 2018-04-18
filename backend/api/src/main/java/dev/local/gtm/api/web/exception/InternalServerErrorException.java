@@ -5,6 +5,8 @@ import org.zalando.problem.Status;
 
 /**
  * 服务器内部错误
+ *
+ * @author Peng Wang (wpcfan@gmail.com)
  */
 public class InternalServerErrorException extends AbstractThrowableProblem {
 
