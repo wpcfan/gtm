@@ -8,11 +8,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 /**
- * Utility class for handling pagination.
+ * 处理分页的工具类
  *
  * <p>
- * Pagination uses the same principles as the <a href="https://developer.github.com/v3/#pagination">GitHub API</a>,
- * and follow <a href="http://tools.ietf.org/html/rfc5988">RFC 5988 (Link header)</a>.
+ * 分页采用 Github 的分页原则 <a href="https://developer.github.com/v3/#pagination">GitHub API</a> ，
+ * 符合 <a href="http://tools.ietf.org/html/rfc5988">RFC 5988 (Link header)</a> 标准。
  */
 public final class PaginationUtil {
 

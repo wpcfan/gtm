@@ -12,9 +12,9 @@ import org.zalando.problem.validation.ConstraintViolationProblemModule;
  * @author Peng Wang (wpcfan@gmail.com)
  */
 @Configuration
-public class JacksonConfiguration {
+public class JacksonConfig {
     /*
-     * Jackson Afterburner module to speed up serialization/deserialization.
+     * 使用 Jackson Afterburner 模块加速 序列化和反序列化过程
      */
     @Bean
     public AfterburnerModule afterburnerModule() {
@@ -22,7 +22,7 @@ public class JacksonConfiguration {
     }
 
     /*
-     * Module for serialization/deserialization of RFC7807 Problem.
+     * 用于序列化和反序列化 RFC7807 Problem 对象的模块。
      */
     @Bean
     ProblemModule problemModule() {
@@ -30,7 +30,7 @@ public class JacksonConfiguration {
     }
 
     /*
-     * Module for serialization/deserialization of ConstraintViolationProblem.
+     * 用于序列化和反序列化 ConstraintViolationProblem 的模块
      */
     @Bean
     ConstraintViolationProblemModule constraintViolationProblemModule() {

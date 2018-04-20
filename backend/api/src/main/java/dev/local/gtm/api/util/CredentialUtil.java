@@ -1,9 +1,12 @@
 package dev.local.gtm.api.util;
 
+import lombok.extern.log4j.Log4j2;
+
 import java.util.Random;
 
+@Log4j2
 public class CredentialUtil {
-    private static final int COUNT = 20;
+    private static final int COUNT = 10;
 
     /**
      * 生成一个重置密码的随机数，作为激活密钥
@@ -24,8 +27,8 @@ public class CredentialUtil {
     }
 
     private static String randomNumeric() {
-        Random rnd = new Random();
-        int n = 10^(CredentialUtil.COUNT -1) + rnd.nextInt(9*10^(CredentialUtil.COUNT -1));
-        return String.valueOf(n);
+        return String.valueOf(new Random()
+                .nextInt((9 * (int) Math.pow(10, CredentialUtil.COUNT - 1)) - 1)
+                + (int) Math.pow(10, CredentialUtil.COUNT - 1));
     }
 }

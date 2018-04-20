@@ -27,7 +27,7 @@ import java.util.Collections;
         springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration.class
 })
 @Configuration
-public class SwaggerConfiguration {
+public class SwaggerConfig {
     /**
      * 配置 Swagger 扫描哪些 API （不列出那些监控 API）
      *

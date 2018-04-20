@@ -21,6 +21,7 @@ public final class ErrorConstants {
     static final URI LOGIN_NOT_FOUND_TYPE = URI.create(PROBLEM_BASE_URL + "/login-not-found");
     static final URI MOBILE_EXISTED_TYPE = URI.create(PROBLEM_BASE_URL + "/mobile-already-used");
     static final URI MOBILE_NOT_FOUND_TYPE = URI.create(PROBLEM_BASE_URL + "/mobile-not-found");
+    static final URI AUTHORITY_NOT_FOUND_TYPE = URI.create(PROBLEM_BASE_URL + "/authority-not-found");
     static final URI MOBILE_VERIFICATION_FAILED_TYPE = URI.create(PROBLEM_BASE_URL + "/mobile-verification-failed");
     static final URI RESET_KEY_NOT_MATCH_TYPE = URI.create(PROBLEM_BASE_URL + "/reset-key-not-match");
     static final URI EMAIL_NOT_FOUND_TYPE = URI.create(PROBLEM_BASE_URL + "/email-not-found");

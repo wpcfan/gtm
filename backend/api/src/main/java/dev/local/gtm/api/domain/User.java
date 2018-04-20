@@ -5,6 +5,8 @@ import dev.local.gtm.api.config.Constants;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.validation.constraints.Email;
@@ -15,13 +17,13 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Set;
 
-@Getter
-@Setter
+@Data
+@Builder
 @EqualsAndHashCode(callSuper = false, of = {"id"})
 @ToString(exclude = "authorities")
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Document(collection = "api_users")
 public class User extends AbstractAuditingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -73,5 +75,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @JsonIgnore
     @Singular("authorities")
+    @DBRef(lazy = true)
     private Set<Authority> authorities;
 }

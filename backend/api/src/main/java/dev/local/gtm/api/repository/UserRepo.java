@@ -27,7 +27,7 @@ public interface UserRepo extends MongoRepository<User, String> {
     Optional<User> findOneByMobile(@Param("mobile") String mobile);
 
     @Cacheable(cacheNames = USERS_BY_EMAIL_CACHE)
-    Optional<User> findOneByEmail(@Param("email") String email);
+    Optional<User> findOneByEmailIgnoreCase(@Param("email") String email);
 
     @Cacheable(cacheNames = USERS_BY_LOGIN_CACHE)
     Optional<User> findOneByLogin(@Param("login") String login);

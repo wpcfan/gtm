@@ -1,7 +1,6 @@
 package dev.local.gtm.api.config;
 
 import dev.local.gtm.api.interceptor.LeanCloudRequestInterceptor;
-import dev.local.gtm.api.config.propsupport.LeanCloudProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -15,16 +14,16 @@ import org.springframework.web.client.RestTemplate;
  */
 @RequiredArgsConstructor
 @Configuration
-public class OutboundRestTemplateConfiguration {
+public class OutgoingRestTemplateConfig {
 
     private static final int TIMEOUT = 5000;
-    private final LeanCloudProperties leanCloudProperties;
+    private final AppProperties appProperties;
 
     @Bean
     public RestTemplate getRestTemplate() {
         return new RestTemplateBuilder()
                 .setConnectTimeout(TIMEOUT)
-                .interceptors(new LeanCloudRequestInterceptor(leanCloudProperties))
+                .interceptors(new LeanCloudRequestInterceptor(appProperties))
                 .build();
     }
 }
