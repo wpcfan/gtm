@@ -44,10 +44,19 @@ public class AppProperties {
     @Data
     public static class Security {
         private final Jwt jwt = new Jwt();
+        private final Authorization authorization = new Authorization();
+
+        @Data
+        public static class Authorization {
+            private String header = "Authorization";
+            private String token = "access_token";
+        }
+
         @Data
         public static class Jwt {
             private String secret = "myDefaultSecret";
             private long tokenValidityInSeconds = 7200;
+            private String tokenPrefix = "Bearer ";
         }
     }
 

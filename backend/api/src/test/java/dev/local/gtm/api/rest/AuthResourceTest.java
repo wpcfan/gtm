@@ -1,6 +1,7 @@
 package dev.local.gtm.api.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.local.gtm.api.config.AppProperties;
 import dev.local.gtm.api.domain.Authority;
 import dev.local.gtm.api.domain.User;
 import dev.local.gtm.api.repository.AuthorityRepo;
@@ -50,11 +51,14 @@ public class AuthResourceTest {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private AppProperties appProperties;
+
     @Before
     public void setup() {
         userRepo.deleteAll();
         authorityRepo.deleteAll();
-        val authResource = new AuthResource(authService);
+        val authResource = new AuthResource(authService, appProperties);
         mockMvc = MockMvcBuilders.standaloneSetup(authResource)
             .setMessageConverters(httpMessageConverters)
             .setControllerAdvice(exceptionTranslator)

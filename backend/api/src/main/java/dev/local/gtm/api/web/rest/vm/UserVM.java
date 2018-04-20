@@ -19,7 +19,8 @@ public class UserVM extends UserDTO {
     private String password;
 
     @Builder
-    public UserVM(String id, String login, String mobile, String email, String name, String avatar, boolean activated, Set<String> authorities, String password) {
+    public UserVM(String id, String login, String mobile, String email, String name,
+                  String avatar, boolean activated, Set<String> authorities, String password) {
         super(id, login, mobile, name, email, avatar, activated, authorities);
         this.password = password;
     }

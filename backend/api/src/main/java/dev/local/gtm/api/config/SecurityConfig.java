@@ -2,7 +2,6 @@ package dev.local.gtm.api.config;
 
 import dev.local.gtm.api.security.AuthoritiesConstants;
 import dev.local.gtm.api.security.jwt.JWTConfigurer;
-import dev.local.gtm.api.security.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
@@ -37,11 +36,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
 
-    private final TokenProvider tokenProvider;
-
     private final CorsFilter corsFilter;
 
     private final SecurityProblemSupport problemSupport;
+
+    private final JWTConfigurer jwtConfigurer;
 
     @PostConstruct
     public void init() {
@@ -66,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring()
                 .antMatchers(HttpMethod.OPTIONS, "/**")
                 .antMatchers("/app/**/*.{js,html}")
@@ -104,12 +103,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-resources/configuration/ui").permitAll()
                 .antMatchers("/swagger-ui/index.html").hasAuthority(AuthoritiesConstants.ADMIN)
                 .and()
-                .apply(securityConfigurerAdapter());
+                .apply(jwtConfigurer);
 
-    }
-
-    private JWTConfigurer securityConfigurerAdapter() {
-        return new JWTConfigurer(tokenProvider);
     }
 }
 

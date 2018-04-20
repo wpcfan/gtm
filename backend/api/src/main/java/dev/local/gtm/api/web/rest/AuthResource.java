@@ -1,8 +1,8 @@
 package dev.local.gtm.api.web.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import dev.local.gtm.api.config.AppProperties;
 import dev.local.gtm.api.domain.Auth;
-import dev.local.gtm.api.security.jwt.JWTConfigurer;
 import dev.local.gtm.api.service.AuthService;
 import dev.local.gtm.api.web.exception.InvalidPasswordException;
 import dev.local.gtm.api.web.rest.vm.KeyAndPasswordVM;
@@ -30,6 +30,7 @@ import javax.validation.Valid;
 public class AuthResource {
 
     private final AuthService authService;
+    private final AppProperties appProperties;
 
     @ApiOperation(value = "用户登录鉴权接口",
             notes = "客户端在 RequestBody 中以 json 传入用户名、密码，如果成功以 json 形式返回该用户信息")
@@ -38,7 +39,7 @@ public class AuthResource {
         log.debug("REST 请求 -- 将对用户: {} 执行登录鉴权", auth);
         val jwt = authService.login(auth.getLogin(), auth.getPassword());
         val headers = new HttpHeaders();
-        headers.add(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
+        headers.add(appProperties.getSecurity().getAuthorization().getHeader(), "Bearer " + jwt);
         log.debug("JWT token {} 加入到 HTTP 头", jwt);
         return new ResponseEntity<>(new JWTToken(jwt), headers, HttpStatus.OK);
     }
