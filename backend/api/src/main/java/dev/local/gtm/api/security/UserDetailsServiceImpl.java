@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * 用户鉴权服务的具体实现
+ * 用户信息服务的具体实现
  *
  * @author Peng Wang (wpcfan@gmail.com)
  */
@@ -30,7 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepo userRepo;
 
     /**
-     * 通过数据库检验用户是否合法
+     * 通过数据库加载用户信息
      * @param login 用户名
      * @return 返回 Spring Security User
      */

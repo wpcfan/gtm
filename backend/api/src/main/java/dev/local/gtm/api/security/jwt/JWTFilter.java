@@ -24,7 +24,7 @@ public class JWTFilter extends GenericFilterBean {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
         val httpServletRequest = (HttpServletRequest) servletRequest;
-        val jwt = resolveToken(httpServletRequest);
+        val jwt = getToken(httpServletRequest);
         if (StringUtils.hasText(jwt) && this.tokenProvider.validateToken(jwt)) {
             val authentication = this.tokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -32,7 +32,7 @@ public class JWTFilter extends GenericFilterBean {
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
-    private String resolveToken(HttpServletRequest request){
+    private String getToken(HttpServletRequest request){
         val bearerToken = request.getHeader(appProperties.getSecurity().getAuthorization().getHeader());
         val prefix = appProperties.getSecurity().getJwt().getTokenPrefix();
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(prefix)) {

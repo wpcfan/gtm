@@ -1,11 +1,16 @@
 apply plugin: 'org.springframework.boot'
-
 repositories {
-    maven { url 'http://oss.jfrog.org/artifactory/oss-snapshot-local/' }
+    maven { setUrl('http://oss.jfrog.org/artifactory/oss-snapshot-local/') }
 }
 configurations {
     // 如果使用 undertow 或 jetty 需要把默认包含的 tomcat 排除在外
     compile.exclude module: 'spring-boot-starter-tomcat'
+}
+bootRun {
+    systemProperties = System.properties as Map<String, ?>
+}
+test {
+    systemProperties['spring.profiles.active'] = 'test'
 }
 dependencies {
 

@@ -37,21 +37,17 @@ public class AuthResource {
     @PostMapping(value = "/auth/login")
     public ResponseEntity<JWTToken> login(@RequestBody final Auth auth) {
         log.debug("REST 请求 -- 将对用户: {} 执行登录鉴权", auth);
-        val jwt = authService.login(auth.getLogin(), auth.getPassword());
-        val headers = new HttpHeaders();
-        headers.add(appProperties.getSecurity().getAuthorization().getHeader(), "Bearer " + jwt);
-        log.debug("JWT token {} 加入到 HTTP 头", jwt);
-        return new ResponseEntity<>(new JWTToken(jwt), headers, HttpStatus.OK);
+        return generateJWTHeader(auth.getLogin(), auth.getPassword());
     }
 
     @PostMapping("/auth/register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void register(@Valid @RequestBody UserVM userVM) {
+    public ResponseEntity<JWTToken> register(@Valid @RequestBody UserVM userVM) {
         log.debug("REST 请求 -- 注册用户: {} ", userVM);
         if (!checkPasswordLength(userVM.getPassword())) {
             throw new InvalidPasswordException();
         }
         authService.registerUser(userVM, userVM.getPassword());
+        return generateJWTHeader(userVM.getLogin(), userVM.getPassword());
     }
 
     @PostMapping(value = "/auth/mobile")
@@ -82,8 +78,19 @@ public class AuthResource {
                 password.length() <= UserVM.PASSWORD_MAX_LENGTH;
     }
 
+    private ResponseEntity<JWTToken> generateJWTHeader(String login, String password) {
+        val jwt = authService.login(login, password);
+        val headers = new HttpHeaders();
+        headers.add(
+                appProperties.getSecurity().getAuthorization().getHeader(),
+                appProperties.getSecurity().getJwt().getTokenPrefix() + jwt);
+        log.debug("JWT token {} 加入到 HTTP 头", jwt);
+        return new ResponseEntity<>(new JWTToken(jwt), headers, HttpStatus.OK);
+    }
+
     /**
-     * Object to return as body in JWT Authentication.
+     * 简单返回 JWT token
+     * 对于非常简单的需要封装成 JSON 的类，可以直接定义在 Controller 中
      */
     @Getter
     @Setter

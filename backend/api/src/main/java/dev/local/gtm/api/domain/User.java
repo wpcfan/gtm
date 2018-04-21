@@ -58,11 +58,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
     private String avatar;
 
     @Size(max = 20)
-    @Field("activation_key")
-    @JsonIgnore
-    private String activationKey;
-
-    @Size(max = 20)
     @Field("reset_key")
     @JsonIgnore
     private String resetKey;
@@ -74,7 +69,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
     private boolean activated = false;
 
     @JsonIgnore
-    @Singular("authorities")
+    @Singular("authority")
     @DBRef(lazy = true)
+    @Field("authority_ids")
     private Set<Authority> authorities;
 }

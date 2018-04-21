@@ -43,7 +43,7 @@ public class UserDTO {
 
     private boolean activated = false;
 
-    @Singular
+    @Singular("authority")
     private Set<String> authorities;
 
     public UserDTO(User user) {

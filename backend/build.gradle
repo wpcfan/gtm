@@ -13,9 +13,10 @@ buildscript {
         springFoxVersion = '2.8.1-SNAPSHOT'
     }
     repositories {
-        maven { url('http://maven.aliyun.com/nexus/content/groups/public/') }
-        maven { url('http://maven.aliyun.com/nexus/content/repositories/jcenter') }
-        maven { url('http://repo.spring.io/plugins-release') }
+        maven { setUrl('http://maven.aliyun.com/nexus/content/groups/public/') }
+        maven { setUrl('http://maven.aliyun.com/nexus/content/repositories/jcenter') }
+        maven { setUrl('http://repo.spring.io/plugins-release') }
+        jcenter()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -48,6 +49,7 @@ subprojects {
     dependencies {
         optional("org.springframework.boot:spring-boot-devtools")
         optional("org.projectlombok:lombok")
+        annotationProcessor("org.projectlombok:lombok")
         optional("org.springframework.boot:spring-boot-configuration-processor")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }

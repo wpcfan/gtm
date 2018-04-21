@@ -17,6 +17,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+/**
+ * Jwt Token 的工具类
+ *
+ * @author Peng Wang (wpcfan@gmail.com)
+ */
 @Log4j2
 @RequiredArgsConstructor
 @Component
@@ -32,11 +37,9 @@ public class TokenProvider {
 
     @PostConstruct
     public void init() {
-        this.secretKey =
-                appProperties.getSecurity().getJwt().getSecret();
+        this.secretKey = appProperties.getSecurity().getJwt().getSecret();
 
-        this.tokenValidityInMilliseconds =
-                1000 * appProperties.getSecurity().getJwt().getTokenValidityInSeconds();
+        this.tokenValidityInMilliseconds = 1000 * appProperties.getSecurity().getJwt().getTokenValidityInSeconds();
     }
 
     public String createToken(Authentication authentication) {

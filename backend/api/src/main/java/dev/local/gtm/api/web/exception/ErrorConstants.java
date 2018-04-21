@@ -7,7 +7,7 @@ import java.net.URI;
  *
  * @author Peng Wang (wpcfan@gmail.com)
  */
-public final class ErrorConstants {
+final class ErrorConstants {
 
     public static final String ERR_CONCURRENCY_FAILURE = "error.concurrencyFailure";
     static final String ERR_VALIDATION = "error.validation";

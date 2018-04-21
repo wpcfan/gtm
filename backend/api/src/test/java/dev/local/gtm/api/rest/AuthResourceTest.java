@@ -6,6 +6,7 @@ import dev.local.gtm.api.domain.Authority;
 import dev.local.gtm.api.domain.User;
 import dev.local.gtm.api.repository.AuthorityRepo;
 import dev.local.gtm.api.repository.UserRepo;
+import dev.local.gtm.api.security.AuthoritiesConstants;
 import dev.local.gtm.api.service.AuthService;
 import dev.local.gtm.api.web.exception.ExceptionTranslator;
 import dev.local.gtm.api.web.rest.AuthResource;
@@ -63,8 +64,8 @@ public class AuthResourceTest {
             .setMessageConverters(httpMessageConverters)
             .setControllerAdvice(exceptionTranslator)
             .build();
-        authorityRepo.save(new Authority("ROLE_USER"));
-        authorityRepo.save(new Authority("ROLE_ADMIN"));
+        authorityRepo.save(new Authority(AuthoritiesConstants.USER));
+        authorityRepo.save(new Authority(AuthoritiesConstants.ADMIN));
     }
 
     @Test
@@ -80,12 +81,13 @@ public class AuthResourceTest {
         mockMvc.perform(post("/api/auth/register")
                 .content(objectMapper.writeValueAsString(user))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id_token").isNotEmpty());
         assertThat(userRepo.findOneByLogin("test1").isPresent()).isTrue();
     }
 
     @Test
-    public void testRegisterFail() throws Exception {
+    public void testRegisterFailDup() throws Exception {
         val user = User.builder()
                 .login("test1")
                 .mobile("13000000000")

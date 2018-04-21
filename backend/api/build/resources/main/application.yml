@@ -1,17 +1,47 @@
 spring:
   application:
     name: api-service
+  profiles:
+    active: dev
+  data:
+    mongodb:
+      database: gtm-api
+server:
+  port: 8080
+logging:
+  level:
+    org.apache.http: ERROR
+    org.springframework.web: ERROR
+    org.springframework.data.mongodb.core.MongoTemplate: ERROR
+    dev.local.gtm.api: ERROR
+
+---
+
+spring:
+  profiles: dev
   devtools:
     remote:
       secret: thisismysecret
   data:
     mongodb:
-      database: gtm-api
+      database: gtm-api-dev
 logging:
   level:
     org.apache.http: DEBUG
     org.springframework.web: ERROR
     org.springframework.data.mongodb.core.MongoTemplate: DEBUG
     dev.local.gtm.api: DEBUG
-#server:
-#  port: 8080
+
+---
+
+spring:
+  profiles: test
+  data:
+    mongodb:
+      database: gtm-api-test
+
+---
+
+spring:
+  profiles: prod
+

@@ -27,6 +27,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Instant;
 import java.util.HashMap;
 
 @Log4j2
@@ -61,8 +62,9 @@ public class AuthServiceImpl implements AuthService {
                 .name(userDTO.getName())
                 .avatar(userDTO.getAvatar())
                 .activated(true)
-                .authorities(authorityRepo.findOneByName(AuthoritiesConstants.USER).orElseThrow(AuthorityNotFoundException::new))
+                .authority(authorityRepo.findOneByName(AuthoritiesConstants.USER).orElseThrow(AuthorityNotFoundException::new))
                 .build();
+        log.debug("user to be saved {} ", newUser);
         userRepo.save(newUser);
         log.debug("用户 {} 创建成功", newUser);
     }
@@ -116,6 +118,7 @@ public class AuthServiceImpl implements AuthService {
                     }
                     user.setPassword(passwordEncoder.encode(password));
                     user.setResetKey(null);
+                    user.setResetDate(Instant.now());
                     return userRepo.save(user);
                 })
                 .orElseThrow(LoginNotFoundException::new);

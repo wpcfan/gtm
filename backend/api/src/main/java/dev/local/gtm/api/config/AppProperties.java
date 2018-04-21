@@ -49,7 +49,6 @@ public class AppProperties {
         @Data
         public static class Authorization {
             private String header = "Authorization";
-            private String token = "access_token";
         }
 
         @Data
