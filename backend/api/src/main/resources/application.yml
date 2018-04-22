@@ -11,7 +11,10 @@ server:
 logging:
   level:
     org.apache.http: ERROR
-    org.springframework.web: ERROR
+    org.springframework:
+      web: ERROR
+      data: ERROR
+      security: ERROR
     org.springframework.data.mongodb.core.MongoTemplate: ERROR
     dev.local.gtm.api: ERROR
 
@@ -28,7 +31,11 @@ spring:
 logging:
   level:
     org.apache.http: DEBUG
-    org.springframework.web: ERROR
+    org.springframework:
+          web:
+            client.RestTemplate: DEBUG
+          data: DEBUG
+          security: DEBUG
     org.springframework.data.mongodb.core.MongoTemplate: DEBUG
     dev.local.gtm.api: DEBUG
 
@@ -39,6 +46,16 @@ spring:
   data:
     mongodb:
       database: gtm-api-test
+logging:
+  level:
+    org.apache.http: DEBUG
+    org.springframework:
+          web:
+            client.RestTemplate: DEBUG
+          data: DEBUG
+          security: DEBUG
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+    dev.local.gtm.api: DEBUG
 
 ---
 

@@ -3,6 +3,7 @@ package dev.local.gtm.api.web.rest;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import dev.local.gtm.api.config.AppProperties;
 import dev.local.gtm.api.domain.Auth;
+import dev.local.gtm.api.domain.Captcha;
 import dev.local.gtm.api.service.AuthService;
 import dev.local.gtm.api.web.exception.InvalidPasswordException;
 import dev.local.gtm.api.web.rest.vm.KeyAndPasswordVM;
@@ -50,8 +51,13 @@ public class AuthResource {
         return generateJWTHeader(userVM.getLogin(), userVM.getPassword());
     }
 
+    @GetMapping(value = "/auth/mobile")
+    public void requestSmsCode(@RequestParam String mobile, @RequestParam String token) {
+        log.debug("REST 请求 -- 请求为手机号 {} 发送验证码，Captcha 验证 token 为 {} ", mobile, token);
+        authService.requestSmsCode(mobile, token);
+    }
+
     @PostMapping(value = "/auth/mobile")
-    @ResponseStatus(value = HttpStatus.OK)
     public ResetKey verifyMobile(@RequestBody MobileVerification verification) {
         log.debug("REST 请求 -- 验证手机号 {} 和短信验证码 {}", verification.getMobile(), verification.getCode());
         val key = authService.verifyMobile(verification.getMobile(), verification.getCode());
@@ -64,7 +70,13 @@ public class AuthResource {
         authService.resetPassword(keyAndPasswordVM.getResetKey(), keyAndPasswordVM.getMobile(), keyAndPasswordVM.getPassword());
     }
 
-    @PostMapping("/auth/captchaVerification")
+    @GetMapping(value = "/auth/captcha")
+    public Captcha requestCaptcha() {
+        log.debug("REST 请求 -- 请求发送图形验证码 Captcha");
+        return authService.requestCaptcha();
+    }
+
+    @PostMapping("/auth/captcha")
     public CaptchaResult verifyCaptcha(@RequestBody final CaptchaVerification verification) {
         log.debug("REST 请求 -- 验证 Captcha {}", verification);
         val result = authService.verifyCaptcha(verification.getCode(), verification.getToken());

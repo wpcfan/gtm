@@ -22,6 +22,7 @@ public class AppProperties {
     private final Security security = new Security();
     private final CorsConfiguration cors = new CorsConfiguration();
     private final Http http = new Http();
+    private final UserDefaults userDefaults = new UserDefaults();
 
     @Data
     public static class LeanCloud {
@@ -68,5 +69,10 @@ public class AppProperties {
         public static class Cache {
             private int timeToLiveInDays = 1461;
         }
+    }
+
+    @Data
+    public static class UserDefaults {
+        private String initialPassword = "Abcd@1234Ef";
     }
 }

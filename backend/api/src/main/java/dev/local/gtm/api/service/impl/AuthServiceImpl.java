@@ -2,6 +2,7 @@ package dev.local.gtm.api.service.impl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import dev.local.gtm.api.config.AppProperties;
+import dev.local.gtm.api.domain.Captcha;
 import dev.local.gtm.api.domain.User;
 import dev.local.gtm.api.repository.AuthorityRepo;
 import dev.local.gtm.api.repository.UserRepo;
@@ -16,15 +17,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpStatusCodeException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Instant;
@@ -40,7 +39,8 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final AuthenticationManager authenticationManager;
-    private final RestTemplate restTemplate;
+    @Qualifier("leanCloudTemplate")
+    private final RestTemplate leanCloudTemplate;
     private final AppProperties appProperties;
 
     @Override
@@ -78,13 +78,15 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public void requestSmsCode(String mobile, String validateToken) {
+        sendSmsCode(mobile, validateToken);
+    }
+
+    @Override
     public String verifyMobile(String mobile, String code) {
         return userRepo.findOneByMobile(mobile)
                 .map(user -> {
-                    val status = verifySmsCode(mobile, code);
-                    if (status.value() != 200) {
-                        throw new MobileVerificationFailedException(status.getReasonPhrase());
-                    }
+                    verifySmsCode(mobile, code);
                     user.setResetKey(CredentialUtil.generateResetKey());
                     userRepo.save(user);
                     return user.getResetKey();
@@ -93,20 +95,27 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public Captcha requestCaptcha() {
+        val captcha = leanCloudTemplate.getForObject(appProperties.getCaptcha().getRequestUrl(), Captcha.class);
+        if (captcha == null) {
+            log.debug("由于某种原因，远程返回的是 200，但得到的对象为空");
+            throw new InternalServerErrorException("请求 Captcha 返回对象为空");
+        }
+        return captcha;
+    }
+
+    @Override
     public String verifyCaptcha(String code, String token) {
         val body = new HashMap<String, String>();
         body.put("captcha_code", code);
         body.put("captcha_token", token);
         val entity = new HttpEntity<>(body);
-        try {
-            val validateToken = restTemplate.postForObject(appProperties.getCaptcha().getVerificationUrl(), entity, ValidateToken.class);
-            if (validateToken == null) {
-                throw new InternalServerErrorException("返回对象为空，无法进行验证");
-            }
-            return validateToken.getValidatedToken();
-        } catch (HttpStatusCodeException ex) {
-            throw new CaptchaVerificationFailedException(ex.getStatusCode().getReasonPhrase());
+        val validateToken = leanCloudTemplate.postForObject(appProperties.getCaptcha().getVerificationUrl(), entity, ValidateToken.class);
+        if (validateToken == null) {
+            log.debug("由于某种原因，远程返回的是 200，但得到的对象为空");
+            throw new InternalServerErrorException("验证 Captcha 返回对象为空，无法进行验证");
         }
+        return validateToken.getValidatedToken();
     }
 
     @Override
@@ -114,6 +123,7 @@ public class AuthServiceImpl implements AuthService {
         userRepo.findOneByMobile(mobile)
                 .map(user -> {
                     if (!user.getResetKey().equals(key)) {
+                        log.debug("ResetKey 不匹配，客户端传递的 key 为：{}，期待值为 {} ", key, user.getResetKey());
                         throw new ResetKeyNotMatchException();
                     }
                     user.setPassword(passwordEncoder.encode(password));
@@ -124,20 +134,21 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(LoginNotFoundException::new);
     }
 
-    private HttpStatus verifySmsCode(final String mobile, final  String code) {
+    private void verifySmsCode(final String mobile, final  String code) {
         val body = new HashMap<String, String>();
         body.put("mobilePhoneNumber", mobile);
         val entity = new HttpEntity<>(body);
-        try {
-            val response = restTemplate.postForEntity(
-                    appProperties.getSmsCode().getVerificationUrl() + "/" + code,
-                    entity, Void.class);
-            return response.getStatusCode();
-        } catch (HttpStatusCodeException ex) {
-            return ex.getStatusCode();
-        } catch (RestClientException ex) {
-            return HttpStatus.INTERNAL_SERVER_ERROR;
-        }
+        leanCloudTemplate.postForEntity(
+                appProperties.getSmsCode().getVerificationUrl() + "/" + code,
+                entity, Void.class);
+    }
+
+    private void sendSmsCode(String mobile, String validateToken) {
+        val body = new HashMap<String, String>();
+        body.put("mobilePhoneNumber", mobile);
+        body.put("validate_token", validateToken);
+        val entity = new HttpEntity<>(body);
+        leanCloudTemplate.postForEntity(appProperties.getSmsCode().getRequestUrl(), entity, Void.class);
     }
 
     @Getter

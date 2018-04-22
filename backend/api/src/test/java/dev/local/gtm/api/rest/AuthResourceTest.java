@@ -22,8 +22,12 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+
+import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -135,5 +139,24 @@ public class AuthResourceTest {
                 .content(objectMapper.writeValueAsString(verification))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testSendSmsSuccess() throws Exception {
+        val user = User.builder()
+                .login("test1")
+                .mobile("13898810892")
+                .email("test1@local.dev")
+                .name("test 1")
+                .password("123456")
+                .build();
+        userRepo.save(user);
+        val params = new LinkedMultiValueMap<String, String>();
+        params.add("mobile", "13898810892");
+        params.add("token", "1234");
+        mockMvc.perform(get("/api/auth/mobile")
+                .params(params)
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
     }
 }

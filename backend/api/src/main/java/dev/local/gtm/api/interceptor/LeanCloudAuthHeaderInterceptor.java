@@ -19,7 +19,7 @@ import java.io.IOException;
  * @author Peng Wang (wpcfan@gmail.com)
  */
 @RequiredArgsConstructor
-public class LeanCloudRequestInterceptor implements ClientHttpRequestInterceptor {
+public class LeanCloudAuthHeaderInterceptor implements ClientHttpRequestInterceptor {
 
     private final AppProperties appProperties;
 
