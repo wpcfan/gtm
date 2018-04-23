@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Optional;
 
 /**
- * Utility class for Spring Security.
+ * Spring Security 的工具类
  */
 public final class SecurityUtils {
 
@@ -15,9 +15,9 @@ public final class SecurityUtils {
     }
 
     /**
-     * Get the login of the current user.
+     * 得到当前用户的登录名
      *
-     * @return the login of the current user
+     * @return 返回当前用户的登录名
      */
     public static Optional<String> getCurrentUserLogin() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -34,9 +34,9 @@ public final class SecurityUtils {
     }
 
     /**
-     * Get the JWT of the current user.
+     * 得到当前用户的 JWT token
      *
-     * @return the JWT of the current user
+     * @return 返回当前用户的 JWT toekn
      */
     public static Optional<String> getCurrentUserJWT() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -46,9 +46,9 @@ public final class SecurityUtils {
     }
 
     /**
-     * Check if a user is authenticated.
+     * 用户是否已鉴权
      *
-     * @return true if the user is authenticated, false otherwise
+     * @return 已鉴权返回 true 否则返回 false
      */
     public static boolean isAuthenticated() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -59,12 +59,10 @@ public final class SecurityUtils {
     }
 
     /**
-     * If the current user has a specific authority (security role).
-     * <p>
-     * The name of this method comes from the isUserInRole() method in the Servlet API
+     * 当前用户是否有指定角色
      *
-     * @param authority the authority to check
-     * @return true if the current user has the authority, false otherwise
+     * @param authority 要检查的角色
+     * @return 如果有该角色返回 true 否则返回 false
      */
     public static boolean isCurrentUserInRole(String authority) {
         SecurityContext securityContext = SecurityContextHolder.getContext();

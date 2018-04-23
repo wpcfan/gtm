@@ -36,6 +36,7 @@ import static javafx.beans.binding.Bindings.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@EnableSpringDataWebSupport
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 public class TaskResourceTest {
@@ -60,14 +61,11 @@ public class TaskResourceTest {
     @Autowired
     private AppProperties appProperties;
 
-    @Autowired
-    private PageableHandlerMethodArgumentResolver pageableHandlerMethodArgumentResolver;
-
     @Before
     public void setup() {
         taskRepo.deleteAll();
         userRepo.deleteAll();
-        val taskResource = new TaskResource(taskRepo);
+        val taskResource = new TaskResource(taskRepo, userRepo);
 
         mockMvc = MockMvcBuilders.standaloneSetup(taskResource)
                 .setMessageConverters(httpMessageConverters)

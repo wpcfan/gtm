@@ -63,14 +63,13 @@ public class TokenProvider {
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody();
-
         val authorities =
                 Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
 
         val principal = new User(claims.getSubject(), "", authorities);
-
+        log.debug("授权对象：{}", principal);
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface TaskRepo extends MongoRepository<Task, String> {
+    Page<Task> findByOwnerLogin(Pageable pageable, @Param("login") String login);
     Page<Task> findByDescLike(Pageable pageable, @Param("desc") String desc);
 
     Page<Task> findByOwnerMobile(Pageable pageable, @Param("mobile") String mobile);
