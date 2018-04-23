@@ -2,12 +2,15 @@ package dev.local.gtm.api.web.rest;
 
 import dev.local.gtm.api.domain.Task;
 import dev.local.gtm.api.repository.TaskRepo;
+import dev.local.gtm.api.web.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,30 +36,31 @@ public class TaskResource {
         return taskRepo.findByOwnerMobile(pageable, mobile).getContent();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/tasks")
     Task addTask(@RequestBody Task task) {
         log.debug("REST 请求 -- 新增 Task {}", task);
         return taskRepo.insert(task);
     }
 
+    @PostAuthorize("returnObject.owner.login == principal.username or hasRole('ROLE_ADMIN')")
     @PutMapping("/tasks/{id}")
-    public ResponseEntity<Task> updateTask(@PathVariable String id, @RequestBody Task toUpdate) {
+    public Task updateTask(@PathVariable String id, @RequestBody Task toUpdate) {
         log.debug("REST 请求 -- 更新 id: {} 的 Task {}", id, toUpdate);
         val task = taskRepo.findById(id);
         return task.map(res -> {
             res.setDesc(toUpdate.getDesc());
             res.setCompleted(toUpdate.isCompleted());
             res.setOwner(toUpdate.getOwner());
-            return ResponseEntity.ok().body(taskRepo.save(res));
-        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+            return taskRepo.save(res);
+        }).orElseThrow(() -> new ResourceNotFoundException("id 为 "+ id + " 的 Task 没有找到"));
     }
 
     @GetMapping("/tasks/{id}")
-    public ResponseEntity<Task> getTask(@PathVariable String id) {
+    public Task getTask(@PathVariable String id) {
         log.debug("REST 请求 -- 取得 id: {} 的 Task", id);
         val task = taskRepo.findById(id);
-        return task.map(res -> ResponseEntity.ok().body(res))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return task.orElseThrow(() -> new ResourceNotFoundException("id 为 "+ id + " 的 Task 没有找到"));
     }
 
     @DeleteMapping("/tasks/{id}")

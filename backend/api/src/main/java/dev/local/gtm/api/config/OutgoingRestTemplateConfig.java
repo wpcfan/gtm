@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.local.gtm.api.interceptor.LeanCloudAuthHeaderInterceptor;
-import dev.local.gtm.api.interceptor.RequestLoggingInterceptor;
 import dev.local.gtm.api.web.exception.InternalServerErrorException;
 import dev.local.gtm.api.web.exception.OutgoingBadRequestException;
 import lombok.AllArgsConstructor;
@@ -36,7 +35,7 @@ import java.io.InputStreamReader;
 @Configuration
 public class OutgoingRestTemplateConfig {
 
-    private static final int TIMEOUT = 5000;
+    private static final int TIMEOUT = 10000;
     private final AppProperties appProperties;
 
     @Bean("leanCloudTemplate")
@@ -46,7 +45,7 @@ public class OutgoingRestTemplateConfig {
                 .setReadTimeout(TIMEOUT)
                 .errorHandler(new LeanCloudRequestErrorHandler())
 //                .requestFactory(new HttpComponentsAsyncClientHttpRequestFactory()) // Use Apache HttpComponent
-                .interceptors(new LeanCloudAuthHeaderInterceptor(appProperties), new RequestLoggingInterceptor())
+                .interceptors(new LeanCloudAuthHeaderInterceptor(appProperties)) // new RequestLoggingInterceptor()
                 .build();
     }
 

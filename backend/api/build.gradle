@@ -43,4 +43,5 @@ dependencies {
     implementation("org.zalando:problem-spring-web:0.20.1")
     implementation("com.fasterxml.jackson.module:jackson-module-afterburner")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+    testImplementation("org.springframework.security:spring-security-test")
 }

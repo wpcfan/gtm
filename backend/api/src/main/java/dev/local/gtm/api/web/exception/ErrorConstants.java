@@ -24,6 +24,7 @@ final class ErrorConstants {
     static final URI AUTHORITY_NOT_FOUND_TYPE = URI.create(PROBLEM_BASE_URL + "/authority-not-found");
     static final URI RESET_KEY_NOT_MATCH_TYPE = URI.create(PROBLEM_BASE_URL + "/reset-key-not-match");
     static final URI OUTGOING_BAD_REQUEST_TYPE = URI.create(PROBLEM_BASE_URL + "/outgoing_bad_request");
+    static final URI RESOURCE_NOT_FOUND_TYPE = URI.create(PROBLEM_BASE_URL + "resource-not-found");
     static final URI EMAIL_NOT_FOUND_TYPE = URI.create(PROBLEM_BASE_URL + "/email-not-found");
 
     private ErrorConstants() {
