@@ -14,6 +14,7 @@ import { FooterComponent } from './components/footer.component';
 import { SidebarComponent } from './components/sidebar.component';
 import { loadIconResources } from '../utils/icon';
 import { AuthModule } from '../auth/auth.module';
+import { environment } from '../../environments/environment';
 
 @NgModule({
   declarations: [
@@ -43,5 +44,6 @@ export class CoreModule {
       throw new Error('CoreModule 已经装载，请仅在 AppModule 中引入该模块。');
     }
     loadIconResources(ir, ds);
+    console.log(environment.apiBaseUrl);
   }
 }
