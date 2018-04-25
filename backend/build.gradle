@@ -50,7 +50,8 @@ subprojects {
         optional("org.springframework.boot:spring-boot-devtools")
         optional("org.projectlombok:lombok")
         annotationProcessor("org.projectlombok:lombok")
-        optional("org.springframework.boot:spring-boot-configuration-processor")
+        compileOnly("org.springframework.boot:spring-boot-configuration-processor")
+        annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
     compileJava.dependsOn(processResources)

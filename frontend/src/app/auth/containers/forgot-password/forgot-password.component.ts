@@ -22,7 +22,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   processCodeRequest(mobile: string) {
     this.service
-      .requestSmsCode(mobile)
+      .requestSmsCode(mobile, '')
       .pipe(take(1))
       .subscribe(val => console.log(val));
   }

@@ -22,7 +22,10 @@ export class LoginFormComponent implements OnInit {
   @Input() subtitle = '使用您的用户名密码登录';
   @Input() regBtnText = '还没有注册？';
   @Input() forgotBtnText = '忘记密码？';
+  @Input() captchaUrl = '';
   @Output() submitEvent = new EventEmitter<Auth>();
+  @Output() refreshCaptcha = new EventEmitter<void>();
+  @Output() codeInput = new EventEmitter<string>();
 
   constructor(private fb: FormBuilder) {}
 
@@ -49,5 +52,12 @@ export class LoginFormComponent implements OnInit {
       return;
     }
     this.submitEvent.emit(value);
+  }
+
+  processClick() {
+    this.refreshCaptcha.emit();
+  }
+  verifyCaptcha(code: string) {
+    this.codeInput.emit(code);
   }
 }

@@ -134,6 +134,21 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(LoginNotFoundException::new);
     }
 
+    @Override
+    public boolean usernameExisted(String username) {
+        return userRepo.findOneByLogin(username).isPresent();
+    }
+
+    @Override
+    public boolean emailExisted(String email) {
+        return userRepo.findOneByEmailIgnoreCase(email).isPresent();
+    }
+
+    @Override
+    public boolean mobileExisted(String mobile) {
+        return userRepo.findOneByMobile(mobile).isPresent();
+    }
+
     private void verifySmsCode(final String mobile, final  String code) {
         val body = new HashMap<String, String>();
         body.put("mobilePhoneNumber", mobile);

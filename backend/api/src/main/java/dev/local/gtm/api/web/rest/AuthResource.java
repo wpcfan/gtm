@@ -84,6 +84,24 @@ public class AuthResource {
         return new CaptchaResult(result);
     }
 
+    @GetMapping("/auth/search/username")
+    public ExistCheck usernameExisted(@RequestParam("username") String username) {
+        log.debug("REST 请求 -- 用户名是否存在 {}", username);
+        return new ExistCheck(authService.usernameExisted(username));
+    }
+
+    @GetMapping("/auth/search/email")
+    public ExistCheck emailExisted(@RequestParam("email") String email) {
+        log.debug("REST 请求 -- email 是否存在 {}", email);
+        return new ExistCheck(authService.emailExisted(email));
+    }
+
+    @GetMapping("/auth/search/mobile")
+    public ExistCheck mobileExisted(@RequestParam("mobile") String mobile) {
+        log.debug("REST 请求 -- email 是否存在 {}", mobile);
+        return new ExistCheck(authService.mobileExisted(mobile));
+    }
+
     private static boolean checkPasswordLength(String password) {
         return !StringUtils.isEmpty(password) &&
                 password.length() >= UserVM.PASSWORD_MIN_LENGTH &&
@@ -117,7 +135,7 @@ public class AuthResource {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class CaptchaVerification {
+    private static class CaptchaVerification {
         @JsonProperty("captcha_token")
         private String token;
         @JsonProperty("captcha_code")
@@ -136,7 +154,7 @@ public class AuthResource {
     @Getter
     @Setter
     @AllArgsConstructor
-    public static class ResetKey {
+    private static class ResetKey {
         @JsonProperty("reset_key")
         private String resetKey;
     }
@@ -144,8 +162,15 @@ public class AuthResource {
     @Getter
     @Setter
     @AllArgsConstructor
-    public static class CaptchaResult {
+    private static class CaptchaResult {
         @JsonProperty("validate_token")
         private String validatedToken;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    private static class ExistCheck {
+        private boolean existed;
     }
 }

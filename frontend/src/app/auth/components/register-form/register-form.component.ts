@@ -31,10 +31,12 @@ export class RegisterFormComponent implements OnInit {
   @Input() subtitle = '注册成为会员体验全部功能';
   @Input() loginBtnText = '已经注册？点击登录';
   @Input() forgotBtnText = '忘记密码？';
+  @Input() captchaUrl = '';
   @Input() usernameValidator: AsyncValidatorFn;
   @Input() emailValidator: AsyncValidatorFn;
   @Input() mobileValidator: AsyncValidatorFn;
   @Output() submitEvent = new EventEmitter();
+  @Output() requestCaptcha = new EventEmitter();
   form: FormGroup;
   private readonly avatarName = 'avatars';
   constructor(private fb: FormBuilder) {}
@@ -56,6 +58,7 @@ export class RegisterFormComponent implements OnInit {
         ],
         this.usernameValidator
       ],
+      captcha: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
       mobile: [
         '',
         [Validators.required, Validators.pattern(mobilePattern)],
@@ -111,6 +114,14 @@ export class RegisterFormComponent implements OnInit {
     this.submitEvent.emit(value);
   }
 
+  processCaptchaReq() {
+    this.requestCaptcha.emit();
+  }
+
+  mobileInput(mobile: string) {}
+
+  requestCode(mobile: string) {}
+
   get nameErrors() {
     const name = this.form.get('name');
     if (!name) {
@@ -164,6 +175,8 @@ export class RegisterFormComponent implements OnInit {
     }
     return repeat.hasError('required')
       ? '密码为必填项'
-      : repeat.hasError('notMatchPassword') ? `密码不匹配` : '';
+      : repeat.hasError('notMatchPassword')
+        ? `密码不匹配`
+        : '';
   }
 }

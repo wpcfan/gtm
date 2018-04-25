@@ -24,6 +24,10 @@ public class AppProperties {
     private final Http http = new Http();
     private final UserDefaults userDefaults = new UserDefaults();
 
+    public CorsConfiguration getCors() {
+        return cors;
+    }
+
     @Data
     public static class LeanCloud {
         private String appId = "pqmaqNUAzliIxr2yqIw9lY3s-gzGzoHsz";

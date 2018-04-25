@@ -19,16 +19,8 @@ import {
   FormBuilder,
   FormGroup
 } from '@angular/forms';
-import { interval, fromEvent, Observable, Subscription } from 'rxjs';
-import {
-  map,
-  startWith,
-  takeWhile,
-  switchMap,
-  tap,
-  debounceTime,
-  filter
-} from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { debounceTime, filter } from 'rxjs/operators';
 import { mobilePattern } from '../../../utils/regex';
 import { mobileErrorMsg } from '../../../utils/validate-errors';
 
@@ -54,13 +46,9 @@ export class VerifyMobileComponent
   implements ControlValueAccessor, OnInit, OnDestroy {
   @Input() mobilePlaceholder = '绑定手机号';
   @Input() codePlaceholder = '请输入短信验证码';
-  @Input() countdown = 60;
   @Input() mobile: string | null = null;
   @Output() requestCode = new EventEmitter<string>();
   @Output() mobileInputEvent = new EventEmitter<string>();
-  @ViewChild('veriBtn', { read: ElementRef })
-  veriBtn: ElementRef;
-  btnLabel$: Observable<string>;
   form: FormGroup;
   private subs: Subscription[] = [];
   private propagateChange = (_: any) => {};
@@ -90,18 +78,6 @@ export class VerifyMobileComponent
       );
     }
     const smsCode = this.form.get('smsCode');
-    const countDown$ = interval(1000).pipe(
-      map(i => this.countdown - i),
-      takeWhile(v => v >= 0),
-      startWith(this.countdown)
-    );
-
-    this.btnLabel$ = fromEvent(this.veriBtn.nativeElement, 'click').pipe(
-      tap(_ => this.requestCode.emit()),
-      switchMap(_ => countDown$),
-      map(i => (i > 0 ? `还剩 ${i} 秒` : `再次发送`)),
-      startWith('发送')
-    );
 
     if (smsCode) {
       const code$ = smsCode.valueChanges;
@@ -157,5 +133,8 @@ export class VerifyMobileComponent
       return '';
     }
     return mobileErrorMsg(mobile);
+  }
+  processClick() {
+    this.requestCode.emit();
   }
 }

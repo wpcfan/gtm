@@ -19,14 +19,15 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         val source = new UrlBasedCorsConfigurationSource();
         val config = appProperties.getCors();
-        if (config.getAllowedOrigins() != null && !config.getAllowedOrigins().isEmpty()) {
-            log.debug("注册 CORS 过滤器");
-            source.registerCorsConfiguration("/api/**", config);
-            source.registerCorsConfiguration("/management/**", config);
-            source.registerCorsConfiguration("/v2/api-docs", config);
-            source.registerCorsConfiguration("/*/api/**", config);
-            source.registerCorsConfiguration("/*/management/**", config);
-        }
+        log.debug("注册 CORS 过滤器");
+        config.addAllowedOrigin("*");
+        config.addAllowedMethod("*");
+        config.addAllowedHeader("*");
+        source.registerCorsConfiguration("/api/**", config);
+        source.registerCorsConfiguration("/management/**", config);
+        source.registerCorsConfiguration("/v2/api-docs", config);
+        source.registerCorsConfiguration("/*/api/**", config);
+        source.registerCorsConfiguration("/*/management/**", config);
         return new CorsFilter(source);
     }
 }

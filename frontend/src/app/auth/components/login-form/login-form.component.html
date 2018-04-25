@@ -13,6 +13,10 @@
         <input matInput type="password" placeholder="您的密码" formControlName="password">
         <mat-error>密码不正确哦</mat-error>
       </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="图形验证码" (input)="verifyCaptcha($event.target.value)">
+        <img matSuffix [src]="captchaUrl" (click)="processClick()">
+      </mat-form-field>
       <div fxLayout="row" fxLayoutAlign="end stretch" class="full-width">
         <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">登录</button>
       </div>

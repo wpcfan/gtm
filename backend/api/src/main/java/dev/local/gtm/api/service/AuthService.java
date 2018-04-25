@@ -11,4 +11,7 @@ public interface AuthService {
     Captcha requestCaptcha();
     String verifyCaptcha(String code, String token);
     void resetPassword(String key, String mobile, String password);
+    boolean usernameExisted(String username);
+    boolean emailExisted(String email);
+    boolean mobileExisted(String mobile);
 }
