@@ -5,19 +5,15 @@ services:
     command: [ "redis-server", "--protected-mode", "no" ]
     ports:
       - "6379:6379"
-#    volumes:
-#      - redis-data:/data
+    volumes:
+      - redis-data:/data
     hostname: redis
-#    networks:
-#      - gtm-network
   mongo:
     image: mongo:3.6.4
     ports:
       - "27017:27017"
     volumes:
       - api_db:/data/db
-#    networks:
-#      - gtm-network
   api-server:
     image: api
     ports:
@@ -26,10 +22,6 @@ services:
     links:
       - mongo
       - "redis:redis"
-#    networks:
-#      - gtm-network
 volumes:
   api_db: {}
-#  redis-data: {}
-#networks:
-#  gtm-network:
+  redis-data: {}
