@@ -9,6 +9,8 @@ import org.zalando.problem.Status;
  * @author Peng Wang (wpcfan@gmail.com)
  */
 public class EmailExistedException extends AbstractThrowableProblem {
+    private static final long serialVersionUID = 1L;
+
     public EmailExistedException() {
         super(ErrorConstants.EMAIL_EXISTED_TYPE, "电子邮件已存在", Status.BAD_REQUEST);
     }

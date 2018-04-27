@@ -6,6 +6,10 @@ spring:
   data:
     mongodb:
       database: gtm-api
+  cache:
+    type: redis
+  redis:
+    host: redis
 server:
   port: 8080
 logging:
@@ -15,6 +19,7 @@ logging:
       web: ERROR
       data: ERROR
       security: ERROR
+      cache: ERROR
     org.springframework.data.mongodb.core.MongoTemplate: ERROR
     dev.local.gtm.api: ERROR
 
@@ -28,14 +33,17 @@ spring:
   data:
     mongodb:
       database: gtm-api-dev
+  redis:
+    host: localhost
 logging:
   level:
     org.apache.http: DEBUG
     org.springframework:
-          web:
-            client.RestTemplate: DEBUG
-          data: DEBUG
-          security: DEBUG
+        web:
+          client.RestTemplate: DEBUG
+        data: DEBUG
+        security: DEBUG
+        cache: DEBUG
     org.springframework.data.mongodb.core.MongoTemplate: DEBUG
     dev.local.gtm.api: DEBUG
 
@@ -46,6 +54,8 @@ spring:
   data:
     mongodb:
       database: gtm-api-test
+  cache:
+    type: none
 logging:
   level:
     org.apache.http: DEBUG
@@ -56,7 +66,6 @@ logging:
           security: DEBUG
     org.springframework.data.mongodb.core.MongoTemplate: DEBUG
     dev.local.gtm.api: DEBUG
-
 ---
 
 spring:

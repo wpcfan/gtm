@@ -2,13 +2,14 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { AppComponent } from './containers/app/app.component';
 import { PageNotFoundComponent } from './components/page-not-found.component';
+import { NotFoundInterceptor } from './interceptors/not-found.interceptor';
 import { HeaderComponent } from './components/header.component';
 import { FooterComponent } from './components/footer.component';
 import { SidebarComponent } from './components/sidebar.component';
@@ -30,6 +31,9 @@ import { environment } from '../../environments/environment';
     AuthModule,
     AppRoutingModule,
     BrowserAnimationsModule
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: NotFoundInterceptor, multi: true }
   ]
 })
 export class CoreModule {

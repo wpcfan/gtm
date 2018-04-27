@@ -1,7 +1,7 @@
-import { Role } from './role';
+import { Authority } from './authority';
 
 export interface Auth {
   login: string;
   password: string;
-  roles: Role[];
+  authorities?: Authority[];
 }

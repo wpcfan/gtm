@@ -9,8 +9,10 @@ import dev.local.gtm.api.web.exception.InvalidPasswordException;
 import dev.local.gtm.api.web.rest.vm.KeyAndPasswordVM;
 import dev.local.gtm.api.web.rest.vm.UserVM;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.io.Serializable;
+
+import static dev.local.gtm.api.repository.UserRepo.USERS_BY_EMAIL_CACHE;
 
 /**
  * 用户鉴权资源接口
@@ -85,11 +91,13 @@ public class AuthResource {
     }
 
     @GetMapping("/auth/search/username")
-    public ExistCheck usernameExisted(@RequestParam("username") String username) {
+    public ExistCheck usernameExisted(
+            @ApiParam(value = "用户名") @RequestParam("username") String username) {
         log.debug("REST 请求 -- 用户名是否存在 {}", username);
         return new ExistCheck(authService.usernameExisted(username));
     }
 
+    @Cacheable(cacheNames = USERS_BY_EMAIL_CACHE)
     @GetMapping("/auth/search/email")
     public ExistCheck emailExisted(@RequestParam("email") String email) {
         log.debug("REST 请求 -- email 是否存在 {}", email);
@@ -170,7 +178,8 @@ public class AuthResource {
     @Getter
     @Setter
     @AllArgsConstructor
-    private static class ExistCheck {
+    private static class ExistCheck implements Serializable {
+        private static final long serialVersionUID = 1L;
         private boolean existed;
     }
 }

@@ -1,7 +1,5 @@
 apply plugin: 'org.springframework.boot'
-repositories {
-    maven { setUrl('http://oss.jfrog.org/artifactory/oss-snapshot-local/') }
-}
+
 configurations {
     // 如果使用 undertow 或 jetty 需要把默认包含的 tomcat 排除在外
     compile.exclude module: 'spring-boot-starter-tomcat'
@@ -41,7 +39,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("org.zalando:problem-spring-web:0.20.1")
+    implementation("org.redisson:redisson:${redissonVersion}")
     implementation("com.fasterxml.jackson.module:jackson-module-afterburner")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
     testImplementation("org.springframework.security:spring-security-test")
 }

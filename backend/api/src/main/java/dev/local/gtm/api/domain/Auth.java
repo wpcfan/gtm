@@ -1,5 +1,6 @@
 package dev.local.gtm.api.domain;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -9,6 +10,8 @@ import lombok.Data;
  */
 @Data
 public class Auth {
+    @ApiModelProperty(value = "登录名 ")
     private String login;
+    @ApiModelProperty(value = "密码")
     private String password;
 }

@@ -6,7 +6,8 @@ import {
   of,
   combineLatest,
   merge,
-  BehaviorSubject
+  BehaviorSubject,
+  interval
 } from 'rxjs';
 import {
   map,
@@ -18,7 +19,8 @@ import {
   filter,
   catchError,
   tap,
-  first
+  first,
+  mapTo
 } from 'rxjs/operators';
 
 import { QuoteService } from '../../services/quote.service';

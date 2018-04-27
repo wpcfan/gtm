@@ -19,6 +19,7 @@ import {
   humanNameErrorMsg,
   mobileErrorMsg
 } from '../../../utils/validate-errors';
+import { User } from '../../../domain/user';
 
 @Component({
   selector: 'register-form',
@@ -31,7 +32,6 @@ export class RegisterFormComponent implements OnInit {
   @Input() subtitle = '注册成为会员体验全部功能';
   @Input() loginBtnText = '已经注册？点击登录';
   @Input() forgotBtnText = '忘记密码？';
-  @Input() captchaUrl = '';
   @Input() usernameValidator: AsyncValidatorFn;
   @Input() emailValidator: AsyncValidatorFn;
   @Input() mobileValidator: AsyncValidatorFn;
@@ -48,7 +48,7 @@ export class RegisterFormComponent implements OnInit {
       .map(i => `${this.avatarName}:svg-${i}`)
       .reduce((r: string[], x: string) => [...r, x], []);
     this.form = this.fb.group({
-      username: [
+      login: [
         '',
         [
           Validators.required,
@@ -58,7 +58,6 @@ export class RegisterFormComponent implements OnInit {
         ],
         this.usernameValidator
       ],
-      captcha: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
       mobile: [
         '',
         [Validators.required, Validators.pattern(mobilePattern)],
@@ -111,7 +110,15 @@ export class RegisterFormComponent implements OnInit {
     if (!valid) {
       return;
     }
-    this.submitEvent.emit(value);
+    const user: User = {
+      login: value.login,
+      password: value.passwords.password,
+      email: value.email,
+      name: value.name,
+      mobile: value.mobile,
+      avatar: value.avatar
+    };
+    this.submitEvent.emit(user);
   }
 
   processCaptchaReq() {

@@ -1,16 +1,16 @@
 package dev.local.gtm.api.interceptor;
 
-import dev.local.gtm.api.config.AppProperties;
-import lombok.RequiredArgsConstructor;
-import lombok.val;
+import java.io.IOException;
+
 import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.lang.NonNullApi;
 
-import java.io.IOException;
+import dev.local.gtm.api.config.AppProperties;
+import lombok.RequiredArgsConstructor;
+import lombok.val;
 
 /**
  * 为 LeanCloud 云服务配置在 Request Header 中写入鉴权信息

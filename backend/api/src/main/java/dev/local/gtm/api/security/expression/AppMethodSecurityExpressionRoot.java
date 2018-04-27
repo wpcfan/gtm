@@ -1,13 +1,13 @@
 package dev.local.gtm.api.security.expression;
 
-import dev.local.gtm.api.config.Constants;
-import dev.local.gtm.api.security.AuthoritiesConstants;
 import org.springframework.security.access.expression.SecurityExpressionRoot;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionOperations;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 
-public class AppMethodSecurityExpressionRoot extends SecurityExpressionRoot implements MethodSecurityExpressionOperations {
+import dev.local.gtm.api.security.AuthoritiesConstants;
+
+public class AppMethodSecurityExpressionRoot extends SecurityExpressionRoot
+        implements MethodSecurityExpressionOperations {
     private Object filterObject;
     private Object returnObject;
     private Object target;
@@ -40,6 +40,7 @@ public class AppMethodSecurityExpressionRoot extends SecurityExpressionRoot impl
     public Object getReturnObject() {
         return returnObject;
     }
+
     /**
      * Sets the "this" property for use in expressions. Typically this will be the "this"
      * property of the {@code JoinPoint} representing the method invocation which is being
@@ -57,7 +58,7 @@ public class AppMethodSecurityExpressionRoot extends SecurityExpressionRoot impl
     }
 
     public boolean isAdmin() {
-        return authentication.isAuthenticated() &&
-                authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals(AuthoritiesConstants.ADMIN));
+        return authentication.isAuthenticated() && authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals(AuthoritiesConstants.ADMIN));
     }
 }

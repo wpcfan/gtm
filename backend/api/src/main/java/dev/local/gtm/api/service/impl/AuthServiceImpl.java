@@ -34,13 +34,19 @@ import java.util.HashMap;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    private final UserRepo userRepo;
-    private final AuthorityRepo authorityRepo;
-    private final PasswordEncoder passwordEncoder;
-    private final TokenProvider tokenProvider;
-    private final AuthenticationManager authenticationManager;
     @Qualifier("leanCloudTemplate")
     private final RestTemplate leanCloudTemplate;
+
+    private final UserRepo userRepo;
+
+    private final AuthorityRepo authorityRepo;
+
+    private final PasswordEncoder passwordEncoder;
+
+    private final TokenProvider tokenProvider;
+
+    private final AuthenticationManager authenticationManager;
+
     private final AppProperties appProperties;
 
     @Override

@@ -9,6 +9,8 @@ import org.zalando.problem.Status;
  * @author Peng Wang (wpcfan@gmail.com)
  */
 public class LoginExistedException extends AbstractThrowableProblem {
+    private static final long serialVersionUID = 1L;
+
     public LoginExistedException() {
         super(ErrorConstants.LOGIN_EXISTED_TYPE, "登录名已存在", Status.BAD_REQUEST);
     }

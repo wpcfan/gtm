@@ -1,4 +1,4 @@
-export interface Role {
+export interface Authority {
   name: string;
   permissions: string[];
 }

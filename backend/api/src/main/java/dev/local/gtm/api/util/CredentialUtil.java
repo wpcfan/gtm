@@ -1,10 +1,7 @@
 package dev.local.gtm.api.util;
 
-import lombok.extern.log4j.Log4j2;
-
 import java.util.Random;
 
-@Log4j2
 public class CredentialUtil {
     private static final int COUNT = 10;
 
@@ -27,8 +24,7 @@ public class CredentialUtil {
     }
 
     private static String randomNumeric() {
-        return String.valueOf(new Random()
-                .nextInt((9 * (int) Math.pow(10, CredentialUtil.COUNT - 1)) - 1)
+        return String.valueOf(new Random().nextInt((9 * (int) Math.pow(10, CredentialUtil.COUNT - 1)) - 1)
                 + (int) Math.pow(10, CredentialUtil.COUNT - 1));
     }
 }

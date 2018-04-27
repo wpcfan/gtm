@@ -90,7 +90,10 @@ export class CaptchaComponent
     this.subs.push(
       fromEvent(this.captchaImg.nativeElement, 'click')
         .pipe(debounceTime(this.debounceTime))
-        .subscribe(_ => this.requestCaptcha.emit())
+        .subscribe(_ => {
+          this.requestCaptcha.emit();
+          this.stateChanges.next();
+        })
     );
   }
 
