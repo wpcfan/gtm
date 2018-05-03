@@ -1,8 +1,8 @@
 package dev.local.gtm.api.web.rest;
 
 import dev.local.gtm.api.domain.Task;
-import dev.local.gtm.api.repository.TaskRepo;
-import dev.local.gtm.api.repository.UserRepo;
+import dev.local.gtm.api.repository.mongo.TaskRepository;
+import dev.local.gtm.api.repository.mongo.UserRepository;
 import dev.local.gtm.api.security.AuthoritiesConstants;
 import dev.local.gtm.api.security.SecurityUtils;
 import dev.local.gtm.api.web.exception.InternalServerErrorException;
@@ -24,15 +24,15 @@ import java.util.List;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class TaskResource {
-    private final TaskRepo taskRepo;
-    private final UserRepo userRepo;
+    private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
 
     @GetMapping("/tasks")
     public Page<Task> getAllTasks(Pageable pageable) {
         log.debug("REST 请求 -- 查询所有 Task");
         return SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) ?
-                taskRepo.findAll(pageable) :
-                SecurityUtils.getCurrentUserLogin().map(login -> taskRepo.findByOwnerLogin(pageable, login))
+                taskRepository.findAll(pageable) :
+                SecurityUtils.getCurrentUserLogin().map(login -> taskRepository.findByOwnerLogin(pageable, login))
                         .orElseThrow(() -> new InternalServerErrorException("未找到当前登录用户的登录名"));
     }
 
@@ -40,17 +40,17 @@ public class TaskResource {
     @GetMapping("/tasks/search/findByUserMobile")
     public List<Task> findByUserMobile(Pageable pageable, @RequestParam String mobile) {
         log.debug("REST 请求 -- 查询所有手机号为 {} Task", mobile);
-        return taskRepo.findByOwnerMobile(pageable, mobile).getContent();
+        return taskRepository.findByOwnerMobile(pageable, mobile).getContent();
     }
 
     @PostMapping("/tasks")
     Task addTask(@RequestBody Task task) {
         log.debug("REST 请求 -- 新增 Task {}", task);
         return SecurityUtils.getCurrentUserLogin()
-                .flatMap(userRepo::findOneByLogin)
+                .flatMap(userRepository::findOneByLogin)
                 .map(user -> {
                     task.setOwner(user);
-                    return taskRepo.save(task);
+                    return taskRepository.save(task);
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("未找到用户鉴权信息"));
     }
@@ -59,17 +59,17 @@ public class TaskResource {
     @PutMapping("/tasks/{id}")
     public Task updateTask(@PathVariable String id, @RequestBody Task toUpdate) {
         log.debug("REST 请求 -- 更新 id: {} 的 Task {}", id, toUpdate);
-        val task = taskRepo.findById(id);
+        val task = taskRepository.findById(id);
         return task.map(res -> {
             res.setDesc(toUpdate.getDesc());
             res.setCompleted(toUpdate.isCompleted());
-            val user = userRepo.findById(toUpdate.getOwner().getId());
+            val user = userRepository.findById(toUpdate.getOwner().getId());
             if (user.isPresent()) {
                 res.setOwner(user.get());
             } else {
                 throw new ResourceNotFoundException("id 为 "+ id + " 的 User 没有找到");
             }
-            return taskRepo.save(res);
+            return taskRepository.save(res);
         }).orElseThrow(() -> new ResourceNotFoundException("id 为 "+ id + " 的 Task 没有找到"));
     }
 
@@ -77,7 +77,7 @@ public class TaskResource {
     @GetMapping("/tasks/{id}")
     public Task getTask(@PathVariable String id) {
         log.debug("REST 请求 -- 取得 id: {} 的 Task", id);
-        val task = taskRepo.findById(id);
+        val task = taskRepository.findById(id);
         return task.orElseThrow(() -> new ResourceNotFoundException("id 为 "+ id + " 的 Task 没有找到"));
     }
 
@@ -85,7 +85,7 @@ public class TaskResource {
     @ResponseStatus(HttpStatus.OK)
     public void deleteTask(@PathVariable String id) {
         log.debug("REST 请求 -- 删除 id 为 {} 的Task", id);
-        val task = taskRepo.findById(id);
-        task.ifPresent(taskRepo::delete);
+        val task = taskRepository.findById(id);
+        task.ifPresent(taskRepository::delete);
     }
 }

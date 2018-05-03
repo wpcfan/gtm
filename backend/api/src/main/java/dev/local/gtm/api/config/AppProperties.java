@@ -23,10 +23,7 @@ public class AppProperties {
     private final CorsConfiguration cors = new CorsConfiguration();
     private final Http http = new Http();
     private final UserDefaults userDefaults = new UserDefaults();
-
-    public CorsConfiguration getCors() {
-        return cors;
-    }
+    private final RedissonConfig redissonConfig = new RedissonConfig();
 
     @Data
     public static class LeanCloud {
@@ -78,5 +75,30 @@ public class AppProperties {
     @Data
     public static class UserDefaults {
         private String initialPassword = "Abcd@1234Ef";
+    }
+
+    @Data
+    public static class RedissonConfig {
+        private String address = "redis://redis:6379";
+        private int connectionMinimumIdleSize = 10;
+        private int idleConnectionTimeout=10000;
+        private int pingTimeout=1000;
+        private int connectTimeout=10000;
+        private int timeout=3000;
+        private int retryAttempts=3;
+        private int retryInterval=1500;
+        private String password = null;
+        private int subscriptionsPerConnection=5;
+        private String clientName=null;
+        private int subscriptionConnectionMinimumIdleSize = 1;
+        private int subscriptionConnectionPoolSize = 50;
+        private int connectionPoolSize = 64;
+        private int database = 0;
+        private boolean dnsMonitoring = false;
+        private int dnsMonitoringInterval = 5000;
+
+        private int thread=2;
+
+        private String codec="org.redisson.codec.JsonJacksonCodec";
     }
 }

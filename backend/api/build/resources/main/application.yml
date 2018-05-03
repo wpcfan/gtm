@@ -4,12 +4,13 @@ spring:
   profiles:
     active: dev
   data:
+    elasticsearch:
+      cluster-name:
+      cluster-nodes: localhost:9300
     mongodb:
       database: gtm-api
   cache:
     type: redis
-  redis:
-    host: redis
 server:
   port: 8080
 logging:
@@ -33,8 +34,7 @@ spring:
   data:
     mongodb:
       database: gtm-api-dev
-  redis:
-    host: localhost
+      host: localhost
 logging:
   level:
     org.apache.http: DEBUG
@@ -70,4 +70,10 @@ logging:
 
 spring:
   profiles: prod
+  data:
+    mongodb:
+      uri: "mongodb://mongo/taskmgr"
+  redis:
+    host: redis
+    port: 6379
 

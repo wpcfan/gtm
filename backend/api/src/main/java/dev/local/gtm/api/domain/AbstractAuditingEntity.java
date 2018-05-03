@@ -1,15 +1,15 @@
 package dev.local.gtm.api.domain;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 
@@ -19,7 +19,8 @@ import java.time.Instant;
  *
  * @author Peng Wang (wpcfan@gmail.com)
  */
-@Data
+@Getter
+@Setter
 public abstract class AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,6 +44,5 @@ public abstract class AbstractAuditingEntity implements Serializable {
     @Field("last_modified_date")
     @JsonIgnore
     private Instant lastModifiedDate = Instant.now();
-
 }
 

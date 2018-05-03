@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import dev.local.gtm.api.config.AppProperties;
 import dev.local.gtm.api.domain.Captcha;
 import dev.local.gtm.api.domain.User;
-import dev.local.gtm.api.repository.AuthorityRepo;
-import dev.local.gtm.api.repository.UserRepo;
+import dev.local.gtm.api.repository.mongo.AuthorityRepository;
+import dev.local.gtm.api.repository.mongo.UserRepository;
 import dev.local.gtm.api.security.AuthoritiesConstants;
 import dev.local.gtm.api.security.jwt.TokenProvider;
 import dev.local.gtm.api.service.AuthService;
@@ -37,9 +37,9 @@ public class AuthServiceImpl implements AuthService {
     @Qualifier("leanCloudTemplate")
     private final RestTemplate leanCloudTemplate;
 
-    private final UserRepo userRepo;
+    private final UserRepository userRepository;
 
-    private final AuthorityRepo authorityRepo;
+    private final AuthorityRepository authorityRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -51,13 +51,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void registerUser(UserDTO userDTO, String password) {
-        if (userRepo.findOneByLogin(userDTO.getLogin()).isPresent()) {
+        if (userRepository.findOneByLogin(userDTO.getLogin()).isPresent()) {
             throw new LoginExistedException();
         }
-        if (userRepo.findOneByMobile(userDTO.getMobile()).isPresent()) {
+        if (userRepository.findOneByMobile(userDTO.getMobile()).isPresent()) {
             throw new MobileExistedException();
         }
-        if (userRepo.findOneByEmailIgnoreCase(userDTO.getEmail()).isPresent()) {
+        if (userRepository.findOneByEmailIgnoreCase(userDTO.getEmail()).isPresent()) {
             throw new EmailExistedException();
         }
         val newUser = User.builder()
@@ -68,10 +68,10 @@ public class AuthServiceImpl implements AuthService {
                 .name(userDTO.getName())
                 .avatar(userDTO.getAvatar())
                 .activated(true)
-                .authority(authorityRepo.findOneByName(AuthoritiesConstants.USER).orElseThrow(AuthorityNotFoundException::new))
+                .authority(authorityRepository.findOneByName(AuthoritiesConstants.USER).orElseThrow(AuthorityNotFoundException::new))
                 .build();
         log.debug("user to be saved {} ", newUser);
-        userRepo.save(newUser);
+        userRepository.save(newUser);
         log.debug("用户 {} 创建成功", newUser);
     }
 
@@ -90,11 +90,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String verifyMobile(String mobile, String code) {
-        return userRepo.findOneByMobile(mobile)
+        return userRepository.findOneByMobile(mobile)
                 .map(user -> {
                     verifySmsCode(mobile, code);
                     user.setResetKey(CredentialUtil.generateResetKey());
-                    userRepo.save(user);
+                    userRepository.save(user);
                     return user.getResetKey();
                 })
                 .orElseThrow(MobileNotFoundException::new);
@@ -126,7 +126,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void resetPassword(String key, String mobile, String password) {
-        userRepo.findOneByMobile(mobile)
+        userRepository.findOneByMobile(mobile)
                 .map(user -> {
                     if (!user.getResetKey().equals(key)) {
                         log.debug("ResetKey 不匹配，客户端传递的 key 为：{}，期待值为 {} ", key, user.getResetKey());
@@ -135,24 +135,24 @@ public class AuthServiceImpl implements AuthService {
                     user.setPassword(passwordEncoder.encode(password));
                     user.setResetKey(null);
                     user.setResetDate(Instant.now());
-                    return userRepo.save(user);
+                    return userRepository.save(user);
                 })
                 .orElseThrow(LoginNotFoundException::new);
     }
 
     @Override
     public boolean usernameExisted(String username) {
-        return userRepo.findOneByLogin(username).isPresent();
+        return userRepository.findOneByLogin(username).isPresent();
     }
 
     @Override
     public boolean emailExisted(String email) {
-        return userRepo.findOneByEmailIgnoreCase(email).isPresent();
+        return userRepository.findOneByEmailIgnoreCase(email).isPresent();
     }
 
     @Override
     public boolean mobileExisted(String mobile) {
-        return userRepo.findOneByMobile(mobile).isPresent();
+        return userRepository.findOneByMobile(mobile).isPresent();
     }
 
     private void verifySmsCode(final String mobile, final  String code) {

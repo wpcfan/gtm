@@ -1,7 +1,7 @@
 package dev.local.gtm.api.service;
 
-import dev.local.gtm.api.domain.Authority;
 import dev.local.gtm.api.domain.User;
+import dev.local.gtm.api.domain.search.UserSearch;
 import dev.local.gtm.api.service.dto.UserDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,5 +15,6 @@ public interface UserService {
     void deleteUser(String login);
     Page<UserDTO> getAllManagedUsers(Pageable pageable);
     Optional<User> getUserWithAuthoritiesByLogin(String login);
-    List<Authority> getAuthorities();
+    List<String> getAuthorities();
+    List<UserSearch> search(String query);
 }

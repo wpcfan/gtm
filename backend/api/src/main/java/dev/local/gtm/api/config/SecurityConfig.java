@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .userDetailsService(userDetailsService)
                     .passwordEncoder(passwordEncoder());
         } catch (Exception e) {
-            throw new BeanInitializationException("安全配置失败", e);
+            throw new BeanInitializationException(e.getMessage(), e.getCause());
         }
     }
 

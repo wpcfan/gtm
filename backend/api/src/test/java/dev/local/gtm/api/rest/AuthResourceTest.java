@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.local.gtm.api.config.AppProperties;
 import dev.local.gtm.api.domain.Authority;
 import dev.local.gtm.api.domain.User;
-import dev.local.gtm.api.repository.AuthorityRepo;
-import dev.local.gtm.api.repository.UserRepo;
+import dev.local.gtm.api.repository.mongo.AuthorityRepository;
+import dev.local.gtm.api.repository.mongo.UserRepository;
 import dev.local.gtm.api.security.AuthoritiesConstants;
 import dev.local.gtm.api.service.AuthService;
 import dev.local.gtm.api.web.exception.ExceptionTranslator;
@@ -46,10 +46,10 @@ public class AuthResourceTest {
     private ExceptionTranslator exceptionTranslator;
 
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepository;
 
     @Autowired
-    private AuthorityRepo authorityRepo;
+    private AuthorityRepository authorityRepository;
 
     @Autowired
     private AuthService authService;
@@ -59,15 +59,15 @@ public class AuthResourceTest {
 
     @Before
     public void setup() {
-        userRepo.deleteAll();
-        authorityRepo.deleteAll();
+        userRepository.deleteAll();
+        authorityRepository.deleteAll();
         val authResource = new AuthResource(authService, appProperties);
         mockMvc = MockMvcBuilders.standaloneSetup(authResource)
             .setMessageConverters(httpMessageConverters)
             .setControllerAdvice(exceptionTranslator)
             .build();
-        authorityRepo.save(new Authority(AuthoritiesConstants.USER));
-        authorityRepo.save(new Authority(AuthoritiesConstants.ADMIN));
+        authorityRepository.save(new Authority(AuthoritiesConstants.USER));
+        authorityRepository.save(new Authority(AuthoritiesConstants.ADMIN));
     }
 
     @Test
@@ -85,7 +85,7 @@ public class AuthResourceTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id_token").isNotEmpty());
-        assertThat(userRepo.findOneByLogin("test1").isPresent()).isTrue();
+        assertThat(userRepository.findOneByLogin("test1").isPresent()).isTrue();
     }
 
     @Test
@@ -97,7 +97,7 @@ public class AuthResourceTest {
                 .name("test 1")
                 .password("123456")
                 .build();
-        userRepo.save(user);
+        userRepository.save(user);
         mockMvc.perform(post("/api/auth/register")
                 .content(objectMapper.writeValueAsString(user))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -113,7 +113,7 @@ public class AuthResourceTest {
                 .name("test 1")
                 .password("123456")
                 .build();
-        userRepo.save(user);
+        userRepository.save(user);
         val verification = new AuthResource.MobileVerification("13898810892","525798");
         mockMvc.perform(post("/api/auth/mobile")
                 .content(objectMapper.writeValueAsString(verification))
@@ -131,7 +131,7 @@ public class AuthResourceTest {
                 .name("test 1")
                 .password("123456")
                 .build();
-        userRepo.save(user);
+        userRepository.save(user);
         val verification = new AuthResource.MobileVerification("13898810892","123456");
         mockMvc.perform(post("/api/auth/mobile")
                 .content(objectMapper.writeValueAsString(verification))
@@ -148,7 +148,7 @@ public class AuthResourceTest {
                 .name("test 1")
                 .password("123456")
                 .build();
-        userRepo.save(user);
+        userRepository.save(user);
         val params = new LinkedMultiValueMap<String, String>();
         params.add("mobile", "13898810892");
         params.add("token", "1234");

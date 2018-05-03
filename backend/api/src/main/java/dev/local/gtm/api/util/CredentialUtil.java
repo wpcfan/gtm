@@ -2,7 +2,7 @@ package dev.local.gtm.api.util;
 
 import java.util.Random;
 
-public class CredentialUtil {
+public final class CredentialUtil {
     private static final int COUNT = 10;
 
     /**

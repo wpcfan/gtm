@@ -2,7 +2,7 @@ package dev.local.gtm.api.security;
 
 import dev.local.gtm.api.config.Constants;
 import dev.local.gtm.api.domain.User;
-import dev.local.gtm.api.repository.UserRepo;
+import dev.local.gtm.api.repository.mongo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
@@ -24,10 +24,10 @@ import java.util.stream.Collectors;
  */
 @Log4j2
 @RequiredArgsConstructor
-@Component
+@Component("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepo userRepo;
+    private final UserRepository userRepository;
 
     /**
      * 通过数据库加载用户信息
@@ -39,19 +39,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         log.debug("正在对用户名为 {} 的用户进行鉴权", login);
 
         if (new EmailValidator().isValid(login, null)) {
-            val userByEmailFromDatabase = userRepo.findOneByEmailIgnoreCase(login);
+            val userByEmailFromDatabase = userRepository.findOneByEmailIgnoreCase(login);
             return userByEmailFromDatabase.map(user -> createSpringSecurityUser(login, user))
                     .orElseThrow(() -> new UsernameNotFoundException("系统中不存在 email 为 " + login + " 的用户"));
         }
 
         if (Pattern.matches(Constants.MOBILE_REGEX, login)) {
-            val userByMobileFromDatabase = userRepo.findOneByMobile(login);
+            val userByMobileFromDatabase = userRepository.findOneByMobile(login);
             return userByMobileFromDatabase.map(user -> createSpringSecurityUser(login, user))
                     .orElseThrow(() -> new UsernameNotFoundException("系统中不存在手机号为 " + login + " 的用户"));
         }
 
         String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
-        val userByLoginFromDatabase = userRepo.findOneByLogin(lowercaseLogin);
+        val userByLoginFromDatabase = userRepository.findOneByLogin(lowercaseLogin);
         return userByLoginFromDatabase.map(user -> createSpringSecurityUser(lowercaseLogin, user))
                 .orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the database"));
 

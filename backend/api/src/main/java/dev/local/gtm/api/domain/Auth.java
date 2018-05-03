@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 public class Auth {
-    @ApiModelProperty(value = "登录名 ")
+    @ApiModelProperty(value = "登录名")
     private String login;
     @ApiModelProperty(value = "密码")
     private String password;

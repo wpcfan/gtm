@@ -4,10 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.local.gtm.api.config.Constants;
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -23,7 +19,8 @@ import java.util.Set;
 @ToString(exclude = "authorities")
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "api_users")
+@org.springframework.data.mongodb.core.mapping.Document(collection = "api_users")
+@org.springframework.data.elasticsearch.annotations.Document(indexName = "users")
 public class User extends AbstractAuditingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -33,7 +30,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @NotNull
     @Pattern(regexp = Constants.LOGIN_REGEX)
     @Size(min = 1, max = 50)
-    @Indexed
+    @org.springframework.data.mongodb.core.index.Indexed
     private String login;
 
     @JsonIgnore
@@ -44,6 +41,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @NotNull
     @Pattern(regexp = Constants.MOBILE_REGEX)
     @Size(min = 10, max = 15)
+    @org.springframework.data.mongodb.core.index.Indexed
     private String mobile;
 
     @Size(max = 50)
@@ -51,18 +49,18 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @Email
     @Size(min = 5, max = 254)
-    @Indexed
+    @org.springframework.data.mongodb.core.index.Indexed
     private String email;
 
     @Size(max = 256)
     private String avatar;
 
     @Size(max = 20)
-    @Field("reset_key")
+    @org.springframework.data.mongodb.core.mapping.Field("reset_key")
     @JsonIgnore
     private String resetKey;
 
-    @Field("reset_date") @Builder.Default
+    @org.springframework.data.mongodb.core.mapping.Field("reset_date") @Builder.Default
     private Instant resetDate = null;
 
     @Builder.Default
@@ -70,7 +68,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @JsonIgnore
     @Singular("authority")
-    @DBRef(lazy = true)
-    @Field("authority_ids")
+    @org.springframework.data.mongodb.core.mapping.DBRef(lazy = true)
+    @org.springframework.data.mongodb.core.mapping.Field("authority_ids")
     private Set<Authority> authorities;
 }

@@ -46,11 +46,13 @@ subprojects {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
     dependencies {
-        implementation("org.springframework.boot:spring-boot-devtools")
-        compileOnly("org.projectlombok:lombok")
+        runtime('org.springframework.boot:spring-boot-devtools')
+        compileOnly('org.projectlombok:lombok')
         annotationProcessor("org.projectlombok:lombok")
         compileOnly("org.springframework.boot:spring-boot-configuration-processor")
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+        testImplementation("org.projectlombok:lombok")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
+    compileJava.dependsOn(processResources)
 }

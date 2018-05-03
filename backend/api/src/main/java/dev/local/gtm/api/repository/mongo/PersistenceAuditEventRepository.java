@@ -1,4 +1,4 @@
-package dev.local.gtm.api.repository;
+package dev.local.gtm.api.repository.mongo;
 
 import dev.local.gtm.api.domain.PersistentAuditEvent;
 import org.springframework.data.domain.Page;
@@ -13,7 +13,7 @@ import java.util.List;
  * Spring Data MongoDB repository for the PersistentAuditEvent entity.
  */
 @Repository
-public interface PersistenceAuditEventRepo extends MongoRepository<PersistentAuditEvent, String> {
+public interface PersistenceAuditEventRepository extends MongoRepository<PersistentAuditEvent, String> {
 
     List<PersistentAuditEvent> findByPrincipal(String principal);
 

@@ -22,8 +22,8 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import dev.local.gtm.api.Application;
 import dev.local.gtm.api.config.AppProperties;
-import dev.local.gtm.api.repository.TaskRepo;
-import dev.local.gtm.api.repository.UserRepo;
+import dev.local.gtm.api.repository.mongo.TaskRepository;
+import dev.local.gtm.api.repository.mongo.UserRepository;
 import dev.local.gtm.api.web.exception.ExceptionTranslator;
 import dev.local.gtm.api.web.rest.TaskResource;
 import lombok.val;
@@ -36,10 +36,10 @@ public class TaskResourceTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepository;
 
     @Autowired
-    private TaskRepo taskRepo;
+    private TaskRepository taskRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -55,9 +55,9 @@ public class TaskResourceTest {
 
     @Before
     public void setup() {
-        taskRepo.deleteAll();
-        userRepo.deleteAll();
-        val taskResource = new TaskResource(taskRepo, userRepo);
+        taskRepository.deleteAll();
+        userRepository.deleteAll();
+        val taskResource = new TaskResource(taskRepository, userRepository);
 
         mockMvc = MockMvcBuilders.standaloneSetup(taskResource).setMessageConverters(httpMessageConverters)
                 .setControllerAdvice(exceptionTranslator).setViewResolvers((ViewResolver) (viewName, locale) -> {

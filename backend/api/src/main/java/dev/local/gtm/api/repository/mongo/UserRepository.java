@@ -1,4 +1,4 @@
-package dev.local.gtm.api.repository;
+package dev.local.gtm.api.repository.mongo;
 
 import dev.local.gtm.api.domain.User;
 import org.springframework.cache.annotation.Cacheable;
@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -16,7 +18,7 @@ import java.util.Optional;
  * @author Peng Wang (wpcfan@gmail.com)
  */
 @Repository
-public interface UserRepo extends MongoRepository<User, String> {
+public interface UserRepository extends MongoRepository<User, String> {
     String USERS_BY_LOGIN_CACHE = "usersByLogin";
 
     String USERS_BY_MOBILE_CACHE = "usersByMobile";
@@ -33,4 +35,6 @@ public interface UserRepo extends MongoRepository<User, String> {
     Optional<User> findOneByLogin(@Param("login") String login);
 
     Page<User> findAllByLoginNot(Pageable pageable, @Param("login") String login);
+
+    List<User> findAllByActivatedIsFalseAndCreatedDateBefore(Instant dateTime);
 }

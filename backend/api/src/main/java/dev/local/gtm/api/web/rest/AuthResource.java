@@ -23,7 +23,7 @@ import javax.validation.Valid;
 
 import java.io.Serializable;
 
-import static dev.local.gtm.api.repository.UserRepo.USERS_BY_EMAIL_CACHE;
+import static dev.local.gtm.api.repository.mongo.UserRepository.USERS_BY_EMAIL_CACHE;
 
 /**
  * 用户鉴权资源接口

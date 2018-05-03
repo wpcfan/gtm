@@ -1,4 +1,4 @@
-package dev.local.gtm.api.repository;
+package dev.local.gtm.api.repository.mongo;
 
 import dev.local.gtm.api.domain.Task;
 import org.springframework.data.domain.Page;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
  * 任务存储接口
  */
 @Repository
-public interface TaskRepo extends MongoRepository<Task, String> {
+public interface TaskRepository extends MongoRepository<Task, String> {
     Page<Task> findByOwnerLogin(Pageable pageable, @Param("login") String login);
     Page<Task> findByDescLike(Pageable pageable, @Param("desc") String desc);
 
