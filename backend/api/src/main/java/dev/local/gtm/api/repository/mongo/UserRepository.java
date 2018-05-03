@@ -25,14 +25,20 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     String USERS_BY_EMAIL_CACHE = "usersByEmail";
 
-    @Cacheable(cacheNames = USERS_BY_MOBILE_CACHE)
     Optional<User> findOneByMobile(@Param("mobile") String mobile);
 
-    @Cacheable(cacheNames = USERS_BY_EMAIL_CACHE)
     Optional<User> findOneByEmailIgnoreCase(@Param("email") String email);
 
+    Optional<User> findOneByLoginIgnoreCase(@Param("login") String login);
+
+    @Cacheable(cacheNames = USERS_BY_MOBILE_CACHE)
+    int countByMobile(@Param("login") String login);
+
+    @Cacheable(cacheNames = USERS_BY_EMAIL_CACHE)
+    int countByEmailIgnoreCase(@Param("email") String email);
+
     @Cacheable(cacheNames = USERS_BY_LOGIN_CACHE)
-    Optional<User> findOneByLogin(@Param("login") String login);
+    int countByLoginIgnoreCase(@Param("login") String login);
 
     Page<User> findAllByLoginNot(Pageable pageable, @Param("login") String login);
 

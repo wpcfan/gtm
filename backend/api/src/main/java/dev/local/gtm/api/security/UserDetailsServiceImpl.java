@@ -51,9 +51,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
-        val userByLoginFromDatabase = userRepository.findOneByLogin(lowercaseLogin);
+        val userByLoginFromDatabase = userRepository.findOneByLoginIgnoreCase(lowercaseLogin);
         return userByLoginFromDatabase.map(user -> createSpringSecurityUser(lowercaseLogin, user))
-                .orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the database"));
+                .orElseThrow(() -> new UsernameNotFoundException("系统中不存在用户名为 " + lowercaseLogin + " 的用户"));
 
     }
 

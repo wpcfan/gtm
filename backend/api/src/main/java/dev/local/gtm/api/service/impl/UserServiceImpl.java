@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(String login) {
-        userRepository.findOneByLogin(login).ifPresent(user -> {
+        userRepository.findOneByLoginIgnoreCase(login).ifPresent(user -> {
             userRepository.delete(user);
             userSearchRepository.delete(new UserSearch(user));
             this.clearUserCaches(user);
@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getUserWithAuthoritiesByLogin(String login) {
-        return userRepository.findOneByLogin(login);
+        return userRepository.findOneByLoginIgnoreCase(login);
     }
 
     @Override

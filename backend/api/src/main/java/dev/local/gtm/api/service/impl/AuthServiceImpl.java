@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import dev.local.gtm.api.config.AppProperties;
 import dev.local.gtm.api.domain.Captcha;
 import dev.local.gtm.api.domain.User;
+import dev.local.gtm.api.domain.search.UserSearch;
 import dev.local.gtm.api.repository.mongo.AuthorityRepository;
 import dev.local.gtm.api.repository.mongo.UserRepository;
+import dev.local.gtm.api.repository.search.UserSearchRepository;
 import dev.local.gtm.api.security.AuthoritiesConstants;
 import dev.local.gtm.api.security.jwt.TokenProvider;
 import dev.local.gtm.api.service.AuthService;
@@ -18,6 +20,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,6 +31,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.Objects;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -49,15 +53,19 @@ public class AuthServiceImpl implements AuthService {
 
     private final AppProperties appProperties;
 
+    private final CacheManager cacheManager;
+
+    private final UserSearchRepository userSearchRepository;
+
     @Override
     public void registerUser(UserDTO userDTO, String password) {
-        if (userRepository.findOneByLogin(userDTO.getLogin()).isPresent()) {
+        if (usernameExisted(userDTO.getLogin())) {
             throw new LoginExistedException();
         }
-        if (userRepository.findOneByMobile(userDTO.getMobile()).isPresent()) {
+        if (mobileExisted(userDTO.getMobile())) {
             throw new MobileExistedException();
         }
-        if (userRepository.findOneByEmailIgnoreCase(userDTO.getEmail()).isPresent()) {
+        if (emailExisted(userDTO.getEmail())) {
             throw new EmailExistedException();
         }
         val newUser = User.builder()
@@ -70,8 +78,10 @@ public class AuthServiceImpl implements AuthService {
                 .activated(true)
                 .authority(authorityRepository.findOneByName(AuthoritiesConstants.USER).orElseThrow(AuthorityNotFoundException::new))
                 .build();
-        log.debug("user to be saved {} ", newUser);
+        log.debug("用户 {} 即将创建", newUser);
         userRepository.save(newUser);
+        userSearchRepository.save(new UserSearch(newUser));
+        this.clearUserCaches(newUser);
         log.debug("用户 {} 创建成功", newUser);
     }
 
@@ -142,17 +152,17 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean usernameExisted(String username) {
-        return userRepository.findOneByLogin(username).isPresent();
+        return userRepository.countByLoginIgnoreCase(username) > 0;
     }
 
     @Override
     public boolean emailExisted(String email) {
-        return userRepository.findOneByEmailIgnoreCase(email).isPresent();
+        return userRepository.countByEmailIgnoreCase(email) > 0;
     }
 
     @Override
     public boolean mobileExisted(String mobile) {
-        return userRepository.findOneByMobile(mobile).isPresent();
+        return userRepository.countByMobile(mobile) > 0;
     }
 
     private void verifySmsCode(final String mobile, final  String code) {
@@ -177,5 +187,17 @@ public class AuthServiceImpl implements AuthService {
     private static class ValidateToken {
         @JsonProperty("validate_token")
         private String validatedToken;
+    }
+
+    private void clearUserCaches(User user) {
+        Objects.requireNonNull(
+                cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE))
+                .evict(user.getLogin());
+        Objects.requireNonNull(
+                cacheManager.getCache(UserRepository.USERS_BY_MOBILE_CACHE))
+                .evict(user.getMobile());
+        Objects.requireNonNull(
+                cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE))
+                .evict(user.getEmail());
     }
 }

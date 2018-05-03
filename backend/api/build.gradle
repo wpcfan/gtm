@@ -44,6 +44,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
     implementation("net.java.dev.jna:jna")
+    // implementation("org.elasticsearch.client:x-pack-transport:5.6.1")
 //    implementation("com.github.vanroy:spring-boot-starter-data-jest:3.1.2.RELEASE")
     testImplementation("org.springframework.security:spring-security-test")
 }

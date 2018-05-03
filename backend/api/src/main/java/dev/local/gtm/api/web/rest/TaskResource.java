@@ -47,7 +47,7 @@ public class TaskResource {
     Task addTask(@RequestBody Task task) {
         log.debug("REST 请求 -- 新增 Task {}", task);
         return SecurityUtils.getCurrentUserLogin()
-                .flatMap(userRepository::findOneByLogin)
+                .flatMap(userRepository::findOneByLoginIgnoreCase)
                 .map(user -> {
                     task.setOwner(user);
                     return taskRepository.save(task);

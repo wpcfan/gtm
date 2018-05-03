@@ -5,7 +5,7 @@ spring:
     active: dev
   data:
     elasticsearch:
-      cluster-name:
+      cluster-name: docker-cluster
       cluster-nodes: localhost:9300
     mongodb:
       database: gtm-api
@@ -35,6 +35,9 @@ spring:
     mongodb:
       database: gtm-api-dev
       host: localhost
+    elasticsearch:
+      cluster-name: docker-cluster
+      cluster-nodes: localhost:9300
 logging:
   level:
     org.apache.http: DEBUG
