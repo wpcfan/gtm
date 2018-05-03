@@ -114,6 +114,11 @@ Desktop.ini
 ######################
 /bin/
 /deploy/
+**/build/
+**/bin/
+**/deploy/
+**/target/
+**/out/
 
 ######################
 # Logs
