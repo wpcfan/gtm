@@ -11,10 +11,16 @@ import java.util.Optional;
 
 public interface UserService {
     User createUser(UserDTO userDTO);
+
     Optional<UserDTO> updateUser(UserDTO userDTO);
+
     void deleteUser(String login);
+
     Page<UserDTO> getAllManagedUsers(Pageable pageable);
+
     Optional<User> getUserWithAuthoritiesByLogin(String login);
+
     List<String> getAuthorities();
-    List<UserSearch> search(String query);
+
+    Page<UserSearch> search(String query, Pageable pageable);
 }

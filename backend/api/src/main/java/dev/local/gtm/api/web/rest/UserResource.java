@@ -2,24 +2,23 @@ package dev.local.gtm.api.web.rest;
 
 import dev.local.gtm.api.domain.search.UserSearch;
 import dev.local.gtm.api.service.UserService;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
+@RequiredArgsConstructor
 @RequestMapping("/api")
 @RestController
 public class UserResource {
     private final UserService userService;
 
-    public UserResource(UserService userService) {
-        this.userService = userService;
-    }
-
     @GetMapping("/_search/users/{query}")
-    public List<UserSearch> search(@PathVariable String query) {
-        return userService.search(query);
+    public Page<UserSearch> search(@PathVariable String query, Pageable pageable) {
+        return userService.search(query, pageable);
     }
 }

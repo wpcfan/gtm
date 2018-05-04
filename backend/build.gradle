@@ -21,7 +21,17 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("io.spring.gradle:propdeps-plugin:${propDepsVersion}")
+        classpath("org.springframework:springloaded:1.2.5.RELEASE")
     }
+}
+
+apply plugin: 'idea'
+
+idea {
+	module {
+	    inheritOutputDirs = false
+	    outputDir = file("$buildDir/classes/main/")
+	}
 }
 
 allprojects {
@@ -38,7 +48,6 @@ subprojects {
         baseName = "$project.name"
     }
     apply plugin: 'java'
-    apply plugin: 'idea'
     apply from: '../gradle/docker.gradle'
     apply plugin: 'propdeps'
     apply plugin: 'propdeps-idea'

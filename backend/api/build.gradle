@@ -1,11 +1,20 @@
 apply plugin: 'org.springframework.boot'
 
 configurations {
+    springLoaded
     // 如果使用 undertow 或 jetty 需要把默认包含的 tomcat 排除在外
     compile.exclude module: 'spring-boot-starter-tomcat'
 }
+sourceSets {
+	main {
+		java.srcDirs = ['src/main/java', 'src/main/resources']
+		resources.srcDir 'src/main/resources'
+	}
+	test { java.srcDir 'src/test/java' }
+}
 bootRun {
     systemProperties = System.properties as Map<String, ?>
+    sourceResources sourceSets.main
 }
 test {
     systemProperties['spring.profiles.active'] = 'test'

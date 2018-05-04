@@ -125,10 +125,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserSearch> search(String query) {
-        return StreamSupport
-                .stream(userSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-                .collect(Collectors.toList());
+    public Page<UserSearch> search(String query, Pageable pageable) {
+        return userSearchRepository.search(queryStringQuery(query), pageable);
     }
 
     /**
