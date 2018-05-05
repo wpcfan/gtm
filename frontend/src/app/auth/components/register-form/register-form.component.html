@@ -6,7 +6,7 @@
   <mat-card-content>
     <form [formGroup]="form" (ngSubmit)="submit(form, $event)">
       <mat-form-field class="full-width">
-        <input matInput placeholder="您的用户名" formControlName="username">
+        <input matInput placeholder="您的用户名" formControlName="login">
         <mat-error> {{ usernameErrors }} </mat-error>
       </mat-form-field>
       <mat-form-field class="full-width">

@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: ./docker/nginx/Dockerfile
       args:
-        - env=dev
+        - env=production
     container_name: nginx
     # volumes:
     #   - certs:/etc/letsencrypt

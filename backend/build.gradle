@@ -9,14 +9,29 @@
 buildscript {
     ext {
         springBootVersion = '2.0.1.RELEASE'
+        propDepsVersion = '0.0.9.RELEASE'
+        springFoxVersion = '2.9.0'
+        redissonVersion = '3.6.5'
     }
     repositories {
         maven { setUrl('http://maven.aliyun.com/nexus/content/groups/public/') }
         maven { setUrl('http://maven.aliyun.com/nexus/content/repositories/jcenter') }
+        maven { setUrl('http://repo.spring.io/plugins-release') }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("io.spring.gradle:propdeps-plugin:${propDepsVersion}")
+        classpath("org.springframework:springloaded:1.2.5.RELEASE")
     }
+}
+
+apply plugin: 'idea'
+
+idea {
+	module {
+	    inheritOutputDirs = false
+	    outputDir = file("$buildDir/classes/main/")
+	}
 }
 
 allprojects {
@@ -33,13 +48,29 @@ subprojects {
         baseName = "$project.name"
     }
     apply plugin: 'java'
-    apply plugin: 'idea'
     apply from: '../gradle/docker.gradle'
-    apply plugin: 'eclipse'
+    apply plugin: 'propdeps'
+    apply plugin: 'propdeps-idea'
     apply plugin: 'io.spring.dependency-management'
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
     dependencies {
+        runtime('org.springframework.boot:spring-boot-devtools')
+        compileOnly('org.projectlombok:lombok')
+        annotationProcessor("org.projectlombok:lombok")
+        compileOnly("org.springframework.boot:spring-boot-configuration-processor")
+        annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+        testImplementation("org.projectlombok:lombok")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
+    dependencyManagement {
+        imports {
+            // could have been
+            // mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+            // but, as per source, that constant is a string containing the exact value below, and I think the one below is clearer
+            // details: https://docs.spring.io/spring-boot/docs/2.0.0.BUILD-SNAPSHOT/gradle-plugin/reference/html/#managing-dependencies-using-in-isolation
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+        }
+    }
+    compileJava.dependsOn(processResources)
 }

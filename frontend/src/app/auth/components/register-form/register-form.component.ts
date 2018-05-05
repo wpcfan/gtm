@@ -19,6 +19,7 @@ import {
   humanNameErrorMsg,
   mobileErrorMsg
 } from '../../../utils/validate-errors';
+import { User } from '../../../domain/user';
 
 @Component({
   selector: 'register-form',
@@ -35,6 +36,7 @@ export class RegisterFormComponent implements OnInit {
   @Input() emailValidator: AsyncValidatorFn;
   @Input() mobileValidator: AsyncValidatorFn;
   @Output() submitEvent = new EventEmitter();
+  @Output() requestCaptcha = new EventEmitter();
   form: FormGroup;
   private readonly avatarName = 'avatars';
   constructor(private fb: FormBuilder) {}
@@ -46,7 +48,7 @@ export class RegisterFormComponent implements OnInit {
       .map(i => `${this.avatarName}:svg-${i}`)
       .reduce((r: string[], x: string) => [...r, x], []);
     this.form = this.fb.group({
-      username: [
+      login: [
         '',
         [
           Validators.required,
@@ -108,8 +110,24 @@ export class RegisterFormComponent implements OnInit {
     if (!valid) {
       return;
     }
-    this.submitEvent.emit(value);
+    const user: User = {
+      login: value.login,
+      password: value.passwords.password,
+      email: value.email,
+      name: value.name,
+      mobile: value.mobile,
+      avatar: value.avatar
+    };
+    this.submitEvent.emit(user);
   }
+
+  processCaptchaReq() {
+    this.requestCaptcha.emit();
+  }
+
+  mobileInput(mobile: string) {}
+
+  requestCode(mobile: string) {}
 
   get nameErrors() {
     const name = this.form.get('name');
@@ -164,6 +182,8 @@ export class RegisterFormComponent implements OnInit {
     }
     return repeat.hasError('required')
       ? '密码为必填项'
-      : repeat.hasError('notMatchPassword') ? `密码不匹配` : '';
+      : repeat.hasError('notMatchPassword')
+        ? `密码不匹配`
+        : '';
   }
 }

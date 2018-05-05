@@ -4,19 +4,28 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.bmuschko:gradle-docker-plugin:3.2.6'
+        classpath 'com.bmuschko:gradle-docker-plugin:3.2.8'
     }
 }
 
 apply plugin: com.bmuschko.gradle.docker.DockerRemoteApiPlugin
 
-task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
+task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile, dependsOn: ['bootJar']) {
     description = "自动创建 Dockerfile"
     destFile = project.file('src/main/docker/Dockerfile')
     from 'openjdk:8-jdk-alpine'
     volume '/tmp'
     addFile "${project.name}-${project.version}.jar", "app.jar"
-    instruction { 'ENTRYPOINT ["java", "-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n", "-Dspring.data.mongodb.uri=mongodb://mongo/taskmgr", "-Djava.security.egd=file:/dev/./urandom", "-jar","/app.jar"]'}
+    instruction { 'ENTRYPOINT [' +
+            '"java", ' +
+            '"-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n", ' +
+            '"-Dspring.data.mongodb.uri=mongodb://mongo/taskmgr", ' +
+            '"-Dspring.data.elasticsearch.cluster-name=docker-cluster", ' +
+            '"-Dspring.data.elasticsearch.cluster-nodes=elasticsearch:9300", ' +
+            '"-Dspring.redis.host=redis", ' +
+            '"-Dspring.profiles.active=prod", ' +
+            '"-Djava.security.egd=file:/dev/./urandom", ' +
+            '"-jar","/app.jar"]'}
     maintainer 'Peng Wang "wpcfan@gmail.com"'
 }
 
@@ -35,4 +44,3 @@ task buildDocker(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage, 
     inputDir = project.file("${project.buildDir}/docker")
     tags = ["${project.name}:latest".toString(), "${project.name}:${project.version}".toString()]
 }
-

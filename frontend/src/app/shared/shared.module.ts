@@ -4,6 +4,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MyMaterialModule } from './material.module';
 import { ImagePicker } from './components/image-picker/image-picker.component';
 import { VerifyMobileComponent } from './components/verify-mobile/verify-mobile.component';
+import { CaptchaComponent } from './components/captcha/captcha.component';
+import { CountDownButtonComponent } from './components/count-down-button/count-down-button.component';
 
 const MODULES = [
   CommonModule,
@@ -12,7 +14,12 @@ const MODULES = [
   MyMaterialModule
 ];
 
-const COMPONENTS = [ImagePicker, VerifyMobileComponent];
+const COMPONENTS = [
+  ImagePicker,
+  VerifyMobileComponent,
+  CaptchaComponent,
+  CountDownButtonComponent
+];
 
 @NgModule({
   declarations: COMPONENTS,

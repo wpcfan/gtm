@@ -114,6 +114,11 @@ Desktop.ini
 ######################
 /bin/
 /deploy/
+**/build/
+**/bin/
+**/deploy/
+**/target/
+**/out/
 
 ######################
 # Logs
@@ -142,3 +147,8 @@ Desktop.ini
 # ESLint
 ######################
 .eslintcache
+
+######################
+# STS
+######################
+classpath-data.json
