@@ -63,5 +63,14 @@ subprojects {
         testImplementation("org.projectlombok:lombok")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
+    dependencyManagement {
+        imports {
+            // could have been
+            // mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+            // but, as per source, that constant is a string containing the exact value below, and I think the one below is clearer
+            // details: https://docs.spring.io/spring-boot/docs/2.0.0.BUILD-SNAPSHOT/gradle-plugin/reference/html/#managing-dependencies-using-in-isolation
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+        }
+    }
     compileJava.dependsOn(processResources)
 }

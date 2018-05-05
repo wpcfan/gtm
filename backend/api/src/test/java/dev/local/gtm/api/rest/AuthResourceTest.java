@@ -34,127 +34,90 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 public class AuthResourceTest {
 
-    private MockMvc mockMvc;
+        private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+        @Autowired
+        private ObjectMapper objectMapper;
 
-    @Autowired
-    private HttpMessageConverter[] httpMessageConverters;
+        @Autowired
+        private HttpMessageConverter[] httpMessageConverters;
 
-    @Autowired
-    private ExceptionTranslator exceptionTranslator;
+        @Autowired
+        private ExceptionTranslator exceptionTranslator;
 
-    @Autowired
-    private UserRepository userRepository;
+        @Autowired
+        private UserRepository userRepository;
 
-    @Autowired
-    private AuthorityRepository authorityRepository;
+        @Autowired
+        private AuthorityRepository authorityRepository;
 
-    @Autowired
-    private AuthService authService;
+        @Autowired
+        private AuthService authService;
 
-    @Autowired
-    private AppProperties appProperties;
+        @Autowired
+        private AppProperties appProperties;
 
-    @Before
-    public void setup() {
-        userRepository.deleteAll();
-        authorityRepository.deleteAll();
-        val authResource = new AuthResource(authService, appProperties);
-        mockMvc = MockMvcBuilders.standaloneSetup(authResource)
-            .setMessageConverters(httpMessageConverters)
-            .setControllerAdvice(exceptionTranslator)
-            .build();
-        authorityRepository.save(new Authority(AuthoritiesConstants.USER));
-        authorityRepository.save(new Authority(AuthoritiesConstants.ADMIN));
-    }
+        @Before
+        public void setup() {
+                userRepository.deleteAll();
+                authorityRepository.deleteAll();
+                val authResource = new AuthResource(authService, appProperties);
+                mockMvc = MockMvcBuilders.standaloneSetup(authResource).setMessageConverters(httpMessageConverters)
+                                .setControllerAdvice(exceptionTranslator).build();
+                authorityRepository.save(new Authority(AuthoritiesConstants.USER));
+                authorityRepository.save(new Authority(AuthoritiesConstants.ADMIN));
+        }
 
-    @Test
-    public void testRegisterSuccess() throws Exception {
-        val user = UserVM.builder()
-                .login("test1")
-                .mobile("13000000000")
-                .email("test1@local.dev")
-                .name("test 1")
-                .password("12345")
-                .build();
+        @Test
+        public void testRegisterSuccess() throws Exception {
+                val user = UserVM.builder().login("test1").mobile("13000000000").email("test1@local.dev").name("test 1")
+                                .password("12345").build();
 
-        mockMvc.perform(post("/api/auth/register")
-                .content(objectMapper.writeValueAsString(user))
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id_token").isNotEmpty());
-        assertThat(userRepository.findOneByLogin("test1").isPresent()).isTrue();
-    }
+                mockMvc.perform(post("/api/auth/register").content(objectMapper.writeValueAsString(user))
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)).andExpect(status().isOk())
+                                .andExpect(jsonPath("$.id_token").isNotEmpty());
+                assertThat(userRepository.findOneByLoginIgnoreCase("test1").isPresent()).isTrue();
+        }
 
-    @Test
-    public void testRegisterFailDup() throws Exception {
-        val user = User.builder()
-                .login("test1")
-                .mobile("13000000000")
-                .email("test1@local.dev")
-                .name("test 1")
-                .password("123456")
-                .build();
-        userRepository.save(user);
-        mockMvc.perform(post("/api/auth/register")
-                .content(objectMapper.writeValueAsString(user))
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isBadRequest());
-    }
+        @Test
+        public void testRegisterFailDup() throws Exception {
+                val user = User.builder().login("test1").mobile("13000000000").email("test1@local.dev").name("test 1")
+                                .password("123456").build();
+                userRepository.save(user);
+                mockMvc.perform(post("/api/auth/register").content(objectMapper.writeValueAsString(user))
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)).andExpect(status().isBadRequest());
+        }
 
-    @Test
-    public void testVerifyMobileSuccess() throws Exception {
-        val user = User.builder()
-                .login("test1")
-                .mobile("13898810892")
-                .email("test1@local.dev")
-                .name("test 1")
-                .password("123456")
-                .build();
-        userRepository.save(user);
-        val verification = new AuthResource.MobileVerification("13898810892","525798");
-        mockMvc.perform(post("/api/auth/mobile")
-                .content(objectMapper.writeValueAsString(verification))
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.reset_key").isNotEmpty());
-    }
+        @Test
+        public void testVerifyMobileSuccess() throws Exception {
+                val user = User.builder().login("test1").mobile("13898810892").email("test1@local.dev").name("test 1")
+                                .password("123456").build();
+                userRepository.save(user);
+                val verification = new AuthResource.MobileVerification("13898810892", "525798");
+                mockMvc.perform(post("/api/auth/mobile").content(objectMapper.writeValueAsString(verification))
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)).andExpect(status().isOk())
+                                .andExpect(jsonPath("$.reset_key").isNotEmpty());
+        }
 
-    @Test
-    public void testVerifyMobileFail() throws Exception {
-        val user = User.builder()
-                .login("test1")
-                .mobile("13898810892")
-                .email("test1@local.dev")
-                .name("test 1")
-                .password("123456")
-                .build();
-        userRepository.save(user);
-        val verification = new AuthResource.MobileVerification("13898810892","123456");
-        mockMvc.perform(post("/api/auth/mobile")
-                .content(objectMapper.writeValueAsString(verification))
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isBadRequest());
-    }
+        @Test
+        public void testVerifyMobileFail() throws Exception {
+                val user = User.builder().login("test1").mobile("13898810892").email("test1@local.dev").name("test 1")
+                                .password("123456").build();
+                userRepository.save(user);
+                val verification = new AuthResource.MobileVerification("13898810892", "123456");
+                mockMvc.perform(post("/api/auth/mobile").content(objectMapper.writeValueAsString(verification))
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)).andExpect(status().isBadRequest());
+        }
 
-    @Test
-    public void testSendSmsSuccess() throws Exception {
-        val user = User.builder()
-                .login("test1")
-                .mobile("13898810892")
-                .email("test1@local.dev")
-                .name("test 1")
-                .password("123456")
-                .build();
-        userRepository.save(user);
-        val params = new LinkedMultiValueMap<String, String>();
-        params.add("mobile", "13898810892");
-        params.add("token", "1234");
-        mockMvc.perform(get("/api/auth/mobile")
-                .params(params)
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
-    }
+        @Test
+        public void testSendSmsSuccess() throws Exception {
+                val user = User.builder().login("test1").mobile("13898810892").email("test1@local.dev").name("test 1")
+                                .password("123456").build();
+                userRepository.save(user);
+                val params = new LinkedMultiValueMap<String, String>();
+                params.add("mobile", "13898810892");
+                params.add("token", "1234");
+                mockMvc.perform(get("/api/auth/mobile").params(params).contentType(MediaType.APPLICATION_JSON_UTF8))
+                                .andExpect(status().isOk());
+        }
 }

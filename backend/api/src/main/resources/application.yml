@@ -44,10 +44,14 @@ logging:
     org.springframework:
         web:
           client.RestTemplate: DEBUG
-        data: DEBUG
+        data:
+          elasticsearch:
+            core: DEBUG
+          mongodb:
+            core:
+              MongoTemplate: DEBUG
         security: DEBUG
         cache: DEBUG
-    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
     dev.local.gtm.api: DEBUG
 
 ---

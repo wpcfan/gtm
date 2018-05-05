@@ -1,5 +1,9 @@
 apply plugin: 'org.springframework.boot'
-
+repositories {
+    maven {
+        url 'https://repo.spring.io/libs-milestone'
+    }
+}
 configurations {
     springLoaded
     // 如果使用 undertow 或 jetty 需要把默认包含的 tomcat 排除在外
@@ -11,10 +15,6 @@ sourceSets {
 		resources.srcDir 'src/main/resources'
 	}
 	test { java.srcDir 'src/test/java' }
-}
-bootRun {
-    systemProperties = System.properties as Map<String, ?>
-    sourceResources sourceSets.main
 }
 test {
     systemProperties['spring.profiles.active'] = 'test'
@@ -34,11 +34,11 @@ dependencies {
 //    implementation("io.dropwizard.metrics:metrics-servlet")
 //    implementation("io.dropwizard.metrics:metrics-servlets")
 //    implementation("org.javers:javers-spring-boot-starter-mongo:3.8.4")
-//    implementation("io.springfox:springfox-data-rest:${springFoxVersion}")
-//    implementation("org.springframework.boot:spring-boot-starter-data-rest")
-//    implementation("org.springframework.data:spring-data-rest-hal-browser")
+    // implementation("org.springframework.boot:spring-boot-starter-data-rest")
+    // implementation("org.springframework.data:spring-data-rest-hal-browser")
     implementation("io.springfox:springfox-swagger2:${springFoxVersion}")
     implementation("io.springfox:springfox-bean-validators:${springFoxVersion}")
+    implementation("io.springfox:springfox-data-rest:${springFoxVersion}")
     implementation("io.springfox:springfox-swagger-ui:${springFoxVersion}")
     implementation("org.springframework.boot:spring-boot-starter-undertow")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -51,9 +51,13 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-afterburner")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
-    implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
+    implementation("org.springframework.data:spring-data-elasticsearch")
     implementation("net.java.dev.jna:jna")
-    // implementation("org.elasticsearch.client:x-pack-transport:5.6.1")
+    // compile 'org.springframework.data:spring-data-elasticsearch:3.1.0.M2'    // implementation("org.elasticsearch.client:x-pack-transport:5.6.1")
 //    implementation("com.github.vanroy:spring-boot-starter-data-jest:3.1.2.RELEASE")
     testImplementation("org.springframework.security:spring-security-test")
+}
+bootRun {
+    systemProperties = System.properties as Map<String, ?>
+    sourceResources sourceSets.main
 }
