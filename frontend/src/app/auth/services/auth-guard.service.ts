@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AuthModule } from '../auth.module';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthGuardService {
   constructor() {}
 }

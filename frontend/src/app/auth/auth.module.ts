@@ -22,7 +22,6 @@ import { QuoteComponent } from './components/quote/quote.component';
     RegisterComponent,
     ForgotPasswordComponent,
     QuoteComponent
-  ],
-  providers: [QuoteService, AuthService, AuthGuardService]
+  ]
 })
 export class AuthModule {}
