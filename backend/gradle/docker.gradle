@@ -20,8 +20,6 @@ task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile, d
             '"java", ' +
             '"-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n", ' +
             '"-Dspring.data.mongodb.uri=mongodb://mongo/taskmgr", ' +
-            '"-Dspring.data.elasticsearch.cluster-name=docker-cluster", ' +
-            '"-Dspring.data.elasticsearch.cluster-nodes=elasticsearch:9300", ' +
             '"-Dspring.redis.host=redis", ' +
             '"-Dspring.profiles.active=prod", ' +
             '"-Djava.security.egd=file:/dev/./urandom", ' +

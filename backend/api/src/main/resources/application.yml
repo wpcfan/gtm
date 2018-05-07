@@ -13,6 +13,9 @@ spring:
     type: redis
 server:
   port: 8080
+  compression:
+    enabled: true
+    mime-types: font/woff2,image/svg+xml,application/font-woff,application/json,application/xml,application/javascript,text/html,text/xml,text/plain,text/javascript,text/css
 logging:
   level:
     org.apache.http: ERROR
@@ -80,6 +83,11 @@ spring:
   data:
     mongodb:
       uri: "mongodb://mongo/taskmgr"
+    elasticsearch:
+      cluster-name: docker-cluster
+      cluster-nodes: elasticsearch:9300
+      properties:
+        client.transport.sniff: false
   redis:
     host: redis
     port: 6379
