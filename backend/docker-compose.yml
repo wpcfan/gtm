@@ -23,7 +23,7 @@ services:
     volumes:
       - api_db:/data/db
   api-server:
-    image: api
+    image: twigcodes/api
     ports:
       - "8080:8080"
       - "5005:5005"

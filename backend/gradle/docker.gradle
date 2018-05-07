@@ -42,5 +42,5 @@ task buildDocker(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage, 
     description = "打包应用构建镜像"
     group = "twigcodes"
     inputDir = project.file("${project.buildDir}/docker")
-    tags = ["${project.name}:latest".toString(), "${project.name}:${project.version}".toString()]
+    tags = ["${group}/${project.name}:latest".toString(), "${group}/${project.name}:${project.version}".toString()]
 }
