@@ -1,0 +1,261 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties",
+      "name": "app",
+      "type": "dev.local.gtm.api.config.AppProperties"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties",
+      "name": "app.captcha",
+      "sourceMethod": "getCaptcha()",
+      "type": "dev.local.gtm.api.config.AppProperties$SmsCaptcha"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties",
+      "name": "app.http",
+      "sourceMethod": "getHttp()",
+      "type": "dev.local.gtm.api.config.AppProperties$Http"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$Http",
+      "name": "app.http.cache",
+      "sourceMethod": "getCache()",
+      "type": "dev.local.gtm.api.config.AppProperties$Http$Cache"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties",
+      "name": "app.lean-cloud",
+      "sourceMethod": "getLeanCloud()",
+      "type": "dev.local.gtm.api.config.AppProperties$LeanCloud"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties",
+      "name": "app.redisson-config",
+      "sourceMethod": "getRedissonConfig()",
+      "type": "dev.local.gtm.api.config.AppProperties$RedissonConfig"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties",
+      "name": "app.security",
+      "sourceMethod": "getSecurity()",
+      "type": "dev.local.gtm.api.config.AppProperties$Security"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$Security",
+      "name": "app.security.authorization",
+      "sourceMethod": "getAuthorization()",
+      "type": "dev.local.gtm.api.config.AppProperties$Security$Authorization"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$Security",
+      "name": "app.security.jwt",
+      "sourceMethod": "getJwt()",
+      "type": "dev.local.gtm.api.config.AppProperties$Security$Jwt"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties",
+      "name": "app.sms-code",
+      "sourceMethod": "getSmsCode()",
+      "type": "dev.local.gtm.api.config.AppProperties$SmsCode"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties",
+      "name": "app.user-defaults",
+      "sourceMethod": "getUserDefaults()",
+      "type": "dev.local.gtm.api.config.AppProperties$UserDefaults"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$SmsCaptcha",
+      "defaultValue": "https:\/\/pqmaqnua.api.lncld.net\/1.1\/requestCaptcha",
+      "name": "app.captcha.request-url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$SmsCaptcha",
+      "defaultValue": "https:\/\/pqmaqnua.api.lncld.net\/1.1\/verifyCaptcha",
+      "name": "app.captcha.verification-url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$Http$Cache",
+      "defaultValue": 1461,
+      "name": "app.http.cache.time-to-live-in-days",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$Http",
+      "name": "app.http.version",
+      "type": "dev.local.gtm.api.config.AppProperties$Http$Version"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$LeanCloud",
+      "defaultValue": "pqmaqNUAzliIxr2yqIw9lY3s-gzGzoHsz",
+      "name": "app.lean-cloud.app-id",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$LeanCloud",
+      "defaultValue": "EU4D2VJRUwOx44bwc6tduykw",
+      "name": "app.lean-cloud.app-key",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$RedissonConfig",
+      "defaultValue": "redis:\/\/redis:6379",
+      "name": "app.redisson-config.address",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$RedissonConfig",
+      "name": "app.redisson-config.client-name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$RedissonConfig",
+      "defaultValue": "org.redisson.codec.JsonJacksonCodec",
+      "name": "app.redisson-config.codec",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$RedissonConfig",
+      "defaultValue": 10000,
+      "name": "app.redisson-config.connect-timeout",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$RedissonConfig",
+      "defaultValue": 10,
+      "name": "app.redisson-config.connection-minimum-idle-size",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$RedissonConfig",
+      "defaultValue": 64,
+      "name": "app.redisson-config.connection-pool-size",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$RedissonConfig",
+      "defaultValue": 0,
+      "name": "app.redisson-config.database",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$RedissonConfig",
+      "defaultValue": false,
+      "name": "app.redisson-config.dns-monitoring",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$RedissonConfig",
+      "defaultValue": 5000,
+      "name": "app.redisson-config.dns-monitoring-interval",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$RedissonConfig",
+      "defaultValue": 10000,
+      "name": "app.redisson-config.idle-connection-timeout",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$RedissonConfig",
+      "name": "app.redisson-config.password",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$RedissonConfig",
+      "defaultValue": 1000,
+      "name": "app.redisson-config.ping-timeout",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$RedissonConfig",
+      "defaultValue": 3,
+      "name": "app.redisson-config.retry-attempts",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$RedissonConfig",
+      "defaultValue": 1500,
+      "name": "app.redisson-config.retry-interval",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$RedissonConfig",
+      "defaultValue": 1,
+      "name": "app.redisson-config.subscription-connection-minimum-idle-size",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$RedissonConfig",
+      "defaultValue": 50,
+      "name": "app.redisson-config.subscription-connection-pool-size",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$RedissonConfig",
+      "defaultValue": 5,
+      "name": "app.redisson-config.subscriptions-per-connection",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$RedissonConfig",
+      "defaultValue": 2,
+      "name": "app.redisson-config.thread",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$RedissonConfig",
+      "defaultValue": 3000,
+      "name": "app.redisson-config.timeout",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$Security$Authorization",
+      "defaultValue": "Authorization",
+      "name": "app.security.authorization.header",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$Security$Jwt",
+      "defaultValue": "myDefaultSecret",
+      "name": "app.security.jwt.secret",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$Security$Jwt",
+      "defaultValue": "Bearer ",
+      "name": "app.security.jwt.token-prefix",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$Security$Jwt",
+      "defaultValue": 7200,
+      "name": "app.security.jwt.token-validity-in-seconds",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$SmsCode",
+      "defaultValue": "https:\/\/pqmaqnua.api.lncld.net\/1.1\/requestSmsCode",
+      "name": "app.sms-code.request-url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$SmsCode",
+      "defaultValue": "https:\/\/pqmaqnua.api.lncld.net\/1.1\/verifySmsCode",
+      "name": "app.sms-code.verification-url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "dev.local.gtm.api.config.AppProperties$UserDefaults",
+      "defaultValue": "Abcd@1234Ef",
+      "name": "app.user-defaults.initial-password",
+      "type": "java.lang.String"
+    }
+  ]
+}

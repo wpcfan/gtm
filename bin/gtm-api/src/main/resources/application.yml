@@ -1,0 +1,94 @@
+spring:
+  application:
+    name: api-service
+  profiles:
+    active: dev
+  data:
+    elasticsearch:
+      cluster-name: docker-cluster
+      cluster-nodes: localhost:9300
+    mongodb:
+      database: gtm-api
+  cache:
+    type: redis
+server:
+  port: 8080
+  compression:
+    enabled: true
+    mime-types: font/woff2,image/svg+xml,application/font-woff,application/json,application/xml,application/javascript,text/html,text/xml,text/plain,text/javascript,text/css
+logging:
+  level:
+    org.apache.http: ERROR
+    org.springframework:
+      web: ERROR
+      data: ERROR
+      security: ERROR
+      cache: ERROR
+    org.springframework.data.mongodb.core.MongoTemplate: ERROR
+    dev.local.gtm.api: ERROR
+
+---
+
+spring:
+  profiles: dev
+  devtools:
+    remote:
+      secret: thisismysecret
+  data:
+    mongodb:
+      database: gtm-api-dev
+      host: localhost
+    elasticsearch:
+      cluster-name: docker-cluster
+      cluster-nodes: localhost:9300
+logging:
+  level:
+    org.apache.http: DEBUG
+    org.springframework:
+        web:
+          client.RestTemplate: DEBUG
+        data:
+          elasticsearch:
+            core: DEBUG
+          mongodb:
+            core:
+              MongoTemplate: DEBUG
+        security: DEBUG
+        cache: DEBUG
+    dev.local.gtm.api: DEBUG
+
+---
+
+spring:
+  profiles: test
+  data:
+    mongodb:
+      database: gtm-api-test
+  cache:
+    type: none
+logging:
+  level:
+    org.apache.http: DEBUG
+    org.springframework:
+          web:
+            client.RestTemplate: DEBUG
+          data: DEBUG
+          security: DEBUG
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+    dev.local.gtm.api: DEBUG
+---
+
+spring:
+  profiles: prod
+  data:
+    mongodb:
+      uri: "mongodb://mongo/taskmgr"
+    elasticsearch:
+      cluster-name: docker-cluster
+      cluster-nodes: elasticsearch:9300
+      properties:
+        client.transport.sniff: false
+  redis:
+    host: redis
+    port: 6379
+

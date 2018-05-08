@@ -1,0 +1,76 @@
+/*
+ * 这个 build 文件是由 Gradle 的 `init` 任务生成的。
+ *
+ * 更多关于在 Gradle 中构建 Java 项目的信息可以查看 Gradle 用户文档中的
+ * Java 项目快速启动章节
+ * https://docs.gradle.org/4.0/userguide/tutorial_java_projects.html
+ */
+// 在这个区块中你可以声明你的 build 脚本需要的依赖和解析下载该依赖所使用的仓储位置
+buildscript {
+    ext {
+        springBootVersion = '2.0.1.RELEASE'
+        propDepsVersion = '0.0.9.RELEASE'
+        springFoxVersion = '2.9.0'
+        redissonVersion = '3.6.5'
+    }
+    repositories {
+        maven { setUrl('http://maven.aliyun.com/nexus/content/groups/public/') }
+        maven { setUrl('http://maven.aliyun.com/nexus/content/repositories/jcenter') }
+        maven { setUrl('http://repo.spring.io/plugins-release') }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("io.spring.gradle:propdeps-plugin:${propDepsVersion}")
+        classpath("org.springframework:springloaded:1.2.5.RELEASE")
+    }
+}
+
+apply plugin: 'idea'
+
+idea {
+	module {
+	    inheritOutputDirs = false
+	    outputDir = file("$buildDir/classes/main/")
+	}
+}
+
+allprojects {
+    group = 'dev.local.gtm'
+    repositories {
+        maven { setUrl('http://maven.aliyun.com/nexus/content/groups/public/') }
+        maven { setUrl('http://maven.aliyun.com/nexus/content/repositories/jcenter') }
+    }
+}
+
+subprojects {
+    version = "0.0.1"
+    tasks.withType(Jar) {
+        baseName = "$project.name"
+    }
+    apply plugin: 'java'
+    apply from: '../gradle/docker.gradle'
+    apply plugin: 'propdeps'
+    apply plugin: 'propdeps-idea'
+    apply plugin: 'io.spring.dependency-management'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    dependencies {
+        runtime('org.springframework.boot:spring-boot-devtools')
+        compileOnly('org.projectlombok:lombok')
+        annotationProcessor("org.projectlombok:lombok")
+        compileOnly("org.springframework.boot:spring-boot-configuration-processor")
+        annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+        testImplementation("org.projectlombok:lombok")
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+    dependencyManagement {
+        imports {
+            // could have been
+            // mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+            // but, as per source, that constant is a string containing the exact value below, and I think the one below is clearer
+            // details: https://docs.spring.io/spring-boot/docs/2.0.0.BUILD-SNAPSHOT/gradle-plugin/reference/html/#managing-dependencies-using-in-isolation
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+        }
+    }
+    compileJava.dependsOn(processResources)
+}
