@@ -2,6 +2,7 @@ package dev.local.gtm.api.service.impl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import dev.local.gtm.api.config.AppProperties;
+import dev.local.gtm.api.domain.Authority;
 import dev.local.gtm.api.domain.Captcha;
 import dev.local.gtm.api.domain.User;
 import dev.local.gtm.api.domain.search.UserSearch;
@@ -76,7 +77,7 @@ public class AuthServiceImpl implements AuthService {
                 .name(userDTO.getName())
                 .avatar(userDTO.getAvatar())
                 .activated(true)
-                .authority(authorityRepository.findOneByName(AuthoritiesConstants.USER).orElseThrow(AuthorityNotFoundException::new))
+                .authority(getOrCreateDefault())
                 .build();
         log.debug("用户 {} 即将创建", newUser);
         userRepository.save(newUser);
@@ -163,6 +164,11 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public boolean mobileExisted(String mobile) {
         return userRepository.countByMobile(mobile) > 0;
+    }
+
+    private Authority getOrCreateDefault() {
+        return authorityRepository.findOneByName(AuthoritiesConstants.USER)
+            .orElse(authorityRepository.save(new Authority(AuthoritiesConstants.USER)));
     }
 
     private void verifySmsCode(final String mobile, final  String code) {

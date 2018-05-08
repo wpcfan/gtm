@@ -1,0 +1,54 @@
+version: '3.2'
+services:
+  elasticsearch:
+    # image: docker.elastic.co/elasticsearch/elasticsearch:5.6.8
+    image: registry.cn-beijing.aliyuncs.com/twigcodes/elasticsearch:5.6.8
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    environment:
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+  redis:
+    # image: redis:4-alpine
+    image: registry.cn-beijing.aliyuncs.com/twigcodes/redis:4-alpine
+    command: [ "redis-server", "--protected-mode", "no" ]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+  mongo:
+    # image: mongo:3.6.4
+    image: registry.cn-beijing.aliyuncs.com/twigcodes/mongo:3.6.4
+    ports:
+      - "27017:27017"
+    volumes:
+      - api_db:/data/db
+  api-server:
+    # 使用阿里云镜像提高速度，如果使用 docker 官方 hub: image: twigcodes/so-api-service
+    image: registry.cn-beijing.aliyuncs.com/twigcodes/gtm-api:0.0.1
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    links:
+      - mongo
+      - redis
+      - elasticsearch
+  nginx:
+    build:
+      context: .
+      dockerfile: ./frontend/docker/nginx/Dockerfile
+      args:
+        - env=production
+    container_name: nginx
+    # volumes:
+    #   - certs:/etc/letsencrypt
+    #   - certs-data:/data/letsencrypt
+    ports:
+      - 80:80
+      - 443:443
+volumes:
+  api_db: {}
+  redis-data: {}
+  esdata: {}

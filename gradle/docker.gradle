@@ -13,7 +13,7 @@ apply plugin: com.bmuschko.gradle.docker.DockerRemoteApiPlugin
 task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile, dependsOn: ['bootJar']) {
     description = "自动创建 Dockerfile"
     destFile = project.file('src/main/docker/Dockerfile')
-    from 'openjdk:8-jdk-alpine'
+    from 'registry.cn-beijing.aliyuncs.com/twigcodes/openjdk:8-jdk-alpine'
     volume '/tmp'
     addFile "${project.name}-${project.version}.jar", "app.jar"
     instruction { 'ENTRYPOINT [' +
@@ -38,7 +38,7 @@ task copyDockerFiles(type: Copy, dependsOn: 'createDockerfile') {
 
 task buildDocker(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage, dependsOn: 'copyDockerFiles') {
     description = "打包应用构建镜像"
-    group = "twigcodes"
+    group = "registry.cn-beijing.aliyuncs.com/twigcodes"
     inputDir = project.file("${project.buildDir}/docker")
     tags = ["${group}/${project.name}:latest".toString(), "${group}/${project.name}:${project.version}".toString()]
 }
