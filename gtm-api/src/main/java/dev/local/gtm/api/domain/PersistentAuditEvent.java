@@ -19,12 +19,12 @@ import java.util.Map;
  * @author Peng Wang (wpcfan@gmail.com)
  */
 @Data
-@Document
+@Document(collection = "api_audit_events")
 public class PersistentAuditEvent implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-	@Id
+    @Id
     @Field("event_id")
     private String id;
 
@@ -39,4 +39,3 @@ public class PersistentAuditEvent implements Serializable {
 
     private Map<String, String> data = new HashMap<>();
 }
-

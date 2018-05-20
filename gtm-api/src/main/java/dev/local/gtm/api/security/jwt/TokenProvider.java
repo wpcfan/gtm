@@ -31,42 +31,59 @@ public class TokenProvider {
 
     private String secretKey;
 
+    private String refreshSecretKey;
+
     private long tokenValidityInMilliseconds;
+
+    private long refreshTokenValidityInMilliseconds;
 
     private final AppProperties appProperties;
 
     @PostConstruct
     public void init() {
         this.secretKey = appProperties.getSecurity().getJwt().getSecret();
-
+        this.refreshSecretKey = appProperties.getSecurity().getJwt().getRefershSecret();
         this.tokenValidityInMilliseconds = 1000 * appProperties.getSecurity().getJwt().getTokenValidityInSeconds();
+        this.refreshTokenValidityInMilliseconds = 30 * 24 * 1000
+                * appProperties.getSecurity().getJwt().getRefreshTokenValidityInSeconds();
     }
 
     public String createToken(Authentication authentication) {
-        val authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
+        val authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
         val now = (new Date()).getTime();
         val validity = new Date(now + this.tokenValidityInMilliseconds);
 
-        return Jwts.builder()
-                .setSubject(authentication.getName())
-                .claim(AUTHORITIES_KEY, authorities)
-                .signWith(SignatureAlgorithm.HS512, secretKey)
-                .setExpiration(validity)
-                .compact();
+        return Jwts.builder().setSubject(authentication.getName()).claim(AUTHORITIES_KEY, authorities)
+                .signWith(SignatureAlgorithm.HS512, secretKey).setExpiration(validity).compact();
+    }
+
+    public String createRefreshToken(Authentication authentication) {
+        val authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+
+        val now = (new Date()).getTime();
+        val validity = new Date(now + this.refreshTokenValidityInMilliseconds);
+
+        return Jwts.builder().setSubject(authentication.getName()).claim(AUTHORITIES_KEY, authorities)
+                .signWith(SignatureAlgorithm.HS512, refreshSecretKey).setExpiration(validity).compact();
     }
 
     public Authentication getAuthentication(String token) {
-        val claims = Jwts.parser()
-                .setSigningKey(secretKey)
-                .parseClaimsJws(token)
-                .getBody();
-        val authorities =
-                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
+        val claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        val authorities = Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                .map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+
+        val principal = new User(claims.getSubject(), "", authorities);
+        log.debug("授权对象：{}", principal);
+        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+    }
+
+    public Authentication getAuthenticationFromRefreshToken(String token) {
+        val claims = Jwts.parser().setSigningKey(refreshSecretKey).parseClaimsJws(token).getBody();
+        val authorities = Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                .map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 
         val principal = new User(claims.getSubject(), "", authorities);
         log.debug("授权对象：{}", principal);
@@ -76,6 +93,29 @@ public class TokenProvider {
     public boolean validateToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(authToken);
+            return true;
+        } catch (SignatureException e) {
+            log.info("非法 JWT 签名");
+            log.trace("非法 JWT 签名的 trace: {}", e);
+        } catch (MalformedJwtException e) {
+            log.info("非法 JWT token.");
+            log.trace("非法 JWT token 的 trace: {}", e);
+        } catch (ExpiredJwtException e) {
+            log.info("过期 JWT token");
+            log.trace("过期 JWT token 的 trace: {}", e);
+        } catch (UnsupportedJwtException e) {
+            log.info("系统不支持的 JWT token");
+            log.trace("系统不支持的 JWT token 的 trace: {}", e);
+        } catch (IllegalArgumentException e) {
+            log.info("JWT token 压缩处理不正确");
+            log.trace("JWT token 压缩处理不正确的 trace: {}", e);
+        }
+        return false;
+    }
+
+    public boolean validateRefreshToken(String authToken) {
+        try {
+            Jwts.parser().setSigningKey(refreshSecretKey).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException e) {
             log.info("非法 JWT 签名");

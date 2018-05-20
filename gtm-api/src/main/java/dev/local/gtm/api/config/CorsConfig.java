@@ -1,14 +1,14 @@
 package dev.local.gtm.api.config;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 @Configuration
 public class CorsConfig {

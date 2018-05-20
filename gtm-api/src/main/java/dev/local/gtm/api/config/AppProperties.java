@@ -1,7 +1,8 @@
 package dev.local.gtm.api.config;
 
 import lombok.Data;
-import lombok.Value;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsConfiguration;
@@ -11,9 +12,10 @@ import org.springframework.web.cors.CorsConfiguration;
  *
  * @author Peng Wang (wpcfan@gmail.com)
  */
-@Value
 @Component
 @ConfigurationProperties(prefix = "app")
+@Getter
+@Setter
 public class AppProperties {
 
     private final LeanCloud leanCloud = new LeanCloud();
@@ -24,23 +26,24 @@ public class AppProperties {
     private final Http http = new Http();
     private final UserDefaults userDefaults = new UserDefaults();
     private final RedissonConfig redissonConfig = new RedissonConfig();
+    private final Async async = new Async();
 
     @Data
     public static class LeanCloud {
-        private String appId = "pqmaqNUAzliIxr2yqIw9lY3s-gzGzoHsz";
-        private String appKey = "EU4D2VJRUwOx44bwc6tduykw";
+        private String appId = "aYoLLIK88BIjjR4HeoxzGp5A-gzGzoHsz";
+        private String appKey = "rr56zkrXHunG5aNzcScSVi0d";
     }
 
     @Data
     public static class SmsCaptcha {
-        private String requestUrl = "https://pqmaqnua.api.lncld.net/1.1/requestCaptcha";
-        private String verificationUrl = "https://pqmaqnua.api.lncld.net/1.1/verifyCaptcha";
+        private String requestUrl = "https://ayollik8.api.lncld.net/1.1/requestCaptcha";
+        private String verificationUrl = "https://ayollik8.api.lncld.net/1.1/verifyCaptcha";
     }
 
     @Data
     public static class SmsCode {
-        private String requestUrl = "https://pqmaqnua.api.lncld.net/1.1/requestSmsCode";
-        private String verificationUrl = "https://pqmaqnua.api.lncld.net/1.1/verifySmsCode";
+        private String requestUrl = "https://ayollik8.api.lncld.net/1.1/requestSmsCode";
+        private String verificationUrl = "https://ayollik8.api.lncld.net/1.1/verifySmsCode";
     }
 
     @Data
@@ -56,16 +59,22 @@ public class AppProperties {
         @Data
         public static class Jwt {
             private String secret = "myDefaultSecret";
+            private String refershSecret = "myDefaultRefreshSecret";
             private long tokenValidityInSeconds = 7200;
+            private long refreshTokenValidityInSeconds = 2592000;
             private String tokenPrefix = "Bearer ";
         }
     }
 
     @Data
     public static class Http {
-        public enum Version {V_1_1, V_2_0}
-        private Version version;
+        public enum Version {
+            V_1_1, V_2_0
+        }
+
+        private Version version = Version.V_1_1;
         private final Cache cache = new Cache();
+
         @Data
         public static class Cache {
             private int timeToLiveInDays = 1461;
@@ -78,18 +87,25 @@ public class AppProperties {
     }
 
     @Data
+    public static class Async {
+        private int corePoolSize = 2;
+        private int maxPoolSize = 50;
+        private int queueCapacity = 10000;
+    }
+
+    @Data
     public static class RedissonConfig {
         private String address = "redis://redis:6379";
         private int connectionMinimumIdleSize = 10;
-        private int idleConnectionTimeout=10000;
-        private int pingTimeout=1000;
-        private int connectTimeout=10000;
-        private int timeout=3000;
-        private int retryAttempts=3;
-        private int retryInterval=1500;
+        private int idleConnectionTimeout = 10000;
+        private int pingTimeout = 1000;
+        private int connectTimeout = 10000;
+        private int timeout = 3000;
+        private int retryAttempts = 3;
+        private int retryInterval = 1500;
         private String password = null;
-        private int subscriptionsPerConnection=5;
-        private String clientName=null;
+        private int subscriptionsPerConnection = 5;
+        private String clientName = null;
         private int subscriptionConnectionMinimumIdleSize = 1;
         private int subscriptionConnectionPoolSize = 50;
         private int connectionPoolSize = 64;
@@ -97,8 +113,8 @@ public class AppProperties {
         private boolean dnsMonitoring = false;
         private int dnsMonitoringInterval = 5000;
 
-        private int thread=2;
+        private int thread = 2;
 
-        private String codec="org.redisson.codec.JsonJacksonCodec";
+        private String codec = "org.redisson.codec.JsonJacksonCodec";
     }
 }

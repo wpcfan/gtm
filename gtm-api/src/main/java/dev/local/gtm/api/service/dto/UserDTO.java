@@ -3,10 +3,7 @@ package dev.local.gtm.api.service.dto;
 import dev.local.gtm.api.config.Constants;
 import dev.local.gtm.api.domain.Authority;
 import dev.local.gtm.api.domain.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Singular;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -15,6 +12,7 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -41,7 +39,7 @@ public class UserDTO {
     @Size(max = 256)
     private String avatar;
 
-    private boolean activated = false;
+    private boolean activated;
 
     @Singular("authority")
     private Set<String> authorities;
@@ -54,8 +52,6 @@ public class UserDTO {
         this.email = user.getEmail();
         this.activated = user.isActivated();
         this.avatar = user.getAvatar();
-        this.authorities = user.getAuthorities().stream()
-                .map(Authority::getName)
-                .collect(Collectors.toSet());
+        this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
     }
 }

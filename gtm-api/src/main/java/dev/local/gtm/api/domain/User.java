@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Data
 @Builder
-@EqualsAndHashCode(callSuper = false, of = {"id"})
+@EqualsAndHashCode(callSuper = false, of = { "id" })
 @ToString(exclude = "authorities")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -60,7 +60,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @JsonIgnore
     private String resetKey;
 
-    @org.springframework.data.mongodb.core.mapping.Field("reset_date") @Builder.Default
+    @org.springframework.data.mongodb.core.mapping.Field("reset_date")
+    @Builder.Default
     private Instant resetDate = null;
 
     @Builder.Default

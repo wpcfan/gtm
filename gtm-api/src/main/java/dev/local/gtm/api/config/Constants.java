@@ -7,7 +7,7 @@ package dev.local.gtm.api.config;
  */
 public final class Constants {
 
-    // Spring profiles for development, test and production, see http://www.jhipster.tech/profiles/
+    // 分别对应开发、测试和生产环境的 Spring 配置
     public static final String SPRING_PROFILE_DEVELOPMENT = "dev";
     public static final String SPRING_PROFILE_TEST = "test";
     public static final String SPRING_PROFILE_PRODUCTION = "prod";
@@ -23,4 +23,3 @@ public final class Constants {
     private Constants() {
     }
 }
-

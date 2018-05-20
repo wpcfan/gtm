@@ -1,7 +1,7 @@
 package dev.local.gtm.api.config;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
@@ -17,9 +17,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 不加这个注解 '@AutoConfigureBefore(value = { DatabaseConfig.class })' 会影响 ElasticSearch
+ * 不加这个注解 '@AutoConfigureBefore' 会影响 ElasticSearch 的加载
+ *
  */
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 @AutoConfigureBefore(value = { SecurityConfig.class, DatabaseConfig.class })
 @EnableCaching

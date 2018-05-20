@@ -16,6 +16,7 @@ import lombok.val;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,19 +45,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(UserDTO userDTO) {
-        val user = User.builder()
-                .login(userDTO.getLogin())
-                .name(userDTO.getName())
-                .email(userDTO.getEmail())
-                .mobile(userDTO.getMobile())
-                .avatar(userDTO.getAvatar())
-                .build();
+        val user = User.builder().login(userDTO.getLogin()).name(userDTO.getName()).email(userDTO.getEmail())
+                .mobile(userDTO.getMobile()).avatar(userDTO.getAvatar()).build();
         if (userDTO.getAuthorities() != null) {
-            Set<Authority> authorities = userDTO.getAuthorities().stream()
-                    .map(authorityRepository::findById)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .collect(Collectors.toSet());
+            Set<Authority> authorities = userDTO.getAuthorities().stream().map(authorityRepository::findById)
+                    .filter(Optional::isPresent).map(Optional::get).collect(Collectors.toSet());
             user.setAuthorities(authorities);
         }
         String encryptedPassword = passwordEncoder.encode(appProperties.getUserDefaults().getInitialPassword());
@@ -73,9 +66,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<UserDTO> updateUser(UserDTO userDTO) {
-        return Optional.of(userRepository.findById(userDTO.getId()))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+        return Optional.of(userRepository.findById(userDTO.getId())).filter(Optional::isPresent).map(Optional::get)
                 .map(user -> {
                     user.setName(userDTO.getName());
                     user.setAvatar(userDTO.getAvatar());
@@ -84,18 +75,14 @@ public class UserServiceImpl implements UserService {
                     user.setActivated(userDTO.isActivated());
                     Set<Authority> managedAuthorities = user.getAuthorities();
                     managedAuthorities.clear();
-                    userDTO.getAuthorities().stream()
-                            .map(authorityRepository::findById)
-                            .filter(Optional::isPresent)
-                            .map(Optional::get)
-                            .forEach(managedAuthorities::add);
+                    userDTO.getAuthorities().stream().map(authorityRepository::findById).filter(Optional::isPresent)
+                            .map(Optional::get).forEach(managedAuthorities::add);
                     userRepository.save(user);
                     userSearchRepository.save(new UserSearch(user));
                     this.clearUserCaches(user);
                     log.debug("用户: {} 的数据已更新", user);
                     return user;
-                })
-                .map(UserDTO::new);
+                }).map(UserDTO::new);
     }
 
     @Override
@@ -133,11 +120,14 @@ public class UserServiceImpl implements UserService {
      * <p>
      * 这个任务每天凌晨 1 点或执行一次。
      */
+    @Override
+    @Async
     @Scheduled(cron = "0 0 1 * * ?")
     public void removeNotActivatedUsers() {
-        List<User> users = userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(Instant.now().minus(3, ChronoUnit.DAYS));
+        List<User> users = userRepository
+                .findAllByActivatedIsFalseAndCreatedDateBefore(Instant.now().minus(3, ChronoUnit.DAYS));
         for (User user : users) {
-            log.debug("Deleting not activated user {}", user.getLogin());
+            log.debug("删除未激活用户 {}", user.getLogin());
             userRepository.delete(user);
             userSearchRepository.delete(new UserSearch(user));
             this.clearUserCaches(user);
@@ -145,14 +135,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private void clearUserCaches(User user) {
-        Objects.requireNonNull(
-                cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE))
-                .evict(user.getLogin());
-        Objects.requireNonNull(
-                cacheManager.getCache(UserRepository.USERS_BY_MOBILE_CACHE))
-                .evict(user.getMobile());
-        Objects.requireNonNull(
-                cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE))
-                .evict(user.getEmail());
+        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
+        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_MOBILE_CACHE)).evict(user.getMobile());
+        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
     }
 }

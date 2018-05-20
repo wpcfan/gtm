@@ -23,4 +23,6 @@ public interface UserService {
     List<String> getAuthorities();
 
     Page<UserSearch> search(String query, Pageable pageable);
+
+    void removeNotActivatedUsers();
 }

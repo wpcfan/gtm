@@ -26,6 +26,19 @@ logging:
       cache: ERROR
     org.springframework.data.mongodb.core.MongoTemplate: ERROR
     dev.local.gtm.api: ERROR
+management:
+  endpoints:
+    # 默认激活所有监控管理接口
+    enabled-by-default: true
+    web:
+      base-path: /management
+      # 让所有监控接口都接受 web 访问
+      exposure:
+        include: "*"
+      # 设置跨域
+      cors:
+        allowed-origins: "*"
+        allowed-methods: GET,POST
 
 ---
 
