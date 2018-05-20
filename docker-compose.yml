@@ -35,19 +35,19 @@ services:
       - mongo
       - redis
       - elasticsearch
-  nginx:
-    build:
-      context: .
-      dockerfile: ./frontend/docker/nginx/Dockerfile
-      args:
-        - env=production
-    container_name: nginx
-    # volumes:
-    #   - certs:/etc/letsencrypt
-    #   - certs-data:/data/letsencrypt
-    ports:
-      - 80:80
-      - 443:443
+  # nginx:
+  #   build:
+  #     context: .
+  #     dockerfile: ./frontend/docker/nginx/Dockerfile
+  #     args:
+  #       - env=production
+  #   container_name: nginx
+  #   # volumes:
+  #   #   - certs:/etc/letsencrypt
+  #   #   - certs-data:/data/letsencrypt
+  #   ports:
+  #     - 80:80
+      # - 443:443
 volumes:
   api_db: {}
   redis-data: {}
