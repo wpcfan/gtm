@@ -25,7 +25,7 @@ dependencies {
     implementation("io.springfox:springfox-data-rest:${springFoxVersion}")
     implementation("io.springfox:springfox-swagger-ui:${springFoxVersion}")
     implementation("org.springframework.boot:spring-boot-starter-undertow")
-    implementation("org.javers:javers-spring-boot-starter-mongo:3.9.6")
+    implementation("org.javers:javers-spring-boot-starter-mongo:3.9.7")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("io.jsonwebtoken:jjwt:0.9.0")
