@@ -8,7 +8,9 @@ import { User } from '../../domain/user';
 import { environment } from '../../../environments/environment';
 import { Captcha } from '../../domain/captcha';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
   private headers = new HttpHeaders().append(
     'Content-Type',

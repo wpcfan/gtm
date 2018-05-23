@@ -1,0 +1,2 @@
+include 'gtm-api'
+rootProject.name = 'gtm-backend'

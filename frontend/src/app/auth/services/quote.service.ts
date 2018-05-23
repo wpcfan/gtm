@@ -3,7 +3,9 @@ import { AuthModule } from '../auth.module';
 import { of, Observable } from 'rxjs';
 import { Quote } from '../../domain/quote';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class QuoteService {
   constructor() {}
 

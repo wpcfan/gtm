@@ -1,2 +1,0 @@
-include 'api'
-rootProject.name = 'gtm-backend'
