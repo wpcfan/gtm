@@ -27,12 +27,6 @@ public class AuditResource {
     return Arrays.asList("User", "Authority", "Task");
   }
 
-  @GetMapping("/management/audits/getchanges")
-  public String retrieveChanges(@RequestParam("entityType") String entityType) {
-    return auditEventService.getChangesByClassName(entityType)
-      .orElseThrow(() -> new ResourceNotFoundException("error"));
-  }
-
   @GetMapping("/management/audits/changes")
   public Page<EntityAuditEvent> getChanges(@RequestParam("entityType") String entityType, Pageable pageable) {
     try {

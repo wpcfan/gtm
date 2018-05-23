@@ -12,7 +12,6 @@ import dev.local.gtm.api.config.Constants;
 import dev.local.gtm.api.domain.EntityAuditEvent;
 import dev.local.gtm.api.security.AuthoritiesConstants;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
@@ -26,18 +25,6 @@ public class AuditEventService {
 
   private static final String basePackageName = Constants.BASE_PACKAGE_NAME + ".domain.";
   private final Javers javers;
-
-  @Secured(AuthoritiesConstants.ADMIN)
-  public Optional<String> getChangesByClassName(String className) {
-    try {
-      val clazz = Class.forName(basePackageName + className);
-      val jqlQuery = QueryBuilder.byClass(clazz);
-      val changes = javers.findChanges(jqlQuery.build());
-      return Optional.of(javers.getJsonConverter().toJson(changes));
-    } catch (Exception e) {
-      return Optional.empty();
-    }
-  }
 
   @Secured(AuthoritiesConstants.ADMIN)
   public Page<EntityAuditEvent> getChanges(String entityType, Pageable pageable) throws ClassNotFoundException {
