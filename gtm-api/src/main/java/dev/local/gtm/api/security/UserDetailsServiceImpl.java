@@ -4,7 +4,7 @@ import dev.local.gtm.api.config.Constants;
 import dev.local.gtm.api.domain.User;
 import dev.local.gtm.api.repository.mongo.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  *
  * @author Peng Wang (wpcfan@gmail.com)
  */
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 @Component("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {

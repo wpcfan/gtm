@@ -20,6 +20,7 @@ public final class Constants {
     public static final String ANONYMOUS_USER = "anonymoususer";
     public static final String DEFAULT_LANGUAGE = "zh-cn";
 
+    public static final String BASE_PACKAGE_NAME = "dev.local.gtm.api";
     private Constants() {
     }
 }

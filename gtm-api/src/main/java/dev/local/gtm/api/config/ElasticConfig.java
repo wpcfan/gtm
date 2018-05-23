@@ -19,7 +19,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import java.io.IOException;
 
 @RequiredArgsConstructor
-@EnableElasticsearchRepositories(basePackages = "dev.local.gtm.api.repository.search")
+@EnableElasticsearchRepositories(basePackages = Constants.BASE_PACKAGE_NAME + ".repository.search")
 @EnableConfigurationProperties(ElasticsearchProperties.class)
 @ConditionalOnProperty("spring.data.elasticsearch.cluster-nodes")
 @Configuration

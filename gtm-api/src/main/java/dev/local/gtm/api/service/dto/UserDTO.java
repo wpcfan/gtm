@@ -52,6 +52,8 @@ public class UserDTO {
         this.email = user.getEmail();
         this.activated = user.isActivated();
         this.avatar = user.getAvatar();
-        this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
+        this.authorities = user.getAuthorities().stream()
+            .map(Authority::getName)
+            .collect(Collectors.toSet());
     }
 }

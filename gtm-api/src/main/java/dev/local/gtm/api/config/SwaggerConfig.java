@@ -39,7 +39,7 @@ import static springfox.documentation.schema.AlternateTypeRules.newRule;
  * @author Peng Wang (wpcfan@gmail.com)
  */
 @EnableSwagger2
-@ComponentScan(basePackages = "dev.local.gtm.api.web.rest")
+@ComponentScan(basePackages = Constants.BASE_PACKAGE_NAME + ".web.rest")
 @Import({ springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration.class })
 @Configuration
 public class SwaggerConfig {
@@ -51,7 +51,7 @@ public class SwaggerConfig {
     @Bean
     public Docket apiDoc() {
         return new Docket(DocumentationType.SWAGGER_2).select()
-                .apis(RequestHandlerSelectors.basePackage("dev.local.gtm.api.web.rest")).paths(PathSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage(Constants.BASE_PACKAGE_NAME + ".web.rest")).paths(PathSelectors.any())
                 .build().pathMapping("/").securitySchemes(newArrayList(apiKey()))
                 .securityContexts(newArrayList(securityContext())).directModelSubstitute(LocalDate.class, String.class)
                 .genericModelSubstitutes(ResponseEntity.class).apiInfo(apiInfo());

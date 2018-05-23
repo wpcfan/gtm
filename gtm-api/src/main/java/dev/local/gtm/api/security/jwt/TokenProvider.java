@@ -1,9 +1,10 @@
 package dev.local.gtm.api.security.jwt;
 
 import dev.local.gtm.api.config.AppProperties;
+import dev.local.gtm.api.security.AuthoritiesConstants;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
  *
  * @author Peng Wang (wpcfan@gmail.com)
  */
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class TokenProvider {
@@ -48,32 +49,57 @@ public class TokenProvider {
                 * appProperties.getSecurity().getJwt().getRefreshTokenValidityInSeconds();
     }
 
-    public String createToken(Authentication authentication) {
-        val authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+    public String createDevAdminToken() {
+        val authorities = Arrays.asList(AuthoritiesConstants.ADMIN, AuthoritiesConstants.USER).stream()
                 .collect(Collectors.joining(","));
+        val now = (new Date()).getTime();
+        val validity = new Date(now + this.tokenValidityInMilliseconds);
+        return Jwts.builder()
+            .setSubject("admin")
+            .claim(AUTHORITIES_KEY, authorities)
+            .signWith(SignatureAlgorithm.HS512, secretKey)
+            .setExpiration(validity)
+            .compact();
+    }
+
+    public String createToken(Authentication authentication) {
+        val authorities = authentication.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.joining(","));
 
         val now = (new Date()).getTime();
         val validity = new Date(now + this.tokenValidityInMilliseconds);
 
-        return Jwts.builder().setSubject(authentication.getName()).claim(AUTHORITIES_KEY, authorities)
-                .signWith(SignatureAlgorithm.HS512, secretKey).setExpiration(validity).compact();
+        return Jwts.builder()
+            .setSubject(authentication.getName())
+            .claim(AUTHORITIES_KEY, authorities)
+            .signWith(SignatureAlgorithm.HS512, secretKey)
+            .setExpiration(validity).compact();
     }
 
     public String createRefreshToken(Authentication authentication) {
-        val authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+        val authorities = authentication.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.joining(","));
 
         val now = (new Date()).getTime();
         val validity = new Date(now + this.refreshTokenValidityInMilliseconds);
 
-        return Jwts.builder().setSubject(authentication.getName()).claim(AUTHORITIES_KEY, authorities)
-                .signWith(SignatureAlgorithm.HS512, refreshSecretKey).setExpiration(validity).compact();
+        return Jwts.builder()
+            .setSubject(authentication.getName())
+            .claim(AUTHORITIES_KEY, authorities)
+            .signWith(SignatureAlgorithm.HS512, refreshSecretKey)
+            .setExpiration(validity).compact();
     }
 
     public Authentication getAuthentication(String token) {
-        val claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        val claims = Jwts.parser()
+            .setSigningKey(secretKey)
+            .parseClaimsJws(token)
+            .getBody();
         val authorities = Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
-                .map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
 
         val principal = new User(claims.getSubject(), "", authorities);
         log.debug("授权对象：{}", principal);
@@ -81,9 +107,13 @@ public class TokenProvider {
     }
 
     public Authentication getAuthenticationFromRefreshToken(String token) {
-        val claims = Jwts.parser().setSigningKey(refreshSecretKey).parseClaimsJws(token).getBody();
+        val claims = Jwts.parser()
+            .setSigningKey(refreshSecretKey)
+            .parseClaimsJws(token)
+            .getBody();
         val authorities = Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
-                .map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
 
         val principal = new User(claims.getSubject(), "", authorities);
         log.debug("授权对象：{}", principal);

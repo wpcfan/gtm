@@ -12,7 +12,7 @@ import dev.local.gtm.api.web.rest.vm.UserVM;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.*;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ import java.io.Serializable;
  *
  * @author Peng Wang (wpcfan@gmail.com)
  */
-@Log4j2
+@Slf4j
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor

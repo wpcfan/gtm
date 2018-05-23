@@ -1,9 +1,13 @@
 package dev.local.gtm.api.domain.search;
 
+import dev.local.gtm.api.domain.AbstractAuditingEntity;
 import dev.local.gtm.api.domain.Authority;
 import dev.local.gtm.api.domain.User;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -12,10 +16,13 @@ import java.io.Serializable;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = { "id" }, callSuper = false)
+@ToString
 @NoArgsConstructor
 @Document(indexName = "users", type = "user")
-public class UserSearch implements Serializable {
+public class UserSearch extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

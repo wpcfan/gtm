@@ -8,7 +8,7 @@ import dev.local.gtm.api.security.SecurityUtils;
 import dev.local.gtm.api.web.exception.InternalServerErrorException;
 import dev.local.gtm.api.web.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Log4j2
+@Slf4j
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor

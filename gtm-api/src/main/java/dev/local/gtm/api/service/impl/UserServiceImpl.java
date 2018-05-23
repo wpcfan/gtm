@@ -11,7 +11,7 @@ import dev.local.gtm.api.repository.search.UserSearchRepository;
 import dev.local.gtm.api.service.UserService;
 import dev.local.gtm.api.service.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
@@ -45,11 +45,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(UserDTO userDTO) {
-        val user = User.builder().login(userDTO.getLogin()).name(userDTO.getName()).email(userDTO.getEmail())
-                .mobile(userDTO.getMobile()).avatar(userDTO.getAvatar()).build();
+        val user = User.builder()
+            .login(userDTO.getLogin())
+            .name(userDTO.getName())
+            .email(userDTO.getEmail())
+            .mobile(userDTO.getMobile())
+            .avatar(userDTO.getAvatar())
+            .build();
         if (userDTO.getAuthorities() != null) {
-            Set<Authority> authorities = userDTO.getAuthorities().stream().map(authorityRepository::findById)
-                    .filter(Optional::isPresent).map(Optional::get).collect(Collectors.toSet());
+            Set<Authority> authorities = userDTO.getAuthorities().stream()
+                .map(authorityRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
             user.setAuthorities(authorities);
         }
         String encryptedPassword = passwordEncoder.encode(appProperties.getUserDefaults().getInitialPassword());
@@ -66,7 +74,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<UserDTO> updateUser(UserDTO userDTO) {
-        return Optional.of(userRepository.findById(userDTO.getId())).filter(Optional::isPresent).map(Optional::get)
+        return userRepository.findById(userDTO.getId())
                 .map(user -> {
                     user.setName(userDTO.getName());
                     user.setAvatar(userDTO.getAvatar());
@@ -75,8 +83,11 @@ public class UserServiceImpl implements UserService {
                     user.setActivated(userDTO.isActivated());
                     Set<Authority> managedAuthorities = user.getAuthorities();
                     managedAuthorities.clear();
-                    userDTO.getAuthorities().stream().map(authorityRepository::findById).filter(Optional::isPresent)
-                            .map(Optional::get).forEach(managedAuthorities::add);
+                    userDTO.getAuthorities().stream()
+                        .map(authorityRepository::findById)
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
+                        .forEach(managedAuthorities::add);
                     userRepository.save(user);
                     userSearchRepository.save(new UserSearch(user));
                     this.clearUserCaches(user);
@@ -87,7 +98,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(String login) {
-        userRepository.findOneByLoginIgnoreCase(login).ifPresent(user -> {
+        userRepository.findOneByLoginIgnoreCase(login)
+        .ifPresent(user -> {
             userRepository.delete(user);
             userSearchRepository.delete(new UserSearch(user));
             this.clearUserCaches(user);
@@ -107,7 +119,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<String> getAuthorities() {
-        return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
+        return authorityRepository.findAll().stream()
+            .map(Authority::getName)
+            .collect(Collectors.toList());
     }
 
     @Override

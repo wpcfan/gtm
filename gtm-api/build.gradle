@@ -34,6 +34,8 @@ dependencies {
     implementation("org.zalando:problem-spring-web:0.20.1")
     implementation("org.redisson:redisson:${redissonVersion}")
     implementation("com.fasterxml.jackson.module:jackson-module-afterburner")
+    implementation("org.javassist:javassist:3.18.2-GA")
+    implementation("com.github.mongobee:mongobee:0.13")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.data:spring-data-elasticsearch")

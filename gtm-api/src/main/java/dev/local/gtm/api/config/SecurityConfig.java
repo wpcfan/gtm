@@ -71,14 +71,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class).exceptionHandling()
-                .authenticationEntryPoint(problemSupport).accessDeniedHandler(problemSupport).and().csrf().disable()
-                .headers().frameOptions().disable().and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll().antMatchers("/api/**").authenticated()
-                .antMatchers("/websocket/tracker").hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/websocket/**")
-                .permitAll().antMatchers("/management/**").permitAll()
-                // .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/v2/api-docs/**").permitAll().antMatchers("/swagger-resources/configuration/ui")
-                .permitAll().antMatchers("/swagger-ui/index.html").permitAll().and().apply(jwtConfigurer);
+                .authenticationEntryPoint(problemSupport)
+                .accessDeniedHandler(problemSupport)
+            .and()
+                .csrf().disable()
+                .headers().frameOptions().disable()
+            .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+                .authorizeRequests()
+                .antMatchers("/dev/**").permitAll()
+                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/**").authenticated()
+                .antMatchers("/websocket/tracker").hasAuthority(AuthoritiesConstants.ADMIN)
+                .antMatchers("/websocket/**").permitAll()
+                .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
+                .antMatchers("/v2/api-docs/**").permitAll()
+                .antMatchers("/swagger-resources/configuration/ui").permitAll()
+                .antMatchers("/swagger-ui/index.html").permitAll()
+            .and()
+                .apply(jwtConfigurer);
     }
 }
