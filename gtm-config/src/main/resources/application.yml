@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: configserver
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://gitee.com/twigcodes_group/smartoffice-config.git
+          username: peng.wong
+          password: Wp770521
+# While in development mode, you can configure the config server to pick up configuration files from
+# the file system
+
+#           uri: file://Users/anilallewar/Documents/Anil Allewar/Trainings/Code Samples/Enterprise Java/Micro Services/sample-config
+
+# Defines the port where the config server is running so that rest of the services can pick up
+# their external configurations
+server:
+  port: 8888
+logging:
+  level:
+    org.springframework:
+      cloud: DEBUG
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+---
+
+spring:
+  profiles: prod
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+eureka:
+  instance:
+    hostname: discovery
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/

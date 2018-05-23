@@ -1,0 +1,138 @@
+spring:
+  application:
+    name: api-service
+  profiles:
+    active: dev
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    config:
+      uri: http://localhost:8888
+  data:
+    elasticsearch:
+      cluster-name: docker-cluster
+      cluster-nodes: localhost:9300
+    mongodb:
+      uri: mongodb://localhost/so-api-dev
+      database: so-api-dev
+  cache:
+    type: redis
+server:
+  port: 8080
+  compression:
+    enabled: true
+    mime-types: font/woff2,image/svg+xml,application/font-woff,application/json,application/xml,application/javascript,text/html,text/xml,text/plain,text/javascript,text/css
+logging:
+  level:
+    org.apache.http: ERROR
+    org.springframework:
+      web: ERROR
+      data: ERROR
+      security: ERROR
+      cache: ERROR
+    org.springframework.data.mongodb.core.MongoTemplate: ERROR
+    dev.local.smartoffice.api: ERROR
+management:
+  endpoints:
+    # 默认激活所有监控管理接口
+    enabled-by-default: true
+    web:
+      base-path: /management
+      # 让所有监控接口都接受 web 访问
+      exposure:
+        include: "*"
+      # 设置跨域
+      cors:
+        allowed-origins: "*"
+        allowed-methods: GET,POST
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+---
+
+spring:
+  profiles: dev
+  devtools:
+    remote:
+      secret: thisismysecret
+  data:
+    mongodb:
+      database: so-api-dev
+      host: localhost
+    elasticsearch:
+      cluster-name: docker-cluster
+      cluster-nodes: localhost:9300
+logging:
+  level:
+    org.apache.http: DEBUG
+    org.springframework:
+        web:
+          client.RestTemplate: DEBUG
+        data:
+          elasticsearch:
+            core: DEBUG
+          mongodb:
+            core:
+              MongoTemplate: DEBUG
+        security: DEBUG
+        cache: DEBUG
+    dev.local.smartoffice.api: DEBUG
+
+---
+
+spring:
+  profiles: test
+  data:
+    mongodb:
+      uri: "mongodb://localhost/so-api-test"
+      database: so-api-test
+  cache:
+    type: none
+logging:
+  level:
+    org.apache.http: DEBUG
+    org.springframework:
+          web:
+            client.RestTemplate: DEBUG
+          data: DEBUG
+          security: DEBUG
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+    dev.local.smartoffice.api: DEBUG
+
+---
+
+spring:
+  profiles: prod
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    config:
+      uri: http://configserver:8888
+  data:
+    mongodb:
+      uri: "mongodb://mongo/so-api"
+      database: so-api
+    elasticsearch:
+      cluster-name: docker-cluster
+      cluster-nodes: elasticsearch:9300
+      properties:
+        client.transport.sniff: false
+  redis:
+    host: redis
+    port: 6379
+eureka:
+  instance:
+    hostname: discovery
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/

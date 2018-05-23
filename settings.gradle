@@ -1,2 +1,4 @@
 include 'gtm-api'
+include 'gtm-config'
+include 'gtm-discovery'
 rootProject.name = 'gtm-backend'

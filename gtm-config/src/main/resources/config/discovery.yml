@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: discovery
+  cloud:
+    config:
+      uri: http://localhost:8888
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+management:
+  endpoints:
+    # 默认激活所有监控管理接口
+    enabled-by-default: true
+    web:
+      base-path: /management
+      # 让所有监控接口都接受 web 访问
+      exposure:
+        include: "*"
+      # 设置跨域
+      cors:
+        allowed-origins: "*"
+        allowed-methods: GET,POST
+
+---
+
+spring:
+  profiles: prod
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    config:
+      uri: http://configserver:8888
+eureka:
+  instance:
+    hostname: discovery
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/

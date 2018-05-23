@@ -1,0 +1,12 @@
+configurations {
+    springLoaded
+    // 如果使用 undertow 或 jetty 需要把默认包含的 tomcat 排除在外
+    compile.exclude module: 'spring-boot-starter-tomcat'
+}
+dependencies {
+    implementation("org.springframework.cloud:spring-cloud-starter-bus-amqp")
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-server")
+    implementation("org.springframework.cloud:spring-cloud-starter-config")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-undertow")
+}

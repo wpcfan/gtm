@@ -28,6 +28,30 @@ services:
       - "27017:27017"
     volumes:
       - api_db:/data/db
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672" # JMS 端口
+      - "15672:15672" # 管理端口 default user:pass = guest:guest
+    networks:
+      - docker-app
+  configserver:
+    image: registry.cn-beijing.aliyuncs.com/twigcodes/so-config
+    ports:
+      - 8888:8888
+    depends_on:
+      - rabbitmq
+    networks:
+      - docker-app
+  discovery:
+    image: registry.cn-beijing.aliyuncs.com/twigcodes/so-discovery
+    ports:
+      - 8761:8761
+    depends_on:
+      - rabbitmq
+      - configserver
+    networks:
+      - docker-app
   api-server:
     # 使用阿里云镜像提高速度，如果使用 docker 官方 hub: image: twigcodes/so-api-service
     image: registry.cn-beijing.aliyuncs.com/twigcodes/gtm-api-service
