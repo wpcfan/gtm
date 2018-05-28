@@ -83,11 +83,27 @@
     rxjs "^6.0.0"
     source-map "^0.5.6"
 
+"@angular-devkit/core@0.6.5", "@angular-devkit/core@^0.6.0":
+  version "0.6.5"
+  resolved "http://registry.npm.taobao.org/@angular-devkit/core/download/@angular-devkit/core-0.6.5.tgz#d5c7e603e4557e1d86193dcfaaa34dbc86a3432a"
+  dependencies:
+    ajv "~6.4.0"
+    chokidar "^2.0.3"
+    rxjs "^6.0.0"
+    source-map "^0.5.6"
+
 "@angular-devkit/schematics@0.6.0":
   version "0.6.0"
   resolved "http://registry.npm.taobao.org/@angular-devkit/schematics/download/@angular-devkit/schematics-0.6.0.tgz#0117dc7d5905b053df4f2918e2e073efd1091f5c"
   dependencies:
     "@angular-devkit/core" "0.6.0"
+    rxjs "^6.0.0"
+
+"@angular-devkit/schematics@^0.6.0":
+  version "0.6.5"
+  resolved "http://registry.npm.taobao.org/@angular-devkit/schematics/download/@angular-devkit/schematics-0.6.5.tgz#6985c821feab391ef298ef5a5002b95bea7ad843"
+  dependencies:
+    "@angular-devkit/core" "0.6.5"
     rxjs "^6.0.0"
 
 "@angular/animations@^6.0.0":
@@ -146,9 +162,9 @@
   dependencies:
     tslib "^1.9.0"
 
-"@angular/flex-layout@git+https://github.com/angular/flex-layout-builds.git":
-  version "5.0.0-beta.14-b3f3404"
-  resolved "git+https://github.com/angular/flex-layout-builds.git#907e6335b32a8a6bf36d56871cf9a06e14dab956"
+"@angular/flex-layout@^6.0.0-beta.15":
+  version "6.0.0-beta.15"
+  resolved "http://registry.npm.taobao.org/@angular/flex-layout/download/@angular/flex-layout-6.0.0-beta.15.tgz#9e85e9292286941973c7e6cdec02990d5fd6ec15"
   dependencies:
     tslib "^1.7.1"
 
@@ -206,29 +222,29 @@
   dependencies:
     tslib "^1.9.0"
 
-"@ngrx/effects@^6.0.0-beta.1":
-  version "6.0.0-beta.1"
-  resolved "http://registry.npm.taobao.org/@ngrx/effects/download/@ngrx/effects-6.0.0-beta.1.tgz#34e742e8c6a5730291f1e1f35798173ac0a93733"
+"@ngrx/effects@^6.0.1":
+  version "6.0.1"
+  resolved "http://registry.npm.taobao.org/@ngrx/effects/download/@ngrx/effects-6.0.1.tgz#b4c0a7918b8c9a4dbc2a663ea7562bea5db21257"
 
-"@ngrx/entity@^6.0.0-beta.1":
-  version "6.0.0-beta.1"
-  resolved "http://registry.npm.taobao.org/@ngrx/entity/download/@ngrx/entity-6.0.0-beta.1.tgz#fd399d2fea12c2f199cd3e78dd6a714237af594d"
+"@ngrx/entity@^6.0.1":
+  version "6.0.1"
+  resolved "http://registry.npm.taobao.org/@ngrx/entity/download/@ngrx/entity-6.0.1.tgz#a07fe95d39671f3be10143fe999f5a9ee00f4edc"
 
-"@ngrx/router-store@^6.0.0-beta.1":
-  version "6.0.0-beta.1"
-  resolved "http://registry.npm.taobao.org/@ngrx/router-store/download/@ngrx/router-store-6.0.0-beta.1.tgz#1d43e47996a0a664d07aedbef66be640b63e8aa2"
+"@ngrx/router-store@^6.0.1":
+  version "6.0.1"
+  resolved "http://registry.npm.taobao.org/@ngrx/router-store/download/@ngrx/router-store-6.0.1.tgz#1c5c77b138eaed030b58f4203bf921e88cc51112"
 
-"@ngrx/schematics@github:ngrx/schematics-builds":
-  version "5.2.0"
-  resolved "https://codeload.github.com/ngrx/schematics-builds/tar.gz/1dfc73635232d4bbc876c2db83603562d973f932"
+"@ngrx/schematics@^6.0.1":
+  version "6.0.1"
+  resolved "http://registry.npm.taobao.org/@ngrx/schematics/download/@ngrx/schematics-6.0.1.tgz#f6ff797faf1f46d5cdb980719d97b9991cca515f"
 
-"@ngrx/store-devtools@^6.0.0-beta.1":
-  version "6.0.0-beta.1"
-  resolved "http://registry.npm.taobao.org/@ngrx/store-devtools/download/@ngrx/store-devtools-6.0.0-beta.1.tgz#8bbac342c90340589c881577e193dbe67c487c5a"
+"@ngrx/store-devtools@^6.0.1":
+  version "6.0.1"
+  resolved "http://registry.npm.taobao.org/@ngrx/store-devtools/download/@ngrx/store-devtools-6.0.1.tgz#6049208d1ef8dc5f1f96ffc63373eab2d72f957c"
 
-"@ngrx/store@^6.0.0-beta.1":
-  version "6.0.0-beta.1"
-  resolved "http://registry.npm.taobao.org/@ngrx/store/download/@ngrx/store-6.0.0-beta.1.tgz#db4b91fb54828b83495ae9cfb544cf62266a441d"
+"@ngrx/store@^6.0.1":
+  version "6.0.1"
+  resolved "http://registry.npm.taobao.org/@ngrx/store/download/@ngrx/store-6.0.1.tgz#02c806ce20c698b997e81f5671e0edc07d32cf86"
 
 "@ngtools/webpack@6.0.0":
   version "6.0.0"
@@ -2243,7 +2259,7 @@ find-up@^1.0.0:
     path-exists "^2.0.0"
     pinkie-promise "^2.0.0"
 
-find-up@^2.1.0:
+find-up@^2.0.0, find-up@^2.1.0:
   version "2.1.0"
   resolved "http://registry.npm.taobao.org/find-up/download/find-up-2.1.0.tgz#45d1b7e506c717ddd482775a2b77920a3c0c57a7"
   dependencies:
@@ -3425,6 +3441,24 @@ jszip@^3.1.3:
     pako "~1.0.2"
     readable-stream "~2.0.6"
 
+jwt-builder@^1.1.0:
+  version "1.1.0"
+  resolved "http://registry.npm.taobao.org/jwt-builder/download/jwt-builder-1.1.0.tgz#c3e0b3977d1096308df9d40330f084261c1843b9"
+  dependencies:
+    jwt-simple "^0.5.0"
+
+jwt-simple@^0.5.0:
+  version "0.5.1"
+  resolved "http://registry.npm.taobao.org/jwt-simple/download/jwt-simple-0.5.1.tgz#79ea01891b61de6b68e13e67c0b4b5bda937b294"
+
+jwtgen@^2.2.0:
+  version "2.2.0"
+  resolved "http://registry.npm.taobao.org/jwtgen/download/jwtgen-2.2.0.tgz#712f2cc59d321e1df1548a297150dc687b31686d"
+  dependencies:
+    jwt-builder "^1.1.0"
+    lodash "^4.6.1"
+    yargs "^8.0.2"
+
 karma-chrome-launcher@~2.2.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/karma-chrome-launcher/-/karma-chrome-launcher-2.2.0.tgz#cf1b9d07136cc18fe239327d24654c3dbc368acf"
@@ -3571,6 +3605,15 @@ load-json-file@^1.0.0:
     pinkie-promise "^2.0.0"
     strip-bom "^2.0.0"
 
+load-json-file@^2.0.0:
+  version "2.0.0"
+  resolved "http://registry.npm.taobao.org/load-json-file/download/load-json-file-2.0.0.tgz#7947e42149af80d696cbf797bcaabcfe1fe29ca8"
+  dependencies:
+    graceful-fs "^4.1.2"
+    parse-json "^2.2.0"
+    pify "^2.0.0"
+    strip-bom "^3.0.0"
+
 loader-runner@^2.3.0:
   version "2.3.0"
   resolved "http://registry.npm.taobao.org/loader-runner/download/loader-runner-2.3.0.tgz#f482aea82d543e07921700d5a46ef26fdac6b8a2"
@@ -3619,7 +3662,7 @@ lodash@^3.8.0:
   version "3.10.1"
   resolved "http://registry.npm.taobao.org/lodash/download/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
-lodash@^4.0.0, lodash@^4.17.3, lodash@~4.17.4:
+lodash@^4.0.0, lodash@^4.17.3, lodash@^4.6.1, lodash@~4.17.4:
   version "4.17.10"
   resolved "http://registry.npm.taobao.org/lodash/download/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
 
@@ -4520,6 +4563,12 @@ path-type@^1.0.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
 
+path-type@^2.0.0:
+  version "2.0.0"
+  resolved "http://registry.npm.taobao.org/path-type/download/path-type-2.0.0.tgz#f012ccb8415b7096fc2daa1054c3d72389594c73"
+  dependencies:
+    pify "^2.0.0"
+
 path-type@^3.0.0:
   version "3.0.0"
   resolved "http://registry.npm.taobao.org/path-type/download/path-type-3.0.0.tgz#cef31dc8e0a1a3bb0d105c0cd97cf3bf47f4e36f"
@@ -4851,6 +4900,13 @@ read-pkg-up@^1.0.1:
     find-up "^1.0.0"
     read-pkg "^1.0.0"
 
+read-pkg-up@^2.0.0:
+  version "2.0.0"
+  resolved "http://registry.npm.taobao.org/read-pkg-up/download/read-pkg-up-2.0.0.tgz#6b72a8048984e0c41e79510fd5e9fa99b3b549be"
+  dependencies:
+    find-up "^2.0.0"
+    read-pkg "^2.0.0"
+
 read-pkg@^1.0.0:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/read-pkg/download/read-pkg-1.1.0.tgz#f5ffaa5ecd29cb31c0474bca7d756b6bb29e3f28"
@@ -4858,6 +4914,14 @@ read-pkg@^1.0.0:
     load-json-file "^1.0.0"
     normalize-package-data "^2.3.2"
     path-type "^1.0.0"
+
+read-pkg@^2.0.0:
+  version "2.0.0"
+  resolved "http://registry.npm.taobao.org/read-pkg/download/read-pkg-2.0.0.tgz#8ef1c0623c6a6db0dc6713c4bfac46332b2368f8"
+  dependencies:
+    load-json-file "^2.0.0"
+    normalize-package-data "^2.3.2"
+    path-type "^2.0.0"
 
 "readable-stream@1 || 2", readable-stream@^2.0.0, readable-stream@^2.0.1, readable-stream@^2.0.4, readable-stream@^2.1.5, readable-stream@^2.2.2, readable-stream@^2.2.9, readable-stream@^2.3.3:
   version "2.3.6"
@@ -5799,6 +5863,10 @@ strip-bom@^2.0.0:
   dependencies:
     is-utf8 "^0.2.0"
 
+strip-bom@^3.0.0:
+  version "3.0.0"
+  resolved "http://registry.npm.taobao.org/strip-bom/download/strip-bom-3.0.0.tgz#2334c18e9c759f7bdd56fdef7e9ae3d588e68ed3"
+
 strip-eof@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/strip-eof/download/strip-eof-1.0.0.tgz#bb43ff5598a6eb05d89b59fcd129c983313606bf"
@@ -6605,6 +6673,12 @@ yargs-parser@^5.0.0:
   dependencies:
     camelcase "^3.0.0"
 
+yargs-parser@^7.0.0:
+  version "7.0.0"
+  resolved "http://registry.npm.taobao.org/yargs-parser/download/yargs-parser-7.0.0.tgz#8d0ac42f16ea55debd332caf4c4038b3e3f5dfd9"
+  dependencies:
+    camelcase "^4.1.0"
+
 yargs-parser@^9.0.2:
   version "9.0.2"
   resolved "http://registry.npm.taobao.org/yargs-parser/download/yargs-parser-9.0.2.tgz#9ccf6a43460fe4ed40a9bb68f48d43b8a68cc077"
@@ -6645,6 +6719,24 @@ yargs@^7.0.0:
     which-module "^1.0.0"
     y18n "^3.2.1"
     yargs-parser "^5.0.0"
+
+yargs@^8.0.2:
+  version "8.0.2"
+  resolved "http://registry.npm.taobao.org/yargs/download/yargs-8.0.2.tgz#6299a9055b1cefc969ff7e79c1d918dceb22c360"
+  dependencies:
+    camelcase "^4.1.0"
+    cliui "^3.2.0"
+    decamelize "^1.1.1"
+    get-caller-file "^1.0.1"
+    os-locale "^2.0.0"
+    read-pkg-up "^2.0.0"
+    require-directory "^2.1.1"
+    require-main-filename "^1.0.1"
+    set-blocking "^2.0.0"
+    string-width "^2.0.0"
+    which-module "^2.0.0"
+    y18n "^3.2.1"
+    yargs-parser "^7.0.0"
 
 yargs@~3.10.0:
   version "3.10.0"
