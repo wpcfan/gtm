@@ -1,0 +1,19 @@
+server:
+  port: 8081
+security:
+  oauth2:
+    client:
+      client-id: client
+      client-secret: secret
+      accessTokenUri: https://graph.facebook.com/oauth/access_token
+      userAuthorizationUri: https://www.facebook.com/dialog/oauth
+      tokenName: id_token
+      authenticationScheme: header
+      clientAuthenticationScheme: query
+      scope: READ
+      authorizedGrantTypes: password, code
+spring:
+  security:
+    user:
+      name: user
+      password: password
