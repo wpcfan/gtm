@@ -1,20 +1,16 @@
 version: '3.2'
 services:
   elasticsearch:
-    # image: docker.elastic.co/elasticsearch/elasticsearch:5.6.8
     image: registry.cn-beijing.aliyuncs.com/twigcodes/elasticsearch-wo-xpack:5.5.0
     volumes:
       - esdata:/usr/share/elasticsearch/data
       - ./docker/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
     environment:
       - discovery.type=single-node
-#      - http.host=0.0.0.0
-#      - transport.host=127.0.0.1
     ports:
       - "9200:9200"
       - "9300:9300"
   redis:
-    # image: redis:4-alpine
     image: registry.cn-beijing.aliyuncs.com/twigcodes/redis:4-alpine
     command: [ "redis-server", "--protected-mode", "no" ]
     ports:
@@ -22,7 +18,6 @@ services:
     volumes:
       - redis-data:/data
   mongo:
-    # image: mongo:3.6.4
     image: registry.cn-beijing.aliyuncs.com/twigcodes/mongo:3.6.4
     ports:
       - "27017:27017"
@@ -53,8 +48,9 @@ services:
     networks:
       - docker-app
   api-server:
-    # 使用阿里云镜像提高速度，如果使用 docker 官方 hub: image: twigcodes/so-api-service
     image: registry.cn-beijing.aliyuncs.com/twigcodes/gtm-api-service
+    environments:
+      - SPRING_PROFILES_ACTIVE=prod
     ports:
       - "8080:8080"
       - "5005:5005"

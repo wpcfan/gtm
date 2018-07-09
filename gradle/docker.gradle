@@ -19,9 +19,6 @@ task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile, d
     instruction { 'ENTRYPOINT [' +
             '"java", ' +
             '"-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n", ' +
-            '"-Dspring.data.mongodb.uri=mongodb://mongo/taskmgr", ' +
-            '"-Dspring.redis.host=redis", ' +
-            '"-Dspring.profiles.active=prod", ' +
             '"-Djava.security.egd=file:/dev/./urandom", ' +
             '"-jar","/app.jar"]'}
     maintainer 'Peng Wang "wpcfan@gmail.com"'

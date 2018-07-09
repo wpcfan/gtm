@@ -135,7 +135,7 @@
     }
   },
   "schematics": {
-    "@schematics/angular:component": {
+    "@ngrx/schematics:component": {
       "styleext": "scss"
     }
   }
