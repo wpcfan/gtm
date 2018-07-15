@@ -1,13 +1,12 @@
 package dev.local.gtm.api.async;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.task.AsyncTaskExecutor;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 @Slf4j
 public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor, InitializingBean, DisposableBean {

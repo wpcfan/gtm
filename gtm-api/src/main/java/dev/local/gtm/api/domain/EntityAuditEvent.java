@@ -1,17 +1,12 @@
 package dev.local.gtm.api.domain;
 
+import lombok.*;
 import org.javers.core.metamodel.object.CdoSnapshot;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
+import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.Instant;
-import java.io.Serializable;
 
 @Getter
 @Setter

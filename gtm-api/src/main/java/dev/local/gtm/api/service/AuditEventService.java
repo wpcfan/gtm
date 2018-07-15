@@ -1,5 +1,11 @@
 package dev.local.gtm.api.service;
 
+import dev.local.gtm.api.config.Constants;
+import dev.local.gtm.api.domain.EntityAuditEvent;
+import dev.local.gtm.api.security.AuthoritiesConstants;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.javers.core.Javers;
 import org.javers.repository.jql.QueryBuilder;
 import org.springframework.data.domain.Page;
@@ -8,15 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
-import dev.local.gtm.api.config.Constants;
-import dev.local.gtm.api.domain.EntityAuditEvent;
-import dev.local.gtm.api.security.AuthoritiesConstants;
-
 import java.util.stream.Collectors;
-
-import lombok.RequiredArgsConstructor;
-import lombok.val;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor

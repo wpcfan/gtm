@@ -1,7 +1,6 @@
 package dev.local.gtm.api.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import dev.local.gtm.api.config.AppProperties;
 import dev.local.gtm.api.domain.Captcha;
 import dev.local.gtm.api.service.AuthService;
@@ -18,9 +17,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.mockito.BDDMockito.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = { AuthResource.class }, secure = false)

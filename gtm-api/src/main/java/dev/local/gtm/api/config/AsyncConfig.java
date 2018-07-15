@@ -1,7 +1,8 @@
 package dev.local.gtm.api.config;
 
-import java.util.concurrent.Executor;
-
+import dev.local.gtm.api.async.ExceptionHandlingAsyncTaskExecutor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Bean;
@@ -13,9 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import dev.local.gtm.api.async.ExceptionHandlingAsyncTaskExecutor;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.concurrent.Executor;
 
 @Slf4j
 @RequiredArgsConstructor

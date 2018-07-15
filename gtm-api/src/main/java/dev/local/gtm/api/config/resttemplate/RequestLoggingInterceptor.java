@@ -1,7 +1,6 @@
 package dev.local.gtm.api.config.resttemplate;
 
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;

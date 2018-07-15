@@ -1,22 +1,20 @@
 package dev.local.gtm.api.changelogs;
 
-import java.util.Arrays;
-
 import com.github.mongobee.changeset.ChangeLog;
 import com.github.mongobee.changeset.ChangeSet;
-
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import dev.local.gtm.api.domain.Authority;
 import dev.local.gtm.api.domain.User;
 import dev.local.gtm.api.security.AuthoritiesConstants;
 import dev.local.gtm.api.web.exception.InternalServerErrorException;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.Arrays;
 
 /**
  * 进行数据库的 migration
