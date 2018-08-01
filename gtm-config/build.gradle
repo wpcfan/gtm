@@ -1,3 +1,4 @@
+apply plugin: 'org.springframework.boot'
 configurations {
     springLoaded
     // 如果使用 undertow 或 jetty 需要把默认包含的 tomcat 排除在外

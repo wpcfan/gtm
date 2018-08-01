@@ -22,10 +22,10 @@ buildscript {
         jpushVersion = '3.3.6'
         awsVersion = '1.11.136'
         javassistVersion = '3.18.2-GA'
-        springbootAdminVersion = '2.0.0'
+        springbootAdminVersion = '2.0.2'
         jPinyinVersion = '1.1.8'
     }
-    ext['spring.data.elasticsearch.version'] = '3.0.8.RELEASE'
+    ext['spring.data.elasticsearch.version'] = '3.0.9.RELEASE'
     repositories {
         maven { setUrl('http://maven.aliyun.com/nexus/content/groups/public/') }
         maven { setUrl('http://maven.aliyun.com/nexus/content/repositories/jcenter') }

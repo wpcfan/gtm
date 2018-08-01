@@ -10,6 +10,8 @@ services:
     ports:
       - "9200:9200"
       - "9300:9300"
+    networks:
+      - docker-app
   redis:
     image: registry.cn-beijing.aliyuncs.com/twigcodes/redis:4-alpine
     command: [ "redis-server", "--protected-mode", "no" ]
@@ -17,12 +19,16 @@ services:
       - "6379:6379"
     volumes:
       - redis-data:/data
+    networks:
+      - docker-app
   mongo:
     image: registry.cn-beijing.aliyuncs.com/twigcodes/mongo:3.6.4
     ports:
       - "27017:27017"
     volumes:
       - api_db:/data/db
+    networks:
+      - docker-app
   rabbitmq:
     image: rabbitmq:3-management-alpine
     ports:
@@ -49,7 +55,7 @@ services:
       - docker-app
   api-server:
     image: registry.cn-beijing.aliyuncs.com/twigcodes/gtm-api-service
-    environments:
+    environment:
       - SPRING_PROFILES_ACTIVE=prod
     ports:
       - "8080:8080"
@@ -58,6 +64,8 @@ services:
       - mongo
       - redis
       - elasticsearch
+    networks:
+      - docker-app
   # nginx:
   #   build:
   #     context: .
@@ -75,3 +83,6 @@ volumes:
   api_db: {}
   redis-data: {}
   esdata: {}
+networks:
+  docker-app:
+    driver: bridge
