@@ -16,8 +16,8 @@ spring:
       cluster-name: docker-cluster
       cluster-nodes: localhost:9300
     mongodb:
-      uri: mongodb://localhost/so-api-dev
-      database: so-api-dev
+      uri: mongodb://localhost/gtm-api-dev
+      database: gtm-api-dev
   cache:
     type: redis
 server:
@@ -62,7 +62,7 @@ spring:
       secret: thisismysecret
   data:
     mongodb:
-      database: so-api-dev
+      database: gtm-api-dev
       host: localhost
     elasticsearch:
       cluster-name: docker-cluster
@@ -89,8 +89,8 @@ spring:
   profiles: test
   data:
     mongodb:
-      uri: "mongodb://localhost/so-api-test"
-      database: so-api-test
+      uri: "mongodb://localhost/gtm-api-test"
+      database: gtm-api-test
   cache:
     type: none
 logging:
@@ -118,8 +118,8 @@ spring:
       uri: http://configserver:8888
   data:
     mongodb:
-      uri: "mongodb://mongo/so-api"
-      database: so-api
+      uri: "mongodb://mongo/gtm-api"
+      database: gtm-api
     elasticsearch:
       cluster-name: docker-cluster
       cluster-nodes: elasticsearch:9300

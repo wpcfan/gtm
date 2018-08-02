@@ -14,6 +14,9 @@ test {
     systemProperties['spring.profiles.active'] = 'test'
 }
 dependencies {
+    implementation("org.springframework.cloud:spring-cloud-starter-config")
+    implementation("org.springframework.cloud:spring-cloud-starter-bus-amqp")
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-server")
     implementation("com.github.stuxuhai:jpinyin:${jPinyinVersion}")
     // implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("de.codecentric:spring-boot-admin-starter-client:${springbootAdminVersion}")

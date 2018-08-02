@@ -37,7 +37,7 @@ services:
     networks:
       - docker-app
   configserver:
-    image: registry.cn-beijing.aliyuncs.com/twigcodes/so-config
+    image: registry.cn-beijing.aliyuncs.com/twigcodes/gtm-config
     ports:
       - 8888:8888
     depends_on:
@@ -45,7 +45,7 @@ services:
     networks:
       - docker-app
   discovery:
-    image: registry.cn-beijing.aliyuncs.com/twigcodes/so-discovery
+    image: registry.cn-beijing.aliyuncs.com/twigcodes/gtm-discovery
     ports:
       - 8761:8761
     depends_on:

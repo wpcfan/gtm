@@ -28,7 +28,7 @@ buildscript {
     ext['spring.data.elasticsearch.version'] = '3.0.9.RELEASE'
     repositories {
         maven { setUrl('http://maven.aliyun.com/nexus/content/groups/public/') }
-        maven { setUrl('http://maven.aliyun.com/nexus/content/repositories/jcenter') }
+        maven { setUrl('http://maven.aliyun.com/nexus/content/repositories/central') }
         maven { setUrl('http://repo.spring.io/plugins-release') }
     }
     dependencies {
@@ -56,10 +56,9 @@ subprojects {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
     repositories {
-        maven { setUrl('http://maven.aliyun.com/nexus/content/groups/public/') }
-        maven { setUrl('http://maven.aliyun.com/nexus/content/repositories/jcenter') }
+        maven { setUrl('http://maven.aliyun.com/nexus/content/repositories/central') }
         maven { setUrl('https://repo.spring.io/libs-milestone') }
-        jcenter()
+        maven { setUrl('http://maven.aliyun.com/nexus/content/repositories/jcenter') }
     }
     dependencies {
         runtime('org.springframework.boot:spring-boot-devtools')

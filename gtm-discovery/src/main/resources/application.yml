@@ -1,7 +1,3 @@
-spring:
-  cloud:
-    config:
-      uri: http://localhost:8888
 server:
   port: 8761
 eureka:
@@ -29,9 +25,6 @@ management:
 
 spring:
   profiles: prod
-  cloud:
-    config:
-      uri: http://configserver:8888
 eureka:
   instance:
     hostname: discovery

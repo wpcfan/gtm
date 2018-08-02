@@ -33,7 +33,7 @@ public class AsyncConfig implements AsyncConfigurer {
     executor.setCorePoolSize(appProperties.getAsync().getCorePoolSize());
     executor.setMaxPoolSize(appProperties.getAsync().getMaxPoolSize());
     executor.setQueueCapacity(appProperties.getAsync().getQueueCapacity());
-    executor.setThreadNamePrefix("so-api-Executor-");
+    executor.setThreadNamePrefix("gtm-api-Executor-");
     return new ExceptionHandlingAsyncTaskExecutor(executor);
   }
 
