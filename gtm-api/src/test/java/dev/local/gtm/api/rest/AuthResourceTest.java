@@ -1,18 +1,9 @@
 package dev.local.gtm.api.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import dev.local.gtm.api.Application;
 import dev.local.gtm.api.config.AppProperties;
-import dev.local.gtm.api.config.SecurityConfig;
-import dev.local.gtm.api.domain.Authority;
 import dev.local.gtm.api.domain.Captcha;
-import dev.local.gtm.api.domain.User;
-import dev.local.gtm.api.repository.mongo.AuthorityRepository;
-import dev.local.gtm.api.repository.mongo.UserRepository;
-import dev.local.gtm.api.security.AuthoritiesConstants;
 import dev.local.gtm.api.service.AuthService;
-import dev.local.gtm.api.web.exception.ExceptionTranslator;
 import dev.local.gtm.api.web.rest.AuthResource;
 import dev.local.gtm.api.web.rest.vm.UserVM;
 import lombok.val;
@@ -21,22 +12,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.LinkedMultiValueMap;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.mockito.BDDMockito.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = { AuthResource.class }, secure = false)

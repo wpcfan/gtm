@@ -1,36 +1,62 @@
 version: '3.2'
 services:
   elasticsearch:
-    # image: docker.elastic.co/elasticsearch/elasticsearch:5.6.8
     image: registry.cn-beijing.aliyuncs.com/twigcodes/elasticsearch-wo-xpack:5.5.0
     volumes:
       - esdata:/usr/share/elasticsearch/data
       - ./docker/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
     environment:
       - discovery.type=single-node
-#      - http.host=0.0.0.0
-#      - transport.host=127.0.0.1
     ports:
       - "9200:9200"
       - "9300:9300"
+    networks:
+      - docker-app
   redis:
-    # image: redis:4-alpine
     image: registry.cn-beijing.aliyuncs.com/twigcodes/redis:4-alpine
     command: [ "redis-server", "--protected-mode", "no" ]
     ports:
       - "6379:6379"
     volumes:
       - redis-data:/data
+    networks:
+      - docker-app
   mongo:
-    # image: mongo:3.6.4
     image: registry.cn-beijing.aliyuncs.com/twigcodes/mongo:3.6.4
     ports:
       - "27017:27017"
     volumes:
       - api_db:/data/db
+    networks:
+      - docker-app
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672" # JMS 端口
+      - "15672:15672" # 管理端口 default user:pass = guest:guest
+    networks:
+      - docker-app
+  configserver:
+    image: registry.cn-beijing.aliyuncs.com/twigcodes/gtm-config
+    ports:
+      - 8888:8888
+    depends_on:
+      - rabbitmq
+    networks:
+      - docker-app
+  discovery:
+    image: registry.cn-beijing.aliyuncs.com/twigcodes/gtm-discovery
+    ports:
+      - 8761:8761
+    depends_on:
+      - rabbitmq
+      - configserver
+    networks:
+      - docker-app
   api-server:
-    # 使用阿里云镜像提高速度，如果使用 docker 官方 hub: image: twigcodes/so-api-service
     image: registry.cn-beijing.aliyuncs.com/twigcodes/gtm-api-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
     ports:
       - "8080:8080"
       - "5005:5005"
@@ -38,6 +64,8 @@ services:
       - mongo
       - redis
       - elasticsearch
+    networks:
+      - docker-app
   # nginx:
   #   build:
   #     context: .
@@ -55,3 +83,6 @@ volumes:
   api_db: {}
   redis-data: {}
   esdata: {}
+networks:
+  docker-app:
+    driver: bridge

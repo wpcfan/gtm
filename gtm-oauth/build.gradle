@@ -1,0 +1,22 @@
+plugins {
+    id "org.flywaydb.flyway" version "5.0.7"
+}
+apply plugin: 'org.springframework.boot'
+configurations {
+  springLoaded
+  // 如果使用 undertow 或 jetty 需要把默认包含的 tomcat 排除在外
+  compile.exclude module: 'spring-boot-starter-tomcat'
+}
+dependencies {
+  implementation("org.postgresql:postgresql")
+  runtime("com.h2database:h2")
+  implementation("org.springframework.boot:spring-boot-starter-security")
+  implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.1.RELEASE")
+  implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+  implementation("org.springframework.boot:spring-boot-starter-actuator")
+  implementation("org.springframework.boot:spring-boot-starter-undertow")
+}
+bootRun {
+    systemProperties = System.properties as Map<String, ?>
+    sourceResources sourceSets.main
+}

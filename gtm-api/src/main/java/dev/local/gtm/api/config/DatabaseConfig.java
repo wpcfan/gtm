@@ -1,9 +1,10 @@
 package dev.local.gtm.api.config;
 
+import com.github.mongobee.Mongobee;
+import com.mongodb.MongoClient;
 import dev.local.gtm.api.util.DateTimeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +19,6 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.github.mongobee.Mongobee;
-import com.mongodb.MongoClient;
 
 @Slf4j
 @RequiredArgsConstructor

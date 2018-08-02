@@ -1,15 +1,14 @@
 package dev.local.gtm.api.web.rest;
 
+import dev.local.gtm.api.domain.EntityAuditEvent;
+import dev.local.gtm.api.security.AuthoritiesConstants;
+import dev.local.gtm.api.service.AuditEventService;
+import lombok.RequiredArgsConstructor;
 import org.elasticsearch.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-
-import dev.local.gtm.api.domain.EntityAuditEvent;
-import dev.local.gtm.api.security.AuthoritiesConstants;
-import dev.local.gtm.api.service.AuditEventService;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 import java.util.List;

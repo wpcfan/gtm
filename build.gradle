@@ -8,14 +8,27 @@
 // 在这个区块中你可以声明你的 build 脚本需要的依赖和解析下载该依赖所使用的仓储位置
 buildscript {
     ext {
-        springBootVersion = '2.0.2.RELEASE'
+        springBootVersion = '2.0.3.RELEASE'
+        springCloudVersion = 'Finchley.RELEASE'
         propDepsVersion = '0.0.9.RELEASE'
         springFoxVersion = '2.9.0'
         redissonVersion = '3.6.5'
+        javerVersion = '3.10.0'
+        jwtVersion = '0.9.0'
+        mongobeeVersion = '0.13'
+        problemVersion = '0.23.0'
+        javaTuplesVersion = '1.2'
+        jacksonDataTypeJsr310Version = '2.9.5'
+        jpushVersion = '3.3.6'
+        awsVersion = '1.11.136'
+        javassistVersion = '3.18.2-GA'
+        springbootAdminVersion = '2.0.2'
+        jPinyinVersion = '1.1.8'
     }
+    ext['spring.data.elasticsearch.version'] = '3.0.9.RELEASE'
     repositories {
         maven { setUrl('http://maven.aliyun.com/nexus/content/groups/public/') }
-        maven { setUrl('http://maven.aliyun.com/nexus/content/repositories/jcenter') }
+        maven { setUrl('http://maven.aliyun.com/nexus/content/repositories/central') }
         maven { setUrl('http://repo.spring.io/plugins-release') }
     }
     dependencies {
@@ -27,18 +40,7 @@ buildscript {
 
 allprojects {
     group = 'dev.local.gtm'
-    repositories {
-        maven { setUrl('http://maven.aliyun.com/nexus/content/groups/public/') }
-        maven { setUrl('http://maven.aliyun.com/nexus/content/repositories/jcenter') }
-    }
     apply plugin: 'idea'
-    idea {
-        module {
-            inheritOutputDirs = true
-            outputDir file("$buildDir/classes/main")
-            testOutputDir file("$buildDir/classes/test")
-        }
-    }
 }
 
 subprojects {
@@ -53,24 +55,21 @@ subprojects {
     apply plugin: 'io.spring.dependency-management'
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
-    sourceSets.main.output.classesDir = new File(buildDir, "classes/main")
-    sourceSets.test.output.classesDir = new File(buildDir, "classes/test")
+    repositories {
+        maven { setUrl('http://maven.aliyun.com/nexus/content/repositories/central') }
+        maven { setUrl('https://repo.spring.io/libs-milestone') }
+        maven { setUrl('http://maven.aliyun.com/nexus/content/repositories/jcenter') }
+    }
     dependencies {
         runtime('org.springframework.boot:spring-boot-devtools')
-        compileOnly('org.projectlombok:lombok')
-        annotationProcessor("org.projectlombok:lombok")
-        testImplementation("org.projectlombok:lombok")
-        annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+        compileOnly("org.projectlombok:lombok")
+        compileOnly("org.springframework.boot:spring-boot-configuration-processor")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
+        testImplementation("org.projectlombok:lombok")
     }
     dependencyManagement {
         imports {
-            // could have been
-            // mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
-            // but, as per source, that constant is a string containing the exact value below, and I think the one below is clearer
-            // details: https://docs.spring.io/spring-boot/docs/2.0.0.BUILD-SNAPSHOT/gradle-plugin/reference/html/#managing-dependencies-using-in-isolation
-            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
         }
     }
-    compileJava.dependsOn(processResources)
 }

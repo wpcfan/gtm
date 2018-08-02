@@ -3,12 +3,7 @@ package dev.local.gtm.api.domain.search;
 import dev.local.gtm.api.domain.AbstractAuditingEntity;
 import dev.local.gtm.api.domain.Authority;
 import dev.local.gtm.api.domain.User;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 

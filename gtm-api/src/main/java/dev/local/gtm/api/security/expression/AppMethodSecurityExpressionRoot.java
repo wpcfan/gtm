@@ -1,10 +1,9 @@
 package dev.local.gtm.api.security.expression;
 
+import dev.local.gtm.api.security.AuthoritiesConstants;
 import org.springframework.security.access.expression.SecurityExpressionRoot;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionOperations;
 import org.springframework.security.core.Authentication;
-
-import dev.local.gtm.api.security.AuthoritiesConstants;
 
 public class AppMethodSecurityExpressionRoot extends SecurityExpressionRoot
         implements MethodSecurityExpressionOperations {

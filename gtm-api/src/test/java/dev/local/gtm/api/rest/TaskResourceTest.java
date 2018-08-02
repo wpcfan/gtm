@@ -1,10 +1,13 @@
 package dev.local.gtm.api.rest;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import dev.local.gtm.api.Application;
+import dev.local.gtm.api.config.AppProperties;
+import dev.local.gtm.api.repository.mongo.TaskRepository;
+import dev.local.gtm.api.repository.mongo.UserRepository;
+import dev.local.gtm.api.web.exception.ExceptionTranslator;
+import dev.local.gtm.api.web.rest.TaskResource;
+import lombok.val;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,13 +23,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import dev.local.gtm.api.Application;
-import dev.local.gtm.api.config.AppProperties;
-import dev.local.gtm.api.repository.mongo.TaskRepository;
-import dev.local.gtm.api.repository.mongo.UserRepository;
-import dev.local.gtm.api.web.exception.ExceptionTranslator;
-import dev.local.gtm.api.web.rest.TaskResource;
-import lombok.val;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @EnableSpringDataWebSupport
 @RunWith(SpringRunner.class)

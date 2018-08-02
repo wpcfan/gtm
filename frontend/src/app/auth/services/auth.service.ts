@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { pluck } from 'rxjs/operators';
-import { AuthModule } from '../auth.module';
+import { Observable } from 'rxjs';
+import { pluck, map } from 'rxjs/operators';
+import { tag } from 'rxjs-spy/operators';
+
 import { Auth } from '../../domain/auth';
 import { User } from '../../domain/user';
 import { environment } from '../../../environments/environment';
@@ -12,10 +13,7 @@ import { Captcha } from '../../domain/captcha';
   providedIn: 'root'
 })
 export class AuthService {
-  private headers = new HttpHeaders().append(
-    'Content-Type',
-    'application/json'
-  );
+  private headers = new HttpHeaders().append('Content-Type', 'application/json');
   constructor(private http: HttpClient) {}
   /**
    * 用于用户的登录鉴权
@@ -23,12 +21,11 @@ export class AuthService {
    */
   login(auth: Auth): Observable<string> {
     return this.http
-      .post<{ id_token: string }>(
-        `${environment.apiBaseUrl}auth/login`,
-        JSON.stringify(auth),
-        { headers: this.headers }
-      )
-      .pipe(pluck('id_token'));
+      .post<{ id_token: string }>(`${environment.apiBaseUrl}auth/login`, JSON.stringify(auth), { headers: this.headers })
+      .pipe(
+        map(res => <string>res.id_token),
+        tag('[AuthService][login][id_token]')
+      );
   }
   /**
    * 用于用户的注册
@@ -36,11 +33,7 @@ export class AuthService {
    */
   register(user: User): Observable<string> {
     return this.http
-      .post<{ id_token: string }>(
-        `${environment.apiBaseUrl}auth/register`,
-        JSON.stringify(user),
-        { headers: this.headers }
-      )
+      .post<{ id_token: string }>(`${environment.apiBaseUrl}auth/register`, JSON.stringify(user), { headers: this.headers })
       .pipe(pluck('id_token'));
   }
   /**
@@ -48,9 +41,7 @@ export class AuthService {
    * @param mobile 待验证的手机号
    */
   requestSmsCode(mobile: string, token: string): Observable<void> {
-    const params = new HttpParams()
-      .append('mobile', mobile)
-      .append('token', token);
+    const params = new HttpParams().append('mobile', mobile).append('token', token);
     return this.http.get<void>(`${environment.apiBaseUrl}auth/mobile`, {
       headers: this.headers,
       params: params
@@ -62,11 +53,9 @@ export class AuthService {
    * @param code 收到的短信验证码
    */
   verifySmsCode(mobile: string, code: string): Observable<void> {
-    return this.http.post<void>(
-      `${environment.apiBaseUrl}auth/mobile`,
-      JSON.stringify({ mobile: mobile, code: code }),
-      { headers: this.headers }
-    );
+    return this.http.post<void>(`${environment.apiBaseUrl}auth/mobile`, JSON.stringify({ mobile: mobile, code: code }), {
+      headers: this.headers
+    });
   }
   /**
    * 请求发送短信验证码到待验证手机，成功返回空对象 {}
@@ -97,13 +86,10 @@ export class AuthService {
    */
   usernameExisted(username: string) {
     const params = new HttpParams().append('username', username);
-    return this.http.get<{ existed: boolean }>(
-      `${environment.apiBaseUrl}auth/search/username`,
-      {
-        headers: this.headers,
-        params: params
-      }
-    );
+    return this.http.get<{ existed: boolean }>(`${environment.apiBaseUrl}auth/search/username`, {
+      headers: this.headers,
+      params: params
+    });
   }
   /**
    * 检查电子邮件是否唯一
@@ -111,13 +97,10 @@ export class AuthService {
    */
   emailExisted(email: string) {
     const params = new HttpParams().append('email', email);
-    return this.http.get<{ existed: boolean }>(
-      `${environment.apiBaseUrl}auth/search/email`,
-      {
-        headers: this.headers,
-        params: params
-      }
-    );
+    return this.http.get<{ existed: boolean }>(`${environment.apiBaseUrl}auth/search/email`, {
+      headers: this.headers,
+      params: params
+    });
   }
   /**
    * 检查手机号是否唯一
@@ -125,12 +108,9 @@ export class AuthService {
    */
   mobileExisted(mobile: string) {
     const params = new HttpParams().append('mobile', mobile);
-    return this.http.get<{ existed: boolean }>(
-      `${environment.apiBaseUrl}auth/search/mobile`,
-      {
-        headers: this.headers,
-        params: params
-      }
-    );
+    return this.http.get<{ existed: boolean }>(`${environment.apiBaseUrl}auth/search/mobile`, {
+      headers: this.headers,
+      params: params
+    });
   }
 }

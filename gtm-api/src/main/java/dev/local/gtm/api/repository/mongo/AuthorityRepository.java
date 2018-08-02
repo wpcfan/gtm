@@ -1,9 +1,9 @@
 package dev.local.gtm.api.repository.mongo;
 
 import dev.local.gtm.api.domain.Authority;
+import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-import org.javers.spring.annotation.JaversSpringDataAuditable;
 
 import java.util.Optional;
 

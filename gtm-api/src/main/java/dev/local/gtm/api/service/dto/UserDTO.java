@@ -13,7 +13,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Builder
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {

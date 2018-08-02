@@ -1,7 +1,7 @@
 package dev.local.gtm.api.config;
 
+import com.fasterxml.classmate.TypeResolver;
 import io.swagger.models.auth.In;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +10,6 @@ import org.springframework.core.Ordered;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-
 import springfox.documentation.builders.AlternateTypeBuilder;
 import springfox.documentation.builders.AlternateTypePropertyBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -27,8 +26,6 @@ import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
-
-import com.fasterxml.classmate.TypeResolver;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static springfox.documentation.schema.AlternateTypeRules.newRule;

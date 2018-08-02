@@ -1,10 +1,9 @@
 package dev.local.gtm.api.config.audit;
 
-import org.javers.spring.auditable.AuthorProvider;
-import org.springframework.stereotype.Component;
-
 import dev.local.gtm.api.config.Constants;
 import dev.local.gtm.api.security.SecurityUtils;
+import org.javers.spring.auditable.AuthorProvider;
+import org.springframework.stereotype.Component;
 
 @Component
 public class JaversAuthorProvider implements AuthorProvider {
