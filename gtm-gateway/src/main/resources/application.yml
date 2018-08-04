@@ -1,12 +1,7 @@
 server:
-  port: 8761
-spring.boot.admin.context-path: /admin
+  port: 8090
 eureka:
-  instance:
-    leaseRenewalIntervalInSeconds: 10
-    health-check-url-path: /actuator/health
   client:
-    registryFetchIntervalSeconds: 5
     serviceUrl:
       defaultZone: ${EUREKA_SERVICE_URL:http://localhost:8761}/eureka/
 management:
@@ -17,7 +12,13 @@ management:
   endpoint:
     health:
       show-details: ALWAYS
-
+zuul:
+  ignoredServices: '*'
+  routes:
+    api:
+      path: /api/**
+      serviceId: api-service
+      stripPrefix: true
 ---
 
 spring:

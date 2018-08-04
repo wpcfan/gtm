@@ -1,23 +1,13 @@
 spring:
-  application:
-    name: api-service
   profiles:
     active: dev
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-  cloud:
-    config:
-      uri: http://localhost:8888
   data:
     elasticsearch:
       cluster-name: docker-cluster
       cluster-nodes: localhost:9300
     mongodb:
       uri: mongodb://localhost/gtm-api-dev
-      database: gtm-api-dev
+      database: gtm-api
   cache:
     type: redis
 server:
@@ -34,13 +24,16 @@ logging:
       security: ERROR
       cache: ERROR
     org.springframework.data.mongodb.core.MongoTemplate: ERROR
-    dev.local.smartoffice.api: ERROR
+    dev.local.gtm.api: ERROR
+  file: gtm-api.log
+  file.max-history: 20
+  pattern.file: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID}){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx"
 management:
   endpoints:
     # 默认激活所有监控管理接口
     enabled-by-default: true
     web:
-      base-path: /management
+      # base-path: /management
       # 让所有监控接口都接受 web 访问
       exposure:
         include: "*"
@@ -48,10 +41,9 @@ management:
       cors:
         allowed-origins: "*"
         allowed-methods: GET,POST
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+  endpoint:
+    health:
+      show-details: ALWAYS
 
 ---
 
@@ -81,7 +73,7 @@ logging:
               MongoTemplate: DEBUG
         security: DEBUG
         cache: DEBUG
-    dev.local.smartoffice.api: DEBUG
+    dev.local.gtm.api: DEBUG
 
 ---
 
@@ -97,29 +89,19 @@ logging:
   level:
     org.apache.http: DEBUG
     org.springframework:
-          web:
-            client.RestTemplate: DEBUG
-          data: DEBUG
-          security: DEBUG
+      web:
+        client.RestTemplate: DEBUG
+      data: DEBUG
+      security: DEBUG
     org.springframework.data.mongodb.core.MongoTemplate: DEBUG
-    dev.local.smartoffice.api: DEBUG
-
+    dev.local.gtm.api: DEBUG
 ---
 
 spring:
   profiles: prod
-  rabbitmq:
-    host: rabbitmq
-    port: 5672
-    username: guest
-    password: guest
-  cloud:
-    config:
-      uri: http://configserver:8888
   data:
     mongodb:
       uri: "mongodb://mongo/gtm-api"
-      database: gtm-api
     elasticsearch:
       cluster-name: docker-cluster
       cluster-nodes: elasticsearch:9300
@@ -128,11 +110,4 @@ spring:
   redis:
     host: redis
     port: 6379
-eureka:
-  instance:
-    hostname: discovery
-  client:
-    registerWithEureka: false
-    fetchRegistry: false
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+

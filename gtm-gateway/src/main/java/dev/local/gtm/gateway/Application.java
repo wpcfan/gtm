@@ -1,17 +1,19 @@
-package dev.local.gtm.configserver;
+package dev.local.gtm.gateway;
 
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.config.server.EnableConfigServer;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * 配置中心服务器
+ * 路由网关服务器
  */
 @SpringBootApplication
+@EnableZuulProxy
 @EnableDiscoveryClient
-@EnableConfigServer
+@RefreshScope
 @Configuration
 public class Application {
 
