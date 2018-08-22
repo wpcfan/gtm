@@ -42,7 +42,7 @@ dependencies {
     implementation("org.zalando:problem-spring-web:${problemVersion}")
     implementation("org.redisson:redisson:${redissonVersion}")
     implementation("com.fasterxml.jackson.module:jackson-module-afterburner")
-    implementation("org.javassist:javassist:${javassistVersion}")
+    implementation("org.javassist:javassist:${javaAssistVersion}")
     implementation("com.github.mongobee:mongobee:${mongobeeVersion}") {
         exclude group: "org.mongodb", module: "mongo-java-driver"
     }
@@ -58,6 +58,10 @@ dependencies {
     implementation("org.springframework.security:spring-security-messaging")
     implementation("net.java.dev.jna:jna")
     testImplementation("org.springframework.security:spring-security-test")
+    testImplementation('io.rest-assured:rest-assured')
+    testImplementation("com.github.kstyrc:embedded-redis:${embeddedRedisVersion}")
+    testImplementation("pl.allegro.tech:embedded-elasticsearch:${embeddedElasticsearchVersion}")
+    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
 }
 bootRun {
     systemProperties = System.properties as Map<String, ?>

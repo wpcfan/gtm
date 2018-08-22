@@ -75,9 +75,16 @@ public class AuthServiceImpl implements AuthService {
         if (emailExisted(userDTO.getEmail())) {
             throw new EmailExistedException();
         }
-        val newUser = User.builder().password(passwordEncoder.encode(password)).login(userDTO.getLogin())
-                .mobile(userDTO.getMobile()).email(userDTO.getEmail()).name(userDTO.getName())
-                .avatar(userDTO.getAvatar()).activated(true).authority(getOrCreateDefault()).build();
+        val newUser = User.builder()
+            .password(passwordEncoder.encode(password))
+            .login(userDTO.getLogin())
+            .mobile(userDTO.getMobile())
+            .email(userDTO.getEmail())
+            .name(userDTO.getName())
+            .avatar(userDTO.getAvatar())
+            .activated(true)
+            .authority(getOrCreateDefault())
+            .build();
 
         log.debug("用户 {} 即将创建", newUser);
         userRepository.save(newUser);
@@ -91,8 +98,7 @@ public class AuthServiceImpl implements AuthService {
         val authenticationToken = new UsernamePasswordAuthenticationToken(login, password);
         val authentication = this.authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new JWTToken(tokenProvider.createToken(authentication),
-                tokenProvider.createRefreshToken(authentication));
+        return new JWTToken(tokenProvider.createToken(authentication), tokenProvider.createRefreshToken(authentication));
     }
 
     public void verifyCaptchaToken(String captchaValidatedToken) {
@@ -201,8 +207,10 @@ public class AuthServiceImpl implements AuthService {
         val body = new HashMap<String, String>();
         body.put("mobilePhoneNumber", mobile);
         val entity = new HttpEntity<>(body);
-        leanCloudTemplate.postForEntity(appProperties.getSmsCode().getVerificationUrl() + "/" + code, entity,
-                Void.class);
+        leanCloudTemplate.postForEntity(
+            appProperties.getSmsCode().getVerificationUrl() + "/" + code,
+            entity,
+            Void.class);
     }
 
     private void sendSmsCode(String mobile, String validateToken) {
@@ -210,7 +218,10 @@ public class AuthServiceImpl implements AuthService {
         body.put("mobilePhoneNumber", mobile);
         body.put("validate_token", validateToken);
         val entity = new HttpEntity<>(body);
-        leanCloudTemplate.postForEntity(appProperties.getSmsCode().getRequestUrl(), entity, Void.class);
+        leanCloudTemplate.postForEntity(
+            appProperties.getSmsCode().getRequestUrl(),
+            entity,
+            Void.class);
     }
 
     private Authority getOrCreateDefault() {

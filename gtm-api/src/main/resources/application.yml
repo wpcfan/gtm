@@ -85,6 +85,9 @@ spring:
       database: gtm-api-test
   cache:
     type: none
+  redis:
+    host: localhost
+    port: 6379
 logging:
   level:
     org.apache.http: DEBUG

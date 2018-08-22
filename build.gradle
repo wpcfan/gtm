@@ -8,12 +8,12 @@
 // 在这个区块中你可以声明你的 build 脚本需要的依赖和解析下载该依赖所使用的仓储位置
 buildscript {
     ext {
-        springBootVersion = '2.0.3.RELEASE'
-        springCloudVersion = 'Finchley.RELEASE'
+        springBootVersion = '2.0.4.RELEASE'
+        springCloudVersion = 'Finchley.SR1'
         propDepsVersion = '0.0.9.RELEASE'
-        springFoxVersion = '2.9.0'
-        redissonVersion = '3.6.5'
-        javerVersion = '3.10.0'
+        springFoxVersion = '2.9.2'
+        redissonVersion = '3.7.5'
+        javerVersion = '3.11.2'
         jwtVersion = '0.9.0'
         mongobeeVersion = '0.13'
         problemVersion = '0.23.0'
@@ -21,11 +21,14 @@ buildscript {
         jacksonDataTypeJsr310Version = '2.9.5'
         jpushVersion = '3.3.6'
         awsVersion = '1.11.136'
-        javassistVersion = '3.18.2-GA'
+        javaAssistVersion = '3.18.2-GA'
         springbootAdminVersion = '2.0.2'
         jPinyinVersion = '1.1.8'
+        embeddedRedisVersion = '0.6'
+        embeddedElasticsearchVersion = '2.4.2'
     }
     ext['spring.data.elasticsearch.version'] = '3.0.9.RELEASE'
+    ext['lombok.version'] = '1.18.2'
     repositories {
         maven { setUrl('http://maven.aliyun.com/nexus/content/groups/public/') }
         maven { setUrl('http://maven.aliyun.com/nexus/content/repositories/central') }
@@ -65,7 +68,6 @@ subprojects {
         compileOnly("org.projectlombok:lombok")
         compileOnly("org.springframework.boot:spring-boot-configuration-processor")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
-        testImplementation("org.projectlombok:lombok")
     }
     dependencyManagement {
         imports {

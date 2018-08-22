@@ -35,8 +35,9 @@ spring:
 eureka:
   instance:
     hostname: discovery
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
   client:
-    registerWithEureka: false
-    fetchRegistry: false
+    registryFetchIntervalSeconds: 5
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:8761/eureka/
